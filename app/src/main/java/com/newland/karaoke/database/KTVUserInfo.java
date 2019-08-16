@@ -7,6 +7,15 @@ import java.util.Date;
 public class KTVUserInfo extends LitePalSupport {
 
     private int id ;
+
+    public KTVUserLogin getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(KTVUserLogin user_id) {
+        this.user_id = user_id;
+    }
+
     private KTVUserLogin user_id;
     private String user_name;
     private String identity_card_type;
@@ -23,13 +32,6 @@ public class KTVUserInfo extends LitePalSupport {
         this.id = id;
     }
 
-    public KTVUserLogin getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(KTVUserLogin user_id) {
-        this.user_id = user_id;
-    }
 
     public String getUser_name() {
         return user_name;

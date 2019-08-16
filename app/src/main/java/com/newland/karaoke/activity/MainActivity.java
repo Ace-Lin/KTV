@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -13,6 +14,8 @@ import com.newland.karaoke.database.KTVUserInfo;
 import com.newland.karaoke.database.KTVUserLogin;
 
 import org.litepal.LitePal;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     //主界面四个按钮
@@ -28,6 +31,7 @@ private ImageButton shift;
         setContentView(R.layout.activity_main);
         initUI();
         CreateDatabase();
+        SearchData();
     }
 
     void initUI(){
@@ -46,7 +50,11 @@ private ImageButton shift;
 
     }
     void CreateDatabase(){
+
         SQLiteDatabase db= LitePal.getDatabase();
+        LitePal.deleteAll(KTVUserLogin.class);
+        LitePal.deleteAll(KTVUserInfo.class);
+
         KTVUserLogin user_login=new KTVUserLogin();
         user_login.setUser_account("15880168030");
         user_login.setUser_password("123456");
@@ -57,6 +65,24 @@ private ImageButton shift;
         user_info.setIdentity_card_no("1234");
         user_info.save();
 
+
+    }
+    void SearchData(){
+       List<KTVUserLogin> temp=LitePal.findAll(KTVUserLogin.class);
+       for(KTVUserLogin user:temp)
+       {
+           Log.d("账户：",user.getUser_account());
+           Log.d("id名：",""+user.getId());
+
+       }
+
+//        List<KTVUserInfo> info=LitePal.findAll(KTVUserInfo.class);
+//        for(KTVUserInfo user:info)
+//        {
+//            Log.d("详细信息id名：",""+user.getId());
+//            Log.d("详细信息账户：",user.getUser_id().getUser_account());
+//            Log.d("用户id名：",""+user.getUser_id().getId());
+//        }
 
     }
 
