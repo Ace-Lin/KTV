@@ -1,14 +1,16 @@
-package com.newland.karaoke;
+package com.newland.karaoke.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class ShiftActivity extends AppCompatActivity {
+import com.newland.karaoke.R;
+
+public class SettingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shift);
+        setContentView(R.layout.activity_setting);
     }
 }

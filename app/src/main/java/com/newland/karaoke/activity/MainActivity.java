@@ -1,12 +1,18 @@
-package com.newland.karaoke;
+package com.newland.karaoke.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageButton;
+
+import com.newland.karaoke.R;
+import com.newland.karaoke.database.KTVUserInfo;
+import com.newland.karaoke.database.KTVUserLogin;
+
+import org.litepal.LitePal;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     //主界面四个按钮
@@ -15,11 +21,13 @@ private ImageButton order;
 private ImageButton settings;
 private ImageButton shift;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initUI();
+        CreateDatabase();
     }
 
     void initUI(){
@@ -35,6 +43,20 @@ private ImageButton shift;
         order.setOnClickListener(this);
         settings.setOnClickListener(this);
         shift.setOnClickListener(this);
+
+    }
+    void CreateDatabase(){
+        SQLiteDatabase db= LitePal.getDatabase();
+        KTVUserLogin user_login=new KTVUserLogin();
+        user_login.setUser_account("15880168030");
+        user_login.setUser_password("123456");
+        user_login.save();
+
+        KTVUserInfo user_info=new KTVUserInfo();
+        user_info.setUser_id(user_login);
+        user_info.setIdentity_card_no("1234");
+        user_info.save();
+
 
     }
 
