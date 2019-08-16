@@ -9,6 +9,10 @@
         android:roundIcon="@mipmap/karaoke_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ShiftActivity"></activity>
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".OrderActivity" />
+        <activity android:name=".CheckInActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
