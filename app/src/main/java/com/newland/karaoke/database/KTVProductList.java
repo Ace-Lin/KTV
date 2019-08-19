@@ -5,9 +5,9 @@ import org.litepal.crud.LitePalSupport;
 public class KTVProductList extends LitePalSupport {
     private int id;
     private String product_name;
-    private String product_count;
-    private String product_price;
-    private String product_picture;
+    private int product_count;
+    private double product_price;
+    private int product_picture;
 
     public int getId() {
         return id;
@@ -25,27 +25,40 @@ public class KTVProductList extends LitePalSupport {
         this.product_name = product_name;
     }
 
-    public String getProduct_count() {
+    public int getProduct_count() {
         return product_count;
     }
 
-    public void setProduct_count(String product_count) {
+    public void setProduct_count(int product_count) {
         this.product_count = product_count;
     }
 
-    public String getProduct_price() {
+    public double getProduct_price() {
         return product_price;
     }
 
-    public void setProduct_price(String product_price) {
+    public void setProduct_price(double product_price) {
         this.product_price = product_price;
     }
 
-    public String getProduct_picture() {
+    public int getProduct_picture() {
         return product_picture;
     }
 
-    public void setProduct_picture(String product_picture) {
+    public void setProduct_picture(int product_picture) {
         this.product_picture = product_picture;
     }
+
+    @Override
+    public String toString()
+    {
+       return "KTVProductListInfo{" +
+               "id=" + id +
+               " 商品名字=" + product_name +
+               " 商品数量=" + product_count +
+               ", 商品价格=" + product_price + '\'' +
+               '}';
+    }
+
+
 }

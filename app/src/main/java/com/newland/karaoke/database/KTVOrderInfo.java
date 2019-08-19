@@ -1,7 +1,9 @@
 package com.newland.karaoke.database;
 
+import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class KTVOrderInfo extends LitePalSupport {
@@ -9,8 +11,10 @@ public class KTVOrderInfo extends LitePalSupport {
     private KTVRoomInfo room_id;
     private  String order_start_time;
     private  String order_end_time;
-    private List<KTVOrderProduct> productList;
+    private List<KTVOrderProduct> productList = new ArrayList<KTVOrderProduct>();
     private int order_pay_type;
+    private double pay_amount;
+    private int order_status;
 
     public int getId() {
         return id;
@@ -44,8 +48,11 @@ public class KTVOrderInfo extends LitePalSupport {
         this.order_end_time = order_end_time;
     }
 
+
     public List<KTVOrderProduct> getProductList() {
-        return productList;
+
+         String linkId=this.getClass().getSimpleName().toLowerCase();
+         return LitePal.where(linkId+"_id = ?", String.valueOf(id)).find(KTVOrderProduct.class);
     }
 
     public void setProductList(List<KTVOrderProduct> productList) {
@@ -76,7 +83,18 @@ public class KTVOrderInfo extends LitePalSupport {
         this.order_status = order_status;
     }
 
-    private double pay_amount;
-    private int order_status;
+    @Override
+    public String toString()
+    {
+        return "KTVOrderInfo{" +
+                "id=" + id +
+                " 下单时间=" + order_start_time +
+                " 支付时间=" + order_end_time +
+                " 支付类型=" + order_pay_type +
+                " 支付金额=" + pay_amount +
+                " 支付状态=" + order_status +
+                ", 商品列表=" + getProductList().toString() + '\'' +
+                '}';
+    }
 
 }
