@@ -7,8 +7,8 @@ public class KTVOrderProduct extends LitePalSupport {
 
    private int id;
    private int product_quantity;
-    private  KTVOrderInfo ktvOrderInfo;
-    private  KTVProductList productList;
+   private  KTVOrderInfo ktvOrderInfo;
+   private  KTVProduct product;
 
     public int getId() {
         return id;
@@ -26,18 +26,18 @@ public class KTVOrderProduct extends LitePalSupport {
         this.product_quantity = product_quantity;
     }
 
-    public KTVProductList productList(){
-        return productList;
+    public KTVProduct product(){
+        return product;
     }
 
-    public KTVProductList getProductList() {
+    public KTVProduct getProduct() {
        // KTVOrderProduct product = LitePal.find(KTVOrderProduct.class,getId());
         //LitePal.find(KTVOrderProduct.class,getId(),true).productList;
-        return LitePal.find(KTVOrderProduct.class,getId(),true).productList();
+        return LitePal.find(KTVOrderProduct.class,getId(),true).product();
     }
 
-    public void setProductList(KTVProductList productList) {
-        this.productList = productList;
+    public void setProduct(KTVProduct product) {
+        this.product = product;
     }
 
 
@@ -54,7 +54,7 @@ public class KTVOrderProduct extends LitePalSupport {
     {
         return "KTVOrderProduct{" +
                 "id=" + id +
-                " 商品详细=" + getProductList() +
+                " 商品详细=" + getProduct() +
                 ", 下单数量=" + product_quantity + '\'' +
                 '}';
     }

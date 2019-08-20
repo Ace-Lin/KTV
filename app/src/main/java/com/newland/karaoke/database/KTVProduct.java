@@ -6,7 +6,7 @@ import org.litepal.crud.LitePalSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KTVProductList extends LitePalSupport {
+public class KTVProduct extends LitePalSupport {
     private int id;
     private String product_name;
     private int product_count;

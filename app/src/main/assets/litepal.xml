@@ -6,7 +6,7 @@
         <mapping class="com.newland.karaoke.database.KTVUserLogin"/>
         <mapping class="com.newland.karaoke.database.KTVUserInfo"/>
         <mapping class="com.newland.karaoke.database.KTVRoomInfo"/>
-        <mapping class="com.newland.karaoke.database.KTVProductList"/>
+        <mapping class="com.newland.karaoke.database.KTVProduct"/>
         <mapping class="com.newland.karaoke.database.KTVOrderProduct"/>
         <mapping class="com.newland.karaoke.database.KTVOrderInfo"/>
     </list>
