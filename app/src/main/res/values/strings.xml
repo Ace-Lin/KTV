@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Karaoke</string>
+    <string name="setting_roomDetails">Room Details</string>
+    <string name="setting_productDetails">Product Details</string>
+    <string name="setting_AddRoom">Add Room</string>
+    <string name="setting_AddProduct">Add Product</string>
+
 </resources>
