@@ -4,13 +4,14 @@ import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class KTVOrderInfo extends LitePalSupport {
     private int id;
     private KTVRoomInfo room_id;
-    private  String order_start_time;
-    private  String order_end_time;
+    private Date order_start_time;
+    private Date order_end_time;
     private List<KTVOrderProduct> productList = new ArrayList<KTVOrderProduct>();
     private int order_pay_type;
     private double pay_amount;
@@ -32,19 +33,19 @@ public class KTVOrderInfo extends LitePalSupport {
         this.room_id = room_id;
     }
 
-    public String getOrder_start_time() {
+    public Date getOrder_start_time() {
         return order_start_time;
     }
 
-    public void setOrder_start_time(String order_start_time) {
+    public void setOrder_start_time(Date order_start_time) {
         this.order_start_time = order_start_time;
     }
 
-    public String getOrder_end_time() {
+    public Date getOrder_end_time() {
         return order_end_time;
     }
 
-    public void setOrder_end_time(String order_end_time) {
+    public void setOrder_end_time(Date order_end_time) {
         this.order_end_time = order_end_time;
     }
 
@@ -54,6 +55,8 @@ public class KTVOrderInfo extends LitePalSupport {
          String linkId=this.getClass().getSimpleName().toLowerCase();
          return LitePal.where(linkId+"_id = ?", String.valueOf(id)).find(KTVOrderProduct.class);
     }
+
+
 
     public void setProductList(List<KTVOrderProduct> productList) {
         this.productList = productList;

@@ -1,6 +1,10 @@
 package com.newland.karaoke.database;
 
+import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class KTVProductList extends LitePalSupport {
     private int id;
@@ -8,6 +12,7 @@ public class KTVProductList extends LitePalSupport {
     private int product_count;
     private double product_price;
     private int product_picture;
+    private List<KTVOrderProduct> product = new ArrayList<KTVOrderProduct>();
 
     public int getId() {
         return id;
@@ -47,6 +52,15 @@ public class KTVProductList extends LitePalSupport {
 
     public void setProduct_picture(int product_picture) {
         this.product_picture = product_picture;
+    }
+
+    public List<KTVOrderProduct> getProduct() {
+
+        return product;
+    }
+
+    public void setProduct(List<KTVOrderProduct> product) {
+        this.product = product;
     }
 
     @Override

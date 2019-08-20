@@ -3,22 +3,12 @@ package com.newland.karaoke.database;
 import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
 
-import java.util.List;
-
 public class KTVOrderProduct extends LitePalSupport {
 
    private int id;
-   private KTVProductList productList;
    private int product_quantity;
     private  KTVOrderInfo ktvOrderInfo;
-
-    public KTVOrderInfo getKtvOrderInfo() {
-        return ktvOrderInfo;
-    }
-
-    public void setKtvOrderInfo(KTVOrderInfo ktvOrderInfo) {
-        this.ktvOrderInfo = ktvOrderInfo;
-    }
+    private  KTVProductList productList;
 
     public int getId() {
         return id;
@@ -26,25 +16,6 @@ public class KTVOrderProduct extends LitePalSupport {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public KTVProductList getProductList() {
-        String linkId=this.getClass().getSimpleName().toLowerCase();
-        List<KTVProductList> list= LitePal.where(linkId+"_id =?",String.valueOf(id)).find(KTVProductList.class);
-
-        if(list.isEmpty())
-        {
-            return null;
-        }
-        else
-        {
-            return list.get(0);
-        }
-
-    }
-
-    public void setProductList(KTVProductList productList) {
-        this.productList = productList;
     }
 
     public int getProduct_quantity() {
@@ -55,13 +26,35 @@ public class KTVOrderProduct extends LitePalSupport {
         this.product_quantity = product_quantity;
     }
 
+    public KTVProductList productList(){
+        return productList;
+    }
+
+    public KTVProductList getProductList() {
+       // KTVOrderProduct product = LitePal.find(KTVOrderProduct.class,getId());
+        //LitePal.find(KTVOrderProduct.class,getId(),true).productList;
+        return LitePal.find(KTVOrderProduct.class,getId(),true).productList();
+    }
+
+    public void setProductList(KTVProductList productList) {
+        this.productList = productList;
+    }
+
+
+    public KTVOrderInfo getKtvOrderInfo() {
+        return ktvOrderInfo;
+    }
+
+    public void setKtvOrderInfo(KTVOrderInfo ktvOrderInfo) {
+        this.ktvOrderInfo = ktvOrderInfo;
+    }
 
     @Override
     public String toString()
     {
         return "KTVOrderProduct{" +
                 "id=" + id +
-                " 商品详细=" + getProductList().toString() +
+                " 商品详细=" + getProductList() +
                 ", 下单数量=" + product_quantity + '\'' +
                 '}';
     }
