@@ -11,7 +11,7 @@ public class KTVProductList extends LitePalSupport {
     private String product_name;
     private int product_count;
     private double product_price;
-    private int product_picture;
+    private String product_picture;
     private List<KTVOrderProduct> product = new ArrayList<KTVOrderProduct>();
 
     public int getId() {
@@ -46,11 +46,11 @@ public class KTVProductList extends LitePalSupport {
         this.product_price = product_price;
     }
 
-    public int getProduct_picture() {
+    public String getProduct_picture() {
         return product_picture;
     }
 
-    public void setProduct_picture(int product_picture) {
+    public void setProduct_picture(String product_picture) {
         this.product_picture = product_picture;
     }
 
