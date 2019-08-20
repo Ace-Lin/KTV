@@ -1,11 +1,14 @@
 package com.newland.karaoke.database;
 
+import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
 
 public class KTVOrderProduct extends LitePalSupport {
 
    private int id;
-   private KTVProductList productList;
+   private int product_quantity;
+   private  KTVOrderInfo ktvOrderInfo;
+   private  KTVProduct product;
 
     public int getId() {
         return id;
@@ -13,14 +16,6 @@ public class KTVOrderProduct extends LitePalSupport {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public KTVProductList getProductList() {
-        return productList;
-    }
-
-    public void setProductList(KTVProductList productList) {
-        this.productList = productList;
     }
 
     public int getProduct_quantity() {
@@ -31,6 +26,37 @@ public class KTVOrderProduct extends LitePalSupport {
         this.product_quantity = product_quantity;
     }
 
-    private int product_quantity;
+    public KTVProduct product(){
+        return product;
+    }
+
+    public KTVProduct getProduct() {
+       // KTVOrderProduct product = LitePal.find(KTVOrderProduct.class,getId());
+        //LitePal.find(KTVOrderProduct.class,getId(),true).productList;
+        return LitePal.find(KTVOrderProduct.class,getId(),true).product();
+    }
+
+    public void setProduct(KTVProduct product) {
+        this.product = product;
+    }
+
+
+    public KTVOrderInfo getKtvOrderInfo() {
+        return ktvOrderInfo;
+    }
+
+    public void setKtvOrderInfo(KTVOrderInfo ktvOrderInfo) {
+        this.ktvOrderInfo = ktvOrderInfo;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "KTVOrderProduct{" +
+                "id=" + id +
+                " 商品详细=" + getProduct() +
+                ", 下单数量=" + product_quantity + '\'' +
+                '}';
+    }
 
 }
