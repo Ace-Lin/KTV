@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.newland.karaoke.R;
 
+/**
+ * 作为基类可以统一修改一些属性
+ */
 public abstract class BaseActivity extends AppCompatActivity {
 
     /**
