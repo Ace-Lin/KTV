@@ -7,6 +7,15 @@ public class KTVRoomInfo extends LitePalSupport {
     private String room_name;
     private int room_type;
     private int room_status;
+    private double room_price;
+
+    public double getRoom_price() {
+        return room_price;
+    }
+
+    public void setRoom_price(double room_price) {
+        this.room_price = room_price;
+    }
 
     public int getId() {
         return id;

@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
     <dbname value="KTVdb" />
-    <version value="2" />
+    <version value="1" />
     <list>
         <mapping class="com.newland.karaoke.database.KTVUserLogin"/>
         <mapping class="com.newland.karaoke.database.KTVUserInfo"/>
-        <mapping class="com.newland.karaoke.database.KTVRoomInfo"/>
-        <mapping class="com.newland.karaoke.database.KTVProduct"/>
-        <mapping class="com.newland.karaoke.database.KTVOrderProduct"/>
-        <mapping class="com.newland.karaoke.database.KTVOrderInfo"/>
     </list>
 </litepal>
