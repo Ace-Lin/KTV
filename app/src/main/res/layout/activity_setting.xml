@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -24,46 +22,15 @@
 
     </androidx.appcompat.widget.Toolbar>>
 
-    <Button
-        android:id="@+id/room_details"
+
+    <ListView
+        android:id="@+id/setting_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textAllCaps="false"
-        android:text="@string/setting_roomDetails"
-        android:drawableRight="@drawable/icon_into_right"
-        />
+        android:layout_marginTop="5dp"
+        >
 
-    <Button
-        android:id="@+id/product_details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textAllCaps="false"
-        android:text="@string/setting_productDetails"
-        android:drawableRight="@drawable/icon_into_right"
-
-        />
-
-    <Button
-        android:id="@+id/add_room"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textAllCaps="false"
-        android:text="@string/setting_AddRoom"
-        android:drawableRight="@drawable/icon_into_right"
-        />
-
-    <Button
-        android:id="@+id/add_product"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textAllCaps="false"
-        android:text="@string/setting_AddProduct"
-        android:drawableRight="@drawable/icon_into_right"
-        />
+    </ListView>
 
 
 

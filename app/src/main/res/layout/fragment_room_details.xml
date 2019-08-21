@@ -3,27 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.RoomDetailsFragment">
 
-    <GridLayout
+    <include layout="@layout/room_item" />
+
+    <!-- 标题和内容间隔-->
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:rowCount="1"
-        >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
-    </GridLayout>
+        android:layout_height="10dp"></View>
+
+    <ListView
+        android:id="@+id/room_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
 
 
 </LinearLayout>

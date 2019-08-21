@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.newland.karaoke.R;
 
@@ -15,7 +16,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     /**
      * 设置左上角back按钮
      */
-    public void setBackArrow() {
+    public void setBackArrow(int id) {
+
+        Toolbar mToolbar =  (Toolbar)findViewById(id);
+        setSupportActionBar(mToolbar);
 
         final Drawable upArrow = getResources().getDrawable(R.drawable.icon_back_left);
         //给ToolBar设置左侧的图标
