@@ -1,40 +1,34 @@
 package com.newland.karaoke.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
-
 import com.newland.karaoke.R;
-import com.newland.karaoke.adapter.RoomAdapter;
 import com.newland.karaoke.adapter.SettingAdapter;
 import com.newland.karaoke.database.KTVRoomInfo;
+import com.newland.karaoke.utils.FileUtils;
 
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SettingActivity extends BaseActivity implements View.OnClickListener, AdapterView.OnItemClickListener {
+public class SettingActivity extends BaseActivity implements  AdapterView.OnItemClickListener {
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        setBackArrow(R.id.setting_toolbar);
-
+        initBaseView(R.id.setting_toolbar);
+        setToolBarTitle(getString(R.string.setting));
         initBtn();
-
-       // AddRoom();
+        FileUtils.createDir(getExternalFilesDir("/Picture").getPath());
+        //AddRoom();
     }
 
     /**
@@ -54,15 +48,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
 
+
+
     @Override
     public void basefinish() {
         finish();
     }
 
-    @Override
-    public void onClick(View view) {
 
-    }
 
     private void AddRoom()
     {
@@ -97,20 +90,27 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-       switch (i) {
+       Intent intent=new Intent();
+        switch (i) {
            case 0:
-               startActivity(new Intent(this,DetailsListActivity.class));
+               intent = new Intent(this,DetailsListActivity.class);
+               intent.putExtra(getString(R.string.details_type),i);
                break;
            case 1:
-
+               intent = new Intent(this,DetailsListActivity.class);
+               intent.putExtra(getString(R.string.details_type),i);
                break;
            case 2:
-
+               intent = new Intent(this,AddActivity.class);
+               intent.putExtra(getString(R.string.add_type),i);
                break;
            case 3:
-
+               intent = new Intent(this,AddActivity.class);
+               intent.putExtra(getString(R.string.add_type),i);
                break;
            default:
        }
+
+        startActivity(intent);
     }
 }

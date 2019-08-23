@@ -6,7 +6,7 @@
     android:orientation="vertical"
     tools:context=".fragment.ProductDetailsFragment">
 
-    <include layout="@layout/room_item" />
+    <include layout="@layout/product_item" />
 
     <!-- 标题和内容间隔-->
     <Space

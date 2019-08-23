@@ -2,6 +2,7 @@
     <string name="app_name">Karaoke</string>
 
     <!-- TODO: 设置信息 text -->
+    <string name="setting">Setting</string>
     <string name="setting_roomDetails">Room Details</string>
     <string name="setting_productDetails">Product Details</string>
     <string name="setting_AddRoom">Add Room</string>
@@ -16,4 +17,9 @@
     <string name="product_name">Product Name</string>
     <string name="product_count">Product Count</string>
     <string name="product_price">Product Price</string>
+
+    <!-- TODO: intent传递fragment类型 text -->
+    <string name="details_type">DetailsType</string>
+    <string name="add_type">AddType</string>
+
 </resources>

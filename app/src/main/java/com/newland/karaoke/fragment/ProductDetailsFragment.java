@@ -25,7 +25,7 @@ public class ProductDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        return inflater.inflate(R.layout.fragment_add_product, container, false);
+        return inflater.inflate(R.layout.fragment_product_details, container, false);
     }
 
 

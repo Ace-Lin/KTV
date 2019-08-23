@@ -73,13 +73,13 @@ public class RoomAdapter extends BaseAdapter {
         switch (type)
         {
             case 0:
-                str="BIG";
+                str="Big";
                 break;
             case 1:
-                str="MIDDLE";
+                str="Middle";
                 break;
             case 2:
-                str="SMAlL";
+                str="Small";
                 break;
                 default:
         }
