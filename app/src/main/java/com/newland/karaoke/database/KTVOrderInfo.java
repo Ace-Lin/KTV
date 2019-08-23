@@ -52,8 +52,11 @@ public class KTVOrderInfo extends LitePalSupport {
 
     public List<KTVOrderProduct> getProductList() {
 
-         String linkId=this.getClass().getSimpleName().toLowerCase();
-         return LitePal.where(linkId+"_id = ?", String.valueOf(id)).find(KTVOrderProduct.class);
+         KTVOrderInfo ktvOrder=LitePal.find(KTVOrderInfo.class,id,true);
+         return ktvOrder.getProductListDirect();
+    }
+    public List<KTVOrderProduct> getProductListDirect(){
+        return this.productList;
     }
 
 

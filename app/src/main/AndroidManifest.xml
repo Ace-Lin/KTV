@@ -16,7 +16,8 @@
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.OrderActivity" />
         <activity android:name=".activity.CheckInActivity" />
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

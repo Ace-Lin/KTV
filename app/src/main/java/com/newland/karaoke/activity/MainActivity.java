@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.newland.karaoke.R;
+import com.newland.karaoke.constant.KTVType;
+import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.database.KTVUserInfo;
 import com.newland.karaoke.database.KTVUserLogin;
 
@@ -30,7 +32,7 @@ private ImageButton shift;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initUI();
-        CreateDatabase();
+        //CreateDatabase();
         SearchData();
     }
 
@@ -64,6 +66,21 @@ private ImageButton shift;
         user_info.setUser_id(user_login);
         user_info.setIdentity_card_no("1234");
         user_info.save();
+
+
+        KTVRoomInfo ktvRoomInfo1=new KTVRoomInfo();
+        ktvRoomInfo1.setRoom_name("A01");
+        ktvRoomInfo1.setRoom_price(100);
+        ktvRoomInfo1.setRoom_status(KTVType.RoomStatus.FREE);
+        ktvRoomInfo1.setRoom_type(KTVType.RoomType.MIDDLE);
+        ktvRoomInfo1.save();
+
+        KTVRoomInfo ktvRoomInfo2=new KTVRoomInfo();
+        ktvRoomInfo2.setRoom_name("B02");
+        ktvRoomInfo2.setRoom_price(200);
+        ktvRoomInfo2.setRoom_type(KTVType.RoomType.BIG);
+        ktvRoomInfo2.setRoom_status(KTVType.RoomStatus.FREE);
+        ktvRoomInfo2.save();
 
 
     }
