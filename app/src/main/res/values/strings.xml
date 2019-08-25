@@ -17,6 +17,7 @@
     <string name="product_name">Product Name</string>
     <string name="product_count">Product Count</string>
     <string name="product_price">Product Price</string>
+    <string name="product_picture">Product Picture</string>
 
     <!-- TODO: intent传递fragment类型 text -->
     <string name="details_type">DetailsType</string>

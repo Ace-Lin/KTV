@@ -38,7 +38,7 @@ public class DetailsListActivity extends BaseActivity {
         FragmentTransaction fTransaction = fManager.beginTransaction();
 
         RoomDetailsFragment roomDetailsFragment=new RoomDetailsFragment(fManager,this);
-        ProductDetailsFragment productDetailsFragment =new ProductDetailsFragment();
+        ProductDetailsFragment productDetailsFragment =new ProductDetailsFragment(fManager,this);
 
         detailstype = getIntent().getIntExtra(getString(R.string.details_type),0);
         if (detailstype == 0) {

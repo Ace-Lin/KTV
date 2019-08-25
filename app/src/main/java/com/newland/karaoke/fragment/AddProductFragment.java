@@ -1,18 +1,26 @@
 package com.newland.karaoke.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.content.PermissionChecker;
 import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +78,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     private static final int PHOTO_REQUEST_CAMERA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
     private static final int PHOTO_REQUEST_CUT = 3;// 结果
+    public static final int PERMISSION_REQUEST_CODE=4; //权限请求值
 
     private static final String PHOTO_FILE_NAME = "temp_photo.jpg"; // 头像名称
     private File tempFile;
@@ -79,7 +88,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     /*
      * 从相册获取
      */
-    public void gallery() {
+    public void openGallery() {
         // 激活系统图库，选择一张图片
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
@@ -87,7 +96,21 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     }
 
     /*
-     * 从相机获取
+     * 打开相机拍摄
+     */
+    private void openCamera()
+    {
+        if (hasPermission(context, new String(Manifest.permission.CAMERA))){
+            // 执行拍照的逻辑
+            camera();
+        } else {
+            requestPermissions(new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
+
+        }
+    }
+
+    /*
+     * 打开相机
      */
     public void camera() {
 
@@ -104,6 +127,33 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
         }
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         startActivityForResult(intent, PHOTO_REQUEST_CAMERA);
+    }
+
+    //检查权限是否已获取
+    public static boolean hasPermission(@NonNull Context context, @NonNull String permission) {
+        if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED
+                || PermissionChecker.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
+        return true;
+    }
+
+
+    //权限请求结果
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        //通过requestCode来识别是否同一个请求
+        if (requestCode == PERMISSION_REQUEST_CODE){
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                //用户同意，执行操作
+                //  initScan();
+                Log.e("Jeffrey", "onRequestPermissionsResult: ");
+                camera();
+            }else{
+                //如果没有授权的话，可以给用户一个友好提示
+                Toast.makeText(context, "用户拒绝了拍照权限", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -211,22 +261,13 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
         }
     }
 
-    //显示照片
-    public   void  showImage(String path)
-    {
-        File file = new File(path);
-        ImageView img=null;/// = (ImageView) findViewById(R.id.show_image);
-        if(file.exists()){
-            Bitmap bm = BitmapFactory.decodeFile(path);
-            img.setImageBitmap(bm);
-        }
-    }
+
 
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.camera)
-            camera();
+            openCamera();
         else if (view.getId()==R.id.gallery)
-            gallery();
+            openGallery();
     }
 }

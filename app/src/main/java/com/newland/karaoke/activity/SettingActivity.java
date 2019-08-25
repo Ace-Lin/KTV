@@ -2,6 +2,8 @@ package com.newland.karaoke.activity;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,11 +11,14 @@ import android.widget.ListView;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.SettingAdapter;
+import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.utils.FileUtils;
 
 import org.litepal.LitePal;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +33,8 @@ public class SettingActivity extends BaseActivity implements  AdapterView.OnItem
         setToolBarTitle(getString(R.string.setting));
         initBtn();
         FileUtils.createDir(getExternalFilesDir("/Picture").getPath());
-        //AddRoom();
+      //  AddRoom();
+       // AddProjuct();
     }
 
     /**
@@ -85,6 +91,68 @@ public class SettingActivity extends BaseActivity implements  AdapterView.OnItem
         room4.setRoom_price(80);
         room4.save();
 
+    }
+
+    private void AddProjuct()
+    {
+        String path =saveImage();
+        
+        KTVProduct room1=new KTVProduct();
+        room1.setProduct_count(80);
+        room1.setProduct_name("苹果");
+        room1.setProduct_picture(path);
+        room1.setProduct_price(80);
+        room1.save();
+        
+        KTVProduct room2=new KTVProduct();
+        room2.setProduct_count(70);
+        room2.setProduct_name("西瓜");
+        room2.setProduct_picture(path);
+        room2.setProduct_price(80);
+        room2.save();
+        
+        KTVProduct room3=new KTVProduct();
+        room3.setProduct_count(80);
+        room3.setProduct_name("芒果");
+        room3.setProduct_picture(path);
+        room3.setProduct_price(60);
+        room3.save();
+
+      
+    }
+
+    /**
+     * 保存上传的照片
+     */
+    private String saveImage()
+    {
+        BitmapDrawable bd = (BitmapDrawable) getDrawable(R.drawable.ic_launcher);
+        Bitmap  bitmap=bd.getBitmap();
+        File file=null;
+        String dir = FileUtils.PICTURE_PATH;
+        try {
+            File folder = new File(dir);
+            if(!folder.exists()){
+                folder.mkdir();
+            }
+            file = new File(dir + "/summer1" + ".jpg");
+
+            if(file.exists()){
+                file.delete();
+            }
+            if(!file.exists()){
+                file.createNewFile();
+            }
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
+            //showImage(file.getParent());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return file.getPath();
     }
 
 
