@@ -48,4 +48,14 @@ public class KTVRoomInfo extends LitePalSupport {
     public void setRoom_status(int room_status) {
         this.room_status = room_status;
     }
+    @Override
+    public String toString()
+    {
+        return "KTVRoomInfo{" +
+                "id=" + id +
+                " 房间名字=" + room_name +
+                " 房间数量=" + room_type +
+                ", 房间价格=" + room_price + '\'' +
+                '}';
+    }
 }

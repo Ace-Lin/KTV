@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
+    android:background="@android:color/white"
     android:orientation="horizontal">
 
     <ImageView
@@ -14,35 +15,36 @@
         />
     <TextView
         android:id="@+id/set_product_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
         android:gravity="center"
         android:textSize="25dp"
-        android:text="@string/product_name" />
+        android:text="@string/show_pduduct_name" />
     <Space
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_width="30dp"
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/set_product_count"
         android:gravity="center"
         android:textSize="25dp"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:text="@string/product_count" />
+        android:text="@string/show_count" />
 
     <Space
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_width="30dp"
+        android:layout_height="match_parent"/>
 
     <TextView
         android:id="@+id/set_product_price"
         android:layout_marginRight="10dp"
         android:gravity="center"
         android:textSize="25dp"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:text="@string/product_price" />
+        android:text="@string/show_price" />
 </LinearLayout>

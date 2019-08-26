@@ -1,6 +1,7 @@
 package com.newland.karaoke.fragment;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -11,8 +12,6 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.content.PermissionChecker;
@@ -20,19 +19,32 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.newland.karaoke.R;
+import com.newland.karaoke.activity.AddActivity;
+import com.newland.karaoke.database.KTVProduct;
+import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.utils.FileUtils;
+
+import org.litepal.LitePal;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.UUID;
+
+import static com.newland.karaoke.utils.DensityUtil.dp2px;
+import static com.newland.karaoke.utils.ToastUtil.showShortText;
+import static com.newland.karaoke.utils.Utility.getPirBitMap;
 
 /**
  * 用来显示添加商品信息的Fragment
@@ -40,11 +52,34 @@ import java.io.FileOutputStream;
 public class AddProductFragment extends Fragment implements View.OnClickListener {
 
     private  Context context;
-    private ImageView mFace;
 
+    private Dialog bottomDialog;
+    private TextView txt_productName;
+    private TextView txt_productCount;
+    private TextView txt_productPrice;
+    private ImageView productPic;//展示图片
+    private Button btn_save;
+    private String pathPicture;//获取图片路径
+    private  boolean isHave; //是否获取了图片
+    private  boolean isUpdate;//判断是否是更新数据
+    private  int productId;//需要更改的商品id
+    private  KTVProduct ktvProduct;//需要更新的room
+    
     public AddProductFragment(Context context) {
         this.context = context;
     }
+
+    /**
+     * 获取需要修改的商品id
+     * @param productId id
+     */
+    public  void updateProduct(int productId)
+    {
+        isUpdate = true;
+        isHave=true;//修改代表已经添加了照片
+        this.productId = productId;
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,11 +90,9 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_product, container, false);
-        this.mFace = (ImageView)view.findViewById(R.id.iv_image);
-        Button btnGallery = (Button)view.findViewById(R.id.gallery);
-        Button btnCamera= (Button)view.findViewById(R.id.camera);
-        btnCamera.setOnClickListener(this);
-        btnGallery.setOnClickListener(this);
+
+        initUI(view);
+
         return view;
     }
 
@@ -72,6 +105,57 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     public void onDetach() {
         super.onDetach();
     }
+
+    /**
+     * 初始化UI信息
+     */
+    private void initUI(View view)
+    {
+        productPic = (ImageView)view.findViewById(R.id.add_product_picture);
+        productPic.setOnClickListener(this);
+        txt_productName = (TextView) view.findViewById(R.id.add_product_name);
+        txt_productCount = (TextView) view.findViewById(R.id.add_product_count);
+        txt_productPrice = (TextView) view.findViewById(R.id.add_product_price);
+        btn_save = (Button) view.findViewById(R.id.btn_save_product);
+        btn_save.setOnClickListener(this);
+        if (isUpdate)
+            showUpdateInfo();
+    }
+
+    /**
+     * 显示原有的数据
+     */
+    private  void showUpdateInfo(){
+        ktvProduct = LitePal.find(KTVProduct.class,productId);
+        txt_productName.setText(ktvProduct.getProduct_name());
+        txt_productCount.setText(String.valueOf(ktvProduct.getProduct_count()));
+        txt_productPrice.setText(String.valueOf(ktvProduct.getProduct_price()));
+        productPic.setImageBitmap(getPirBitMap(ktvProduct.getProduct_picture()));
+    }
+
+    /**
+     * 显示选择图片的窗口
+     */
+    public void showSelectDialog() {
+        bottomDialog = new Dialog(context, R.style.BottomDialog);
+        View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_content_picture, null);
+        bottomDialog.setContentView(contentView);
+        Button choosePhoto = (Button) contentView.findViewById(R.id.picture_gllary);
+        Button takePhoto = (Button) contentView.findViewById(R.id.picture_camera);
+        Button cancel = (Button) contentView.findViewById(R.id.picture_cancle);
+        choosePhoto.setOnClickListener(this);
+        takePhoto.setOnClickListener(this);
+        cancel.setOnClickListener(this);
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) contentView.getLayoutParams();
+        params.width = getResources().getDisplayMetrics().widthPixels - dp2px(context, 16f);
+        params.bottomMargin = dp2px(context, 8f);
+        contentView.setLayoutParams(params);
+        bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
+        bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
+        bottomDialog.show();
+    }
+
+
 
 
     //获取照片和存储照片
@@ -176,8 +260,9 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
         } else if (requestCode == PHOTO_REQUEST_CUT) {
             try {
                 Bitmap bitmap = data.getParcelableExtra("data");
-                this.mFace.setImageBitmap(bitmap);
+                this.productPic.setImageBitmap(bitmap);
                 saveImage(bitmap);
+                isHave = true;
                 boolean delete = tempFile.delete();
                 System.out.println("delete = " + delete);
 
@@ -237,13 +322,14 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     {
         File file=null;
         String dir = FileUtils.PICTURE_PATH;
-        //int result = FileUtils.CreateFile(dir + "/test.txt");
+
         try {
             File folder = new File(dir);
             if(!folder.exists()){
                 folder.mkdir();
             }
-            file = new File(dir + "/summer1" + ".jpg");
+            UUID uuid = UUID.randomUUID();//生成随机路径名字
+            file = new File(dir + "/" +uuid.toString()+ ".jpg");
 
             if(file.exists()){
                 file.delete();
@@ -255,19 +341,66 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
             out.flush();
             out.close();
-            //showImage(file.getParent());
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        pathPicture = file.getPath();//获取图片保存路径
     }
-
-
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.camera)
-            openCamera();
-        else if (view.getId()==R.id.gallery)
-            openGallery();
+        switch (view.getId()){
+            case R.id.picture_gllary:
+                openGallery();
+                bottomDialog.dismiss();
+                break;
+            case R.id.picture_camera:
+                openCamera();
+                bottomDialog.dismiss();
+                break;
+            case R.id.picture_cancle:
+                bottomDialog.dismiss();
+                break;
+            case R.id.add_product_picture:
+                showSelectDialog();
+                break;
+            case R.id.btn_save_product:
+                saveProduct();
+                break;
+           default:
+        }
     }
+
+    /**
+     * 保存商品信息
+     */
+    private  void saveProduct()
+    {
+        if (TextUtils.isEmpty(txt_productName.getText()))
+            showShortText(context,getString(R.string.tips_product_name));
+        else if (TextUtils.isEmpty(txt_productCount.getText()))
+            showShortText(context,getString(R.string.tips_product_count));
+        else if (TextUtils.isEmpty(txt_productPrice.getText()))
+            showShortText(context,getString(R.string.tips_product_price));
+        else if (!isHave)
+        showShortText(context,getString(R.string.tips_product_picture));
+        else {
+            KTVProduct ktvProduct = new KTVProduct();
+            if (isUpdate)
+                ktvProduct = this.ktvProduct;
+            ktvProduct.setProduct_name(txt_productName.getText().toString());
+            ktvProduct.setProduct_count(Integer.valueOf(txt_productCount.getText().toString()));
+            ktvProduct.setProduct_price(Double.valueOf(txt_productPrice.getText().toString()));
+            ktvProduct.setProduct_picture(pathPicture);
+            ktvProduct.save();
+
+            if (ktvProduct.isSaved())
+            {
+                showShortText(context,getString(R.string.tips_add_success));
+                ((AddActivity)context).basefinish();
+            }
+        }
+    }
+
 }

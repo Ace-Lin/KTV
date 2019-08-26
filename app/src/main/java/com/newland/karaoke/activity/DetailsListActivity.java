@@ -1,16 +1,16 @@
 package com.newland.karaoke.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.newland.karaoke.R;
+import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.fragment.ProductDetailsFragment;
 import com.newland.karaoke.fragment.RoomDetailsFragment;
 
@@ -19,13 +19,11 @@ import com.newland.karaoke.fragment.RoomDetailsFragment;
  */
 public class DetailsListActivity extends BaseActivity {
 
-    private int detailstype;
-
+    private int fragment_type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_list);
-
         initBaseView(R.id.setting_toolbar);
         intiFragment();
     }
@@ -40,8 +38,8 @@ public class DetailsListActivity extends BaseActivity {
         RoomDetailsFragment roomDetailsFragment=new RoomDetailsFragment(fManager,this);
         ProductDetailsFragment productDetailsFragment =new ProductDetailsFragment(fManager,this);
 
-        detailstype = getIntent().getIntExtra(getString(R.string.details_type),0);
-        if (detailstype == 0) {
+        fragment_type = getIntent().getIntExtra(getString(R.string.fragment_type),0);
+        if (fragment_type == KTVType.FragmentType.ROOMDETAIL) {
             setToolBarTitle(getString(R.string.setting_roomDetails));
             fTransaction.replace(R.id.detail_list_content, roomDetailsFragment);
         }
@@ -72,10 +70,22 @@ public class DetailsListActivity extends BaseActivity {
     }
 
     /**
-     * 添加按钮点击事件
+     * 添加按钮点击事件,添加商品或者房间
      */
     private void addEvent()
     {
+        Intent intent=new Intent();
+        intent = new Intent(this,AddActivity.class);
+
+        switch (fragment_type) {
+            case KTVType.FragmentType.ROOMDETAIL:
+                intent.putExtra(getString(R.string.fragment_type), KTVType.FragmentType.ADDROOM);
+                break;
+            case KTVType.FragmentType.PRODUCTDETAIL:
+                intent.putExtra(getString(R.string.fragment_type), KTVType.FragmentType.ADDPRODUCT);
+                break;
+        }
+        startActivity(intent);
 
     }
 

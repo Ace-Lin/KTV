@@ -1,6 +1,7 @@
 package com.newland.karaoke.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -19,11 +19,14 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.newland.karaoke.R;
+import com.newland.karaoke.activity.AddActivity;
 import com.newland.karaoke.adapter.RoomAdapter;
+import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVRoomInfo;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.newland.karaoke.utils.DensityUtil.dp2px;
@@ -38,15 +41,15 @@ public class RoomDetailsFragment extends Fragment implements SwipeMenuListView.O
     }
 
     private FragmentManager fManager;
-    private List<KTVRoomInfo> RoomDatas;
+    private List<KTVRoomInfo> roomDatas= new ArrayList<>();
     private SwipeMenuListView list_news;
     private  SwipeMenuCreator creator;
     private Context context;
+    private RoomAdapter roomAdapter;
 
     public RoomDetailsFragment(FragmentManager fManager,Context context) {
         this.fManager = fManager;
         this.context = context;
-        initRoomData();
     }
 
 
@@ -55,10 +58,11 @@ public class RoomDetailsFragment extends Fragment implements SwipeMenuListView.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         creatSwipeMenu();
+        roomDatas =LitePal.findAll(KTVRoomInfo.class);
         View view = inflater.inflate(R.layout.fragment_room_details, container, false);
         list_news = (SwipeMenuListView) view.findViewById(R.id.room_listview);
-        RoomAdapter myAdapter = new RoomAdapter(RoomDatas, getActivity());
-        list_news.setAdapter(myAdapter);
+        roomAdapter = new RoomAdapter(roomDatas, getActivity());
+        list_news.setAdapter(roomAdapter);
         list_news.setMenuCreator(creator);    // 设置 creator
         list_news.setOnMenuItemClickListener(this);
         return view;
@@ -75,13 +79,29 @@ public class RoomDetailsFragment extends Fragment implements SwipeMenuListView.O
         super.onDetach();
     }
 
-    /**
-     * 初始化获取数据库数据
-     */
-    private  void initRoomData()
+
+    @Override
+    public void onStart()
     {
-        RoomDatas= LitePal.findAll(KTVRoomInfo.class);
+        super.onStart();
+        updateListview();
     }
+
+    /**
+     * 更改数据之后刷新数据
+     */
+    private  void updateListview()
+    {
+        //这种做法notifyDataSetChanged不会刷新，对roomDatas的内存指向做了修改，
+        // 但是该指向并没有通知到adapter中的list，也就是说list指向没有发生变化
+        // roomDatas =LitePal.findAll(KTVRoomInfo.class);
+
+        roomDatas.clear();
+        roomDatas.addAll(LitePal.findAll(KTVRoomInfo.class));
+        roomAdapter.notifyDataSetChanged();
+    }
+
+
 
     /**
      * 创建左滑需要的menu
@@ -124,16 +144,18 @@ public class RoomDetailsFragment extends Fragment implements SwipeMenuListView.O
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
              switch (index) {
             case 0:
-                // edit
-                Toast.makeText(context, "edit", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent();
+                intent = new Intent(context, AddActivity.class);
+                intent.putExtra(getString(R.string.fragment_type), KTVType.FragmentType.EDITROOM);
+                intent.putExtra(getString(R.string.edit_detail_id),roomDatas.get(position).getId());
+                startActivity(intent);
                 break;
             case 1:
-                // delete;
-               // mAppList.remove(position);
-                //mAdapter.notifyDataSetChanged();
-                Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show();
+                LitePal.delete(KTVRoomInfo.class,roomDatas.get(position).getId());
+                updateListview();
                 break;
         }
         return false;
     }
+
 }

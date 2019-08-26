@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_dialog"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/picture_gllary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="从相册中选择"
+        android:background="@drawable/shape_dialog"
+        android:textSize="25dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"
+        />
+    <Button
+        android:id="@+id/picture_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="拍摄"
+        android:background="@android:color/white"
+        android:textSize="25dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:alpha="0.5"
+        android:background="@android:color/darker_gray"
+        />
+    <Button
+        android:id="@+id/picture_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="取消"
+        android:background="@drawable/shape_dialog"
+        android:textSize="25dp"/>
+</LinearLayout>

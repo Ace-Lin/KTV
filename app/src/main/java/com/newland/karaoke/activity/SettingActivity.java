@@ -162,19 +162,19 @@ public class SettingActivity extends BaseActivity implements  AdapterView.OnItem
         switch (i) {
            case 0:
                intent = new Intent(this,DetailsListActivity.class);
-               intent.putExtra(getString(R.string.details_type),i);
+               intent.putExtra(getString(R.string.fragment_type),i);
                break;
            case 1:
                intent = new Intent(this,DetailsListActivity.class);
-               intent.putExtra(getString(R.string.details_type),i);
+               intent.putExtra(getString(R.string.fragment_type),i);
                break;
            case 2:
                intent = new Intent(this,AddActivity.class);
-               intent.putExtra(getString(R.string.add_type),i);
+               intent.putExtra(getString(R.string.fragment_type),i);
                break;
            case 3:
                intent = new Intent(this,AddActivity.class);
-               intent.putExtra(getString(R.string.add_type),i);
+               intent.putExtra(getString(R.string.fragment_type),i);
                break;
            default:
        }

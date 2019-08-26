@@ -51,4 +51,18 @@ public class KTVType {
         public static final int SWIPER = 2;
     }
 
+
+    /**
+     * 添加页面添加页面
+     */
+    public class FragmentType
+    {
+        public static final int ROOMDETAIL = 0;
+        public static final int PRODUCTDETAIL = 1;
+        public static final int ADDROOM = 2;
+        public static final int ADDPRODUCT = 3;
+        public static final int EDITROOM = 4;
+        public static final int EDITRODUCT = 5;
+    }
+
 }

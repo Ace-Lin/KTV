@@ -1,6 +1,7 @@
 package com.newland.karaoke.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -19,13 +20,16 @@ import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.newland.karaoke.R;
+import com.newland.karaoke.activity.AddActivity;
 import com.newland.karaoke.adapter.ProductAdapter;
 import com.newland.karaoke.adapter.RoomAdapter;
+import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.newland.karaoke.utils.DensityUtil.dp2px;
@@ -36,23 +40,28 @@ import static com.newland.karaoke.utils.DensityUtil.dp2px;
 public class ProductDetailsFragment extends Fragment implements SwipeMenuListView.OnMenuItemClickListener {
 
     private FragmentManager fManager;
-    private List<KTVProduct> productDatas;
+    private List<KTVProduct> productDatas = new ArrayList<>();
     private SwipeMenuListView list_news;
     private SwipeMenuCreator creator;
     private Context context;
+    private ProductAdapter productAdapter;
 
     public ProductDetailsFragment(FragmentManager fManager, Context context) {
         this.fManager = fManager;
         this.context = context;
-        initProductData();
+        productDatas= LitePal.findAll(KTVProduct.class);
     }
 
     /**
-     * 初始化获取数据库数据
+     * 更改数据之后刷新数据
      */
-    private  void initProductData()
+    private  void updateListview()
     {
-        productDatas= LitePal.findAll(KTVProduct.class);
+        // roomDatas =LitePal.findAll(KTVRoomInfo.class);
+
+        productDatas.clear();
+        productDatas.addAll(LitePal.findAll(KTVProduct.class));
+        productAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -66,8 +75,8 @@ public class ProductDetailsFragment extends Fragment implements SwipeMenuListVie
         creatSwipeMenu();
         View view = inflater.inflate(R.layout.fragment_product_details, container, false);
         list_news = (SwipeMenuListView) view.findViewById(R.id.project_listview);
-        ProductAdapter myAdapter = new ProductAdapter(productDatas, getActivity());
-        list_news.setAdapter(myAdapter);
+        productAdapter = new ProductAdapter(productDatas, getActivity());
+        list_news.setAdapter(productAdapter);
         list_news.setMenuCreator(creator);    // 设置 creator
         list_news.setOnMenuItemClickListener(this);
         return view;
@@ -83,6 +92,15 @@ public class ProductDetailsFragment extends Fragment implements SwipeMenuListVie
     public void onDetach() {
         super.onDetach();
     }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        updateListview();
+    }
+
+
 
     /**
      * 创建左滑需要的menu
@@ -125,14 +143,15 @@ public class ProductDetailsFragment extends Fragment implements SwipeMenuListVie
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
         switch (index) {
             case 0:
-                // edit
-                Toast.makeText(context, "edit", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent();
+                intent = new Intent(context, AddActivity.class);
+                intent.putExtra(getString(R.string.fragment_type), KTVType.FragmentType.EDITRODUCT);
+                intent.putExtra(getString(R.string.edit_detail_id),productDatas.get(position).getId());
+                startActivity(intent);
                 break;
             case 1:
-                // delete;
-                // mAppList.remove(position);
-                //mAdapter.notifyDataSetChanged();
-                Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show();
+                LitePal.delete(KTVProduct.class,productDatas.get(position).getId());
+                updateListview();
                 break;
         }
         return false;
