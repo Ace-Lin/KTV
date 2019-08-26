@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.newland.karaoke.KTVApplication;
 import com.newland.karaoke.R;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVRoomInfo;
@@ -49,6 +52,8 @@ private ImageButton shift;
         order.setOnClickListener(this);
         settings.setOnClickListener(this);
         shift.setOnClickListener(this);
+
+
 
     }
     void CreateDatabase(){
@@ -108,6 +113,7 @@ private ImageButton shift;
         //处理监听
         switch(view.getId()){
             case R.id.bt_checkin:
+
                 Intent intent_check=new Intent(MainActivity.this,CheckInActivity.class);
                 startActivity(intent_check);
                 break;

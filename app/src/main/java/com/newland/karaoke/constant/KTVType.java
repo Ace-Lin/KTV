@@ -51,4 +51,6 @@ public class KTVType {
         public static final int SWIPER = 2;
     }
 
+
+
 }
