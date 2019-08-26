@@ -16,12 +16,12 @@ import java.util.List;
 
 import static com.newland.karaoke.utils.Utility.getPirBitMap;
 
-public class ProductAdapter extends BaseAdapter {
+public class SettingProductAdapter extends BaseAdapter {
 
     private List<KTVProduct> productsDatas;
     private Context mContext;
 
-    public ProductAdapter(List<KTVProduct> mData, Context mContext) {
+    public SettingProductAdapter(List<KTVProduct> mData, Context mContext) {
         this.productsDatas = mData;
         this.mContext = mContext;
 

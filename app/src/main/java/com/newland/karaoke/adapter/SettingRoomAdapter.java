@@ -12,12 +12,12 @@ import com.newland.karaoke.database.KTVRoomInfo;
 
 import java.util.List;
 
-public class RoomAdapter extends BaseAdapter {
+public class SettingRoomAdapter extends BaseAdapter {
 
     private List<KTVRoomInfo> roomDatas;
     private Context mContext;
 
-    public RoomAdapter(List<KTVRoomInfo> mData, Context mContext) {
+    public SettingRoomAdapter(List<KTVRoomInfo> mData, Context mContext) {
         this.roomDatas = mData;
         this.mContext = mContext;
 

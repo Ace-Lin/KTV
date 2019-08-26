@@ -4,16 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
@@ -21,11 +18,9 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.newland.karaoke.R;
 import com.newland.karaoke.activity.AddActivity;
-import com.newland.karaoke.adapter.ProductAdapter;
-import com.newland.karaoke.adapter.RoomAdapter;
+import com.newland.karaoke.adapter.SettingProductAdapter;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVProduct;
-import com.newland.karaoke.database.KTVRoomInfo;
 
 import org.litepal.LitePal;
 
@@ -44,7 +39,7 @@ public class ProductDetailsFragment extends Fragment implements SwipeMenuListVie
     private SwipeMenuListView list_news;
     private SwipeMenuCreator creator;
     private Context context;
-    private ProductAdapter productAdapter;
+    private SettingProductAdapter productAdapter;
 
     public ProductDetailsFragment(FragmentManager fManager, Context context) {
         this.fManager = fManager;
@@ -75,7 +70,7 @@ public class ProductDetailsFragment extends Fragment implements SwipeMenuListVie
         creatSwipeMenu();
         View view = inflater.inflate(R.layout.fragment_product_details, container, false);
         list_news = (SwipeMenuListView) view.findViewById(R.id.project_listview);
-        productAdapter = new ProductAdapter(productDatas, getActivity());
+        productAdapter = new SettingProductAdapter(productDatas, getActivity());
         list_news.setAdapter(productAdapter);
         list_news.setMenuCreator(creator);    // 设置 creator
         list_news.setOnMenuItemClickListener(this);
