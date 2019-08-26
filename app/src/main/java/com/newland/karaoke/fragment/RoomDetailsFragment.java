@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,7 +18,7 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.newland.karaoke.R;
 import com.newland.karaoke.activity.AddActivity;
-import com.newland.karaoke.adapter.RoomAdapter;
+import com.newland.karaoke.adapter.SettingRoomAdapter;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVRoomInfo;
 
@@ -45,7 +43,7 @@ public class RoomDetailsFragment extends Fragment implements SwipeMenuListView.O
     private SwipeMenuListView list_news;
     private  SwipeMenuCreator creator;
     private Context context;
-    private RoomAdapter roomAdapter;
+    private SettingRoomAdapter roomAdapter;
 
     public RoomDetailsFragment(FragmentManager fManager,Context context) {
         this.fManager = fManager;
@@ -61,7 +59,7 @@ public class RoomDetailsFragment extends Fragment implements SwipeMenuListView.O
         roomDatas =LitePal.findAll(KTVRoomInfo.class);
         View view = inflater.inflate(R.layout.fragment_room_details, container, false);
         list_news = (SwipeMenuListView) view.findViewById(R.id.room_listview);
-        roomAdapter = new RoomAdapter(roomDatas, getActivity());
+        roomAdapter = new SettingRoomAdapter(roomDatas, getActivity());
         list_news.setAdapter(roomAdapter);
         list_news.setMenuCreator(creator);    // 设置 creator
         list_news.setOnMenuItemClickListener(this);
