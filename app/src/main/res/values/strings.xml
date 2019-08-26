@@ -24,7 +24,7 @@
     <string name="show_pduduct_name"> Name </string>
     <string name="show_type"> Type</string>
     <string name="show_count"> Count</string>
-    <string name="show_price"> Price</string>
+    <string name="show_price"> Price($)</string>
 
 
 
