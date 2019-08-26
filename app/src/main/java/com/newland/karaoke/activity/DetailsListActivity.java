@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -39,6 +40,7 @@ public class DetailsListActivity extends BaseActivity {
         ProductDetailsFragment productDetailsFragment =new ProductDetailsFragment(fManager,this);
 
         fragment_type = getIntent().getIntExtra(getString(R.string.fragment_type),0);
+
         if (fragment_type == KTVType.FragmentType.ROOMDETAIL) {
             setToolBarTitle(getString(R.string.setting_roomDetails));
             fTransaction.replace(R.id.detail_list_content, roomDetailsFragment);

@@ -18,7 +18,6 @@ import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.newland.karaoke.R;
 import com.newland.karaoke.activity.AddActivity;
-import com.newland.karaoke.adapter.SettingProductAdapter;
 import com.newland.karaoke.adapter.SettingRoomAdapter;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVRoomInfo;
