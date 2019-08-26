@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="room_type_array">
+        <item>Big</item>
+        <item>Middle</item>
+        <item>Small</item>
+    </string-array>
+</resources>

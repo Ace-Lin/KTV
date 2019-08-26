@@ -28,4 +28,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //数据库Litepal
     implementation 'org.litepal.android:java:3.0.0'
+    //listview左滑添加menu swipemenulistview
+    implementation 'com.baoyz.swipemenulistview:library:1.3.0'
 }

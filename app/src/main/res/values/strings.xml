@@ -1,3 +1,45 @@
 <resources>
     <string name="app_name">Karaoke</string>
+
+    <!-- TODO: 设置信息 text -->
+    <string name="setting">Setting</string>
+    <string name="setting_roomDetails">Room Details</string>
+    <string name="setting_productDetails">Product Details</string>
+    <string name="setting_AddRoom">Add Room</string>
+    <string name="setting_AddProduct">Add Product</string>
+
+    <!-- TODO: 房间列表信息 text -->
+    <string name="room_name">Room No</string>
+    <string name="room_type">Room Type</string>
+    <string name="room_price">Room Price</string>
+
+    <!-- TODO: 房商品列表信息 text -->
+    <string name="product_name">Product Name</string>
+    <string name="product_count">Product Count</string>
+    <string name="product_price">Product Price</string>
+    <string name="product_picture">Product Picture</string>
+
+     <!-- TODO: 列表信息 text -->
+    <string name="show_name"> No </string>
+    <string name="show_pduduct_name"> Name </string>
+    <string name="show_type"> Type</string>
+    <string name="show_count"> Count</string>
+    <string name="show_price"> Price($)</string>
+
+
+
+    <!-- TODO: intent传递fragment类型 text -->
+    <string name="fragment_type">FragmentType</string>
+    <string name="edit_detail_id">Edit Detail Id</string>
+
+    <!-- TODO:添加提示信息 text -->
+    <string name="tips_room_name">Room Name cannot be empty</string>
+    <string name="tips_room_price">Room Price cannot be empty</string>
+    <string name="tips_product_count">Room Count be empty</string>
+    <string name="tips_product_name">Product Name cannot be empty</string>
+    <string name="tips_product_price">Product Price cannot be empty</string>
+    <string name="tips_product_picture">Product Picture cannot be empty</string>
+    <string name="tips_add_success">  Added Successfully</string>
+
+
 </resources>
