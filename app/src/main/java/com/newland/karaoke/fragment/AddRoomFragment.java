@@ -142,7 +142,7 @@ public class AddRoomFragment extends Fragment implements AdapterView.OnItemSelec
             if (roomInfo.isSaved())
             {
                 showShortText(context,getString(R.string.tips_add_success));
-                ((AddActivity)context).basefinish();
+                ((AddActivity)context).finish();
             }
         }
 

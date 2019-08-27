@@ -138,7 +138,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
      */
     public void showSelectDialog() {
         bottomDialog = new Dialog(context, R.style.BottomDialog);
-        View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_content_picture, null);
+        View contentView = LayoutInflater.from(context).inflate(R.layout.dialog_bottom_picture, null);
         bottomDialog.setContentView(contentView);
         Button choosePhoto = (Button) contentView.findViewById(R.id.picture_gllary);
         Button takePhoto = (Button) contentView.findViewById(R.id.picture_camera);
@@ -398,7 +398,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
             if (ktvProduct.isSaved())
             {
                 showShortText(context,getString(R.string.tips_add_success));
-                ((AddActivity)context).basefinish();
+                ((AddActivity)context).finish();//这里使用finish不适用befinish
             }
         }
     }

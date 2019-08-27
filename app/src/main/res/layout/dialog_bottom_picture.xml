@@ -12,8 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="从相册中选择"
+        android:text="@string/dialog_btn_gallery_text"
         android:background="@drawable/shape_dialog"
+        android:textAllCaps="false"
         android:textSize="25dp"/>
     <View
         android:layout_width="match_parent"
@@ -25,8 +26,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="拍摄"
+        android:text="@string/dialog_btn_camera_text"
         android:background="@android:color/white"
+        android:textAllCaps="false"
         android:textSize="25dp"/>
     <View
         android:layout_width="match_parent"
@@ -39,7 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="取消"
+        android:text="@string/dialog_btn_cancel_text"
         android:background="@drawable/shape_dialog"
+        android:textAllCaps="false"
         android:textSize="25dp"/>
 </LinearLayout>

@@ -46,5 +46,11 @@
     <string name="tips_product_picture">Product Picture cannot be empty</string>
     <string name="tips_add_success">  Added Successfully</string>
 
+    <!-- TODO:添加对话框提示信息 text -->
+    <string name="dialog_title_add"> Are you sure to exit Add?</string>
+    <string name="dialog_btn_cancel_text">Cancel</string>
+    <string name="dialog_btn_confirm_text">OK</string>
+    <string name="dialog_btn_camera_text">Camera</string>
+    <string name="dialog_btn_gallery_text">Album</string>
 
 </resources>
