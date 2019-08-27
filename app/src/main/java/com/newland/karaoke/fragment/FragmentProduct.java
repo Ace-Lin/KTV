@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,11 +36,11 @@ import java.util.List;
 public class FragmentProduct extends Fragment implements View.OnClickListener{
     private ImageView iv_fg_product_back;
     private ListView lv_fg_product_info;
+    private TextView tv_fg_product_amount_show;
 
     public List<ProductModel> getProductModels() {
         return productModels;
     }
-
     private List<ProductModel> productModels;
     private  ProductAdapter adapter;
     private CheckInActivity mCheckIn;
@@ -69,6 +70,8 @@ public class FragmentProduct extends Fragment implements View.OnClickListener{
         adapter.setOnClickListener(this);
         lv_fg_product_info.setAdapter(adapter);
 
+        //初始化金额显示
+        tv_fg_product_amount_show=view.findViewById(R.id.tv_fg_product_amount_show);
     }
 
     @Override
@@ -84,7 +87,6 @@ public class FragmentProduct extends Fragment implements View.OnClickListener{
                 //切换Fragment
 //                mCheckIn.HideAllFragment();
                   mCheckIn.ShowFragment(mCheckIn.getmFragmentRoom());
-
                 break;
             case R.id.iv_item_product_add:
                 if (tag != null && tag instanceof Integer) {
@@ -94,6 +96,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener{
                     if(num<productModels.get(position).getProduct_count()){
                         productModels.get(position).setProduct_num(++num);
                         adapter.notifyDataSetChanged();
+                        SetAmount();
                     }
                     else {
                         Toast.makeText(KTVApplication.getContext(),"商品库存不足",Toast.LENGTH_SHORT).show();
@@ -108,6 +111,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener{
                     if(num>0){
                         productModels.get(position).setProduct_num(--num);
                         adapter.notifyDataSetChanged();
+                        SetAmount();
                     }
                     else{
                         Toast.makeText(KTVApplication.getContext(),"数量为0",Toast.LENGTH_SHORT).show();
@@ -116,6 +120,17 @@ public class FragmentProduct extends Fragment implements View.OnClickListener{
                 }
                 break;
         }
+
+    }
+
+    public void SetAmount(){
+        double amount=0;
+        for(ProductModel productModel:productModels){
+            if(productModel.getProduct_num()>0){
+                amount+=productModel.getProduct_num()*productModel.getProduct_price();
+            }
+        }
+        tv_fg_product_amount_show.setText(String.valueOf(amount));
 
     }
     @Override
