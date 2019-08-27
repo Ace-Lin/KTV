@@ -1,9 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activity.ShiftActivity">
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/logo_npt"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_corner_border"
+        android:elevation="7dp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="20dp"
+        android:layout_marginTop="50dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/linear_layout_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/night_biz_pc_account_username_icon"/>
+
+            <EditText
+                android:id="@+id/et_username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:background="@null"
+                android:hint="账号"
+                android:inputType="textAutoComplete"
+                android:lines="1"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="15dp"
+                android:maxLines="1"
+                android:textColorHint="#b3b3b0"
+                android:textSize="15sp"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/midle_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/linear_layout_user_name"
+            android:layout_marginLeft="30dp"
+            android:background="#cacaca"
+            android:orientation="horizontal">
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linear_layout_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_below="@+id/midle_line"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="21dp"
+                android:layout_height="21dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/night_biz_pc_account_pwd_icon"/>
+
+            <EditText
+                android:id="@+id/et_pwd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@null"
+                android:hint="密码"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="15dp"
+                android:maxLines="1"
+                android:textColorHint="#b3b3b0"
+                android:textSize="15sp"/>
+
+
+
+        </LinearLayout>
+    </RelativeLayout>
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/button_border_radius"
+        android:elevation="5dp"
+        android:text="登   录"
+        android:textColor="#FFFFFF"/>
+</LinearLayout>

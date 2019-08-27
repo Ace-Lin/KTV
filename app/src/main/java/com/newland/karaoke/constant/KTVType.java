@@ -65,4 +65,17 @@ public class KTVType {
         public static final int EDITRODUCT = 5;
     }
 
+    /**
+     * 侧拉框选项类型
+     */
+    public class MineType
+    {
+        public static final int SET_PHOTO = 0;
+        public static final int LOGIN = 1;
+        public static final int PERSONAL_INFO = 2;
+        public static final int SET_PWD= 3;
+        public static final int LOG_OUT = 4;
+
+    }
+
 }
