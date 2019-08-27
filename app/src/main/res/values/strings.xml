@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">Karaoke</string>
 
+    <!-- TODO: 模块信息 text -->
+    <string name="check_in">Check-in</string>
+    <string name="order">Order</string>
+    <string name="transactions">Transactions</string>
+
+
     <!-- TODO: 设置信息 text -->
     <string name="setting">Setting</string>
     <string name="setting_roomDetails">Room Details</string>
@@ -19,13 +25,12 @@
     <string name="product_price">Product Price</string>
     <string name="product_picture">Product Picture</string>
 
-     <!-- TODO: 列表信息 text -->
+    <!-- TODO: 列表信息 text -->
     <string name="show_name"> No </string>
     <string name="show_pduduct_name"> Name </string>
     <string name="show_type"> Type</string>
     <string name="show_count"> Count</string>
     <string name="show_price"> Price($)</string>
-
 
 
     <!-- TODO: intent传递fragment类型 text -->
