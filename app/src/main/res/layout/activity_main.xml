@@ -44,7 +44,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Check-in"/>
+                android:text="@string/check_in"/>
         </LinearLayout>
         <LinearLayout
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Order"/>
+                android:text="@string/order"/>
         </LinearLayout>
         <LinearLayout
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings"/>
+                android:text="@string/setting"/>
         </LinearLayout>
         <LinearLayout
             android:layout_height="wrap_content"
@@ -85,14 +85,14 @@
             android:gravity="center"
             android:orientation="vertical">
             <ImageButton
-                android:id="@+id/bt_shift"
+                android:id="@+id/bt_transactions"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:background="@drawable/icon_change_shift_normal"/>
+                android:background="@drawable/icon_transactions_normal"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Shift"/>
+                android:text="@string/transactions"/>
         </LinearLayout>
 
 

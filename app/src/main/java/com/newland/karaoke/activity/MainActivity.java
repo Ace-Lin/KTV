@@ -45,7 +45,7 @@ private ImageButton shift;
         checkIn=(ImageButton)findViewById(R.id.bt_checkin);
         order=(ImageButton)findViewById(R.id.bt_order);
         settings=(ImageButton)findViewById(R.id.bt_settings);
-        shift=(ImageButton)findViewById(R.id.bt_shift);
+        shift=(ImageButton)findViewById(R.id.bt_transactions);
 
         //设置监听
         checkIn.setOnClickListener(this);
@@ -125,8 +125,8 @@ private ImageButton shift;
                 Intent intent_settings=new Intent(MainActivity.this,SettingActivity.class);
                 startActivity(intent_settings);
                 break;
-            case R.id.bt_shift:
-                Intent intent_shift=new Intent(MainActivity.this,ShiftActivity.class);
+            case R.id.bt_transactions:
+                Intent intent_shift=new Intent(MainActivity.this,TransactionActivity.class);
                 startActivity(intent_shift);
                 break;
             default:
