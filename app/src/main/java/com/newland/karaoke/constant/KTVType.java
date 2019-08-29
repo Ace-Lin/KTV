@@ -77,5 +77,13 @@ public class KTVType {
         public static final int LOG_OUT = 4;
 
     }
+    /**
+     * 消息类型
+     */
+    public class MsgType{
+        public static final int UPDATE_IMG=0;
+
+
+    }
 
 }

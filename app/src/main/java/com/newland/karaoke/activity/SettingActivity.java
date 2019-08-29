@@ -32,7 +32,7 @@ public class SettingActivity extends BaseActivity implements  AdapterView.OnItem
         initBaseView(R.id.setting_toolbar);
         setToolBarTitle(getString(R.string.setting));
         initBtn();
-        FileUtils.createDir(getExternalFilesDir("/Picture").getPath());
+        //FileUtils.createDir(getExternalFilesDir("/Picture").getPath());
 
     }
 

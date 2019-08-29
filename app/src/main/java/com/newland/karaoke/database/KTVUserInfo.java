@@ -7,20 +7,13 @@ import java.util.Date;
 public class KTVUserInfo extends LitePalSupport {
 
     private int id ;
-    private KTVUserLogin user_id;
     private String user_name;
     private String identity_card_no;
     private String mobile_phone;
     private String user_email;
     private Date register_time;
+    private String user_photo;
 
-    public KTVUserLogin getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(KTVUserLogin user_id) {
-        this.user_id = user_id;
-    }
 
     public int getId() {
         return id;
@@ -68,5 +61,13 @@ public class KTVUserInfo extends LitePalSupport {
 
     public void setRegister_time(Date register_time) {
         this.register_time = register_time;
+    }
+
+    public String getUser_photo() {
+        return user_photo;
+    }
+
+    public void setUser_photo(String user_photo) {
+        this.user_photo = user_photo;
     }
 }

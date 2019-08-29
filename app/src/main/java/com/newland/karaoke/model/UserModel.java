@@ -1,16 +1,26 @@
 package com.newland.karaoke.model;
 
+import com.newland.karaoke.database.KTVUserInfo;
 import com.newland.karaoke.database.KTVUserLogin;
 
 import java.util.Date;
 
 public class UserModel {
     private int id ;
-    private KTVUserLogin user_id;
     private String user_name;
     private String identity_card_no;
     private String mobile_phone;
     private String user_email;
+    private String user_photo;
+
+    public UserModel(KTVUserInfo userInfo){
+        id=userInfo.getId();
+        user_name=userInfo.getUser_name();
+        identity_card_no=userInfo.getIdentity_card_no();
+        mobile_phone=userInfo.getMobile_phone();
+        user_email=userInfo.getUser_email();
+        user_photo=userInfo.getUser_photo();
+    }
 
     public int getId() {
         return id;
@@ -18,14 +28,6 @@ public class UserModel {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public KTVUserLogin getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(KTVUserLogin user_id) {
-        this.user_id = user_id;
     }
 
     public String getUser_name() {
@@ -58,5 +60,13 @@ public class UserModel {
 
     public void setUser_email(String user_email) {
         this.user_email = user_email;
+    }
+
+    public String getUser_photo() {
+        return user_photo;
+    }
+
+    public void setUser_photo(String user_photo) {
+        this.user_photo = user_photo;
     }
 }

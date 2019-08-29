@@ -403,4 +403,6 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
         }
     }
 
+
+
 }

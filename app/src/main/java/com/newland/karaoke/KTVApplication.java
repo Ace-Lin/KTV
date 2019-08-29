@@ -10,20 +10,35 @@ import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.database.KTVUserInfo;
 import com.newland.karaoke.database.KTVUserLogin;
+import com.newland.karaoke.model.UserModel;
+import com.newland.karaoke.utils.FileUtils;
 
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.os.Handler;
 
 public class KTVApplication extends Application {
     private static Context context;
+    private static UserModel currentUser;
+    private static boolean isLogin;
+    private static Handler mainHandler=null;
+
+    public static Handler getmHandler() {
+        return mainHandler;
+    }
+
+    public static void setmHandler(Handler handler) {
+        mainHandler = handler;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
         context=getApplicationContext();
         LitePal.initialize(this);
+        FileUtils.createDir(getExternalFilesDir("/Picture").getPath());
         CreateDatabase();
     }
     public static Context getContext(){
@@ -37,15 +52,18 @@ public class KTVApplication extends Application {
             LitePal.deleteAll(KTVUserLogin.class);
             LitePal.deleteAll(KTVUserInfo.class);
 
+
+
+            KTVUserInfo user_info=new KTVUserInfo();
+            user_info.setIdentity_card_no("1234");
+            user_info.setUser_email("747848014@qq.com");
+            user_info.save();
+
             KTVUserLogin user_login=new KTVUserLogin();
             user_login.setUser_account("15880168030");
             user_login.setUser_password("123456");
+            user_login.setUser_info(user_info);
             user_login.save();
-
-            KTVUserInfo user_info=new KTVUserInfo();
-            user_info.setUser_id(user_login);
-            user_info.setIdentity_card_no("1234");
-            user_info.save();
 
             //添加房间信息
             KTVRoomInfo ktvRoomInfo1=new KTVRoomInfo();
@@ -98,6 +116,49 @@ public class KTVApplication extends Application {
             ktvProduct4.setProduct(new ArrayList<KTVOrderProduct>());
             ktvProduct4.save();
 
+            //增加用户
+            KTVUserInfo userInfo=new KTVUserInfo();
+            userInfo.setIdentity_card_no("123432435");
+            userInfo.setMobile_phone("15059115150");
+            userInfo.setUser_photo("none");
+            userInfo.setUser_name("yiyi");
+            userInfo.save();
 
+            KTVUserLogin userLogin=new KTVUserLogin();
+            userLogin.setUser_info(userInfo);
+            userLogin.setUser_account("yi");
+            userLogin.setUser_password("12345");
+            userLogin.save();
+
+
+    }
+
+        public static UserModel getCurrentUser() {
+                return currentUser;
+        }
+
+        public static void setCurrentUser(UserModel user) {
+                currentUser = user;
+        }
+
+        public static void setCurrentUserByUser(KTVUserInfo user_info) {
+            currentUser=new UserModel(user_info);
+        }
+
+    public static boolean isLogin() {
+        return isLogin;
+    }
+    public static void setIsLogin(boolean isLogin) {
+        KTVApplication.isLogin = isLogin;
+    }
+
+    public static void UpdateUserInfo(){
+        KTVUserInfo user=new KTVUserInfo();
+        user.setUser_photo(currentUser.getUser_photo());
+        user.setMobile_phone(currentUser.getMobile_phone());
+        user.setIdentity_card_no(currentUser.getIdentity_card_no());
+        user.setUser_name(currentUser.getUser_name());
+        user.setUser_email(currentUser.getUser_email());
+        user.updateAll("id=?",String.valueOf(currentUser.getId()));
     }
 }
