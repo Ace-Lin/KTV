@@ -57,7 +57,7 @@ public class DetailsListActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar, menu);
+        getMenuInflater().inflate(R.menu.add_toolbar, menu);
         return true;
     }
 

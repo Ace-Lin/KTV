@@ -9,6 +9,7 @@ import java.util.List;
 
 public class KTVOrderInfo extends LitePalSupport {
     private int id;
+    private String order_number;//交易单流水号
     private KTVRoomInfo room_id;
     private Date order_start_time;
     private Date order_end_time;
@@ -25,9 +26,15 @@ public class KTVOrderInfo extends LitePalSupport {
         this.id = id;
     }
 
-    public KTVRoomInfo getRoom_id() {
+
+    public KTVRoomInfo getRoom(){
         return room_id;
     }
+
+    public KTVRoomInfo getRoom_id(){
+           return LitePal.find(KTVOrderInfo.class,getId(),true).getRoom();
+    }
+
 
     public void setRoom_id(KTVRoomInfo room_id) {
         this.room_id = room_id;
@@ -63,6 +70,14 @@ public class KTVOrderInfo extends LitePalSupport {
 
     public void setProductList(List<KTVOrderProduct> productList) {
         this.productList = productList;
+    }
+
+    public String getOrder_number() {
+        return order_number;
+    }
+
+    public void setOrder_number(String order_number) {
+        this.order_number = order_number;
     }
 
     public int getOrder_pay_type() {

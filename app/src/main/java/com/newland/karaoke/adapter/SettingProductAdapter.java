@@ -43,7 +43,9 @@ public class SettingProductAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        KTVProduct ktvProduct = productsDatas.get(i);
         ViewHolder viewHolder;
+
         if(view == null){
             view = LayoutInflater.from(mContext).inflate(R.layout.product_item,viewGroup,false);
             viewHolder = new ViewHolder();
@@ -55,10 +57,11 @@ public class SettingProductAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.txt_product_name.setText(productsDatas.get(i).getProduct_name());
-        viewHolder.txt_product_picture.setImageBitmap(getPirBitMap(productsDatas.get(i).getProduct_picture()));
-        viewHolder.txt_product_count.setText(String.valueOf(productsDatas.get(i).getProduct_count()));
-        viewHolder.txt_product_price.setText(String.valueOf(productsDatas.get(i).getProduct_price()));
+
+        viewHolder.txt_product_name.setText(ktvProduct.getProduct_name());
+        viewHolder.txt_product_picture.setImageBitmap(getPirBitMap(ktvProduct.getProduct_picture()));
+        viewHolder.txt_product_count.setText(String.valueOf(ktvProduct.getProduct_count()));
+        viewHolder.txt_product_price.setText(String.valueOf(ktvProduct.getProduct_price()));
         return view;
     }
 

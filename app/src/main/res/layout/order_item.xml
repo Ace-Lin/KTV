@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    >
+
+
+    <ImageView
+        android:id="@+id/order_item_picture"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/small_ktv"/>
+
+    <TextView
+        android:id="@+id/order_item_name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="商品名字"
+        android:textSize="20dp"
+        android:textColor="@android:color/black"
+        />
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/order_item_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dollar"
+            android:textSize="20dp"
+            android:textColor="@android:color/black"
+            />
+
+        <TextView
+            android:id="@+id/order_item_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>

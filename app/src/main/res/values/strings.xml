@@ -26,7 +26,7 @@
     <string name="product_picture">Product Picture</string>
 
     <!-- TODO: 列表信息 text -->
-    <string name="show_name"> No </string>
+    <string name="show_name"> No. </string>
     <string name="show_pduduct_name"> Name </string>
     <string name="show_type"> Type</string>
     <string name="show_count"> Count</string>
@@ -52,5 +52,21 @@
     <string name="dialog_btn_confirm_text">OK</string>
     <string name="dialog_btn_camera_text">Camera</string>
     <string name="dialog_btn_gallery_text">Album</string>
+
+    <!-- TODO: 历史订单信息 text -->
+    <string name="order_history">Order History</string>
+    <string name="order_detail">Order Detail</string>
+    <string name="order_turnover">Turnover: $   </string>
+    <string name="order_room_no">Room No.:   </string>
+    <string name="order_product_count">Products:    </string>
+    <string name="order_amount">Amount: $   </string>
+
+    <!-- TODO: 详细订单信息 text -->
+    <string name="detail_order_number">Order Number :</string>
+    <string name="detail_pay_type">Pay Type :</string>
+    <string name="detail_order_time">Order Time :</string>
+    <string name="detail_pay_time">Pay Time :</string>
+    <string name="dollar"> $ </string>
+    <string name="detail_count"> X </string>
 
 </resources>

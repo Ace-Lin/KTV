@@ -12,6 +12,8 @@ import com.newland.karaoke.database.KTVRoomInfo;
 
 import java.util.List;
 
+import static com.newland.karaoke.utils.Utility.getRoomType;
+
 public class SettingRoomAdapter extends BaseAdapter {
 
     private List<KTVRoomInfo> roomDatas;
@@ -39,7 +41,9 @@ public class SettingRoomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+        KTVRoomInfo ktvRoomInfo = roomDatas.get(i);
         ViewHolder viewHolder;
+
         if(view == null){
             view = LayoutInflater.from(mContext).inflate(R.layout.room_item,viewGroup,false);
             viewHolder = new ViewHolder();
@@ -50,9 +54,10 @@ public class SettingRoomAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.txt_room_name.setText(roomDatas.get(i).getRoom_name());
-        viewHolder.txt_room_type.setText(JudgeType(roomDatas.get(i).getRoom_type()));
-        viewHolder.txt_room_price.setText(String.valueOf(roomDatas.get(i).getRoom_price()));
+
+        viewHolder.txt_room_name.setText(ktvRoomInfo.getRoom_name());
+        viewHolder.txt_room_type.setText(getRoomType(ktvRoomInfo.getRoom_type()));
+        viewHolder.txt_room_price.setText(String.valueOf(ktvRoomInfo.getRoom_price()));
         return view;
     }
 
@@ -62,29 +67,6 @@ public class SettingRoomAdapter extends BaseAdapter {
         TextView txt_room_price;
     }
 
-    /**
-     * 判断房间类型返回字符串
-     * @param type
-     * @return
-     */
-    private  String JudgeType(int type)
-    {
-        String str=null;
-        switch (type)
-        {
-            case 0:
-                str="Big";
-                break;
-            case 1:
-                str="Middle";
-                break;
-            case 2:
-                str="Small";
-                break;
-                default:
-        }
 
-        return str;
-    }
 
 }

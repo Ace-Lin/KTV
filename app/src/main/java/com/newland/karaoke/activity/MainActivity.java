@@ -14,13 +14,20 @@ import android.widget.Toast;
 import com.newland.karaoke.KTVApplication;
 import com.newland.karaoke.R;
 import com.newland.karaoke.constant.KTVType;
+import com.newland.karaoke.database.KTVOrderInfo;
+import com.newland.karaoke.database.KTVOrderProduct;
+import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.database.KTVUserInfo;
 import com.newland.karaoke.database.KTVUserLogin;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import static com.newland.karaoke.utils.Utility.getNoFormatDate;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     //主界面四个按钮
@@ -37,6 +44,7 @@ private ImageButton shift;
         initUI();
         //CreateDatabase();
         SearchData();
+       // addOrder();
     }
 
     void initUI(){
@@ -107,6 +115,94 @@ private ImageButton shift;
 //        }
 
     }
+
+    /**
+     * 测试添加订单信息
+     */
+    private void addOrder()
+    {
+        //LitePal.deleteAll(KTVOrderInfo.class);
+        List<KTVRoomInfo> ktvRoomInfos =LitePal.findAll(KTVRoomInfo.class);
+        List<KTVProduct> ktvProducts = LitePal.findAll(KTVProduct.class);
+        
+        KTVOrderProduct ktvOrderProduct =new KTVOrderProduct();
+        ktvOrderProduct.setProduct(ktvProducts.get(0));
+        ktvOrderProduct.setProduct_quantity(5);
+        ktvOrderProduct.save();
+
+        KTVOrderProduct ktvOrderProduct1 =new KTVOrderProduct();
+        ktvOrderProduct1.setProduct(ktvProducts.get(1));
+        ktvOrderProduct1.setProduct_quantity(5);
+        ktvOrderProduct1.save();
+
+        KTVOrderProduct ktvOrderProduct2 =new KTVOrderProduct();
+        ktvOrderProduct2.setProduct(ktvProducts.get(0));
+        ktvOrderProduct2.setProduct_quantity(5);
+        ktvOrderProduct2.save();
+
+        KTVOrderProduct ktvOrderProduct3 =new KTVOrderProduct();
+        ktvOrderProduct3.setProduct(ktvProducts.get(0));
+        ktvOrderProduct3.setProduct_quantity(5);
+        ktvOrderProduct3.save();
+
+        KTVOrderProduct ktvOrderProduct4 =new KTVOrderProduct();
+        ktvOrderProduct4.setProduct(ktvProducts.get(0));
+        ktvOrderProduct4.setProduct_quantity(5);
+        ktvOrderProduct4.save();
+
+        KTVOrderProduct ktvOrderProduct5 =new KTVOrderProduct();
+        ktvOrderProduct5.setProduct(ktvProducts.get(0));
+        ktvOrderProduct5.setProduct_quantity(5);
+        ktvOrderProduct5.save();
+        
+        List<KTVOrderProduct> ktvOrderProducts =new ArrayList<>();
+        ktvOrderProducts.add(ktvOrderProduct);
+        
+        List<KTVOrderProduct> ktvOrderProducts1 =new ArrayList<>();
+        ktvOrderProducts1.add(ktvOrderProduct1);
+        ktvOrderProducts1.add(ktvOrderProduct2);
+        
+        List<KTVOrderProduct> ktvOrderProducts2 =new ArrayList<>();
+        ktvOrderProducts2.add(ktvOrderProduct3);
+        ktvOrderProducts2.add(ktvOrderProduct4);
+        ktvOrderProducts2.add(ktvOrderProduct5);
+
+
+        KTVOrderInfo ktvOrderInfo = new KTVOrderInfo();
+        ktvOrderInfo.setOrder_start_time(new Date());
+        ktvOrderInfo.setOrder_end_time(new Date());
+        ktvOrderInfo.setOrder_number(getNoFormatDate(new Date()));
+        ktvOrderInfo.setRoom_id(ktvRoomInfos.get(0));
+        ktvOrderInfo.setProductList(ktvOrderProducts);
+        ktvOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
+        ktvOrderInfo.setPay_amount(800.00);
+        ktvOrderInfo.save();
+
+
+        KTVOrderInfo ktvOrderInfo1 = new KTVOrderInfo();
+        ktvOrderInfo1.setOrder_start_time(new Date());
+        ktvOrderInfo1.setOrder_end_time(new Date());
+        ktvOrderInfo1.setOrder_number(getNoFormatDate(new Date()));
+        ktvOrderInfo1.setRoom_id(ktvRoomInfos.get(1));
+        ktvOrderInfo1.setProductList(ktvOrderProducts1);
+        ktvOrderInfo1.setOrder_status(KTVType.OrderStatus.PAID);
+        ktvOrderInfo1.setPay_amount(900.00);
+        ktvOrderInfo1.save();
+
+
+        KTVOrderInfo ktvOrderInfo2 = new KTVOrderInfo();
+        ktvOrderInfo2.setOrder_start_time(new Date());
+        ktvOrderInfo2.setOrder_end_time(new Date());
+        ktvOrderInfo2.setOrder_number(getNoFormatDate(new Date()));
+        ktvOrderInfo2.setRoom_id(ktvRoomInfos.get(2));
+        ktvOrderInfo2.setProductList(ktvOrderProducts2);
+        ktvOrderInfo2.setOrder_status(KTVType.OrderStatus.PAID);
+        ktvOrderInfo2.setPay_amount(1200.00);
+        ktvOrderInfo2.save();
+
+    }
+
+
 
     @Override
     public void onClick(View view) {
