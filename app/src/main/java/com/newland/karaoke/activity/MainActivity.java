@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -89,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CircleImageView mHeadImage;//头像
     private Handler handler;
 
+    //测试用按钮，开发结束删除
+    private Button btn_load_datebase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,25 +136,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //设置圆形头像
         SetPhotoByUser();
 
+        //开发结束删除
+        btn_load_datebase=(Button)findViewById(R.id.btn_load_database);
+        btn_load_datebase.setOnClickListener(this);
+
     }
     private void SetPhotoByUser(){
         if(KTVApplication.getCurrentUser()==null){
-            Picasso.with(this).load(R.drawable.default_avatar)
+            Picasso.get().load(R.drawable.default_avatar)
                     .error(R.drawable.default_avatar)
-                    .memoryPolicy(MemoryPolicy.NO_CACHE)
-                    .networkPolicy(NetworkPolicy.NO_CACHE)
                     .into(mHeadImage);
             return;
         }
         String url=KTVApplication.getCurrentUser().getUser_photo();
-        if(url.length()<1)
+        if(url==null||url.length()<1)
             return;
+//        try {
+//            FileInputStream fileInputStream=new FileInputStream(url);
+//            Bitmap bitmap=BitmapFactory.decodeStream(fileInputStream);
+//            mHeadImage.setImageBitmap(bitmap);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
-        Picasso.with(this).load(url)
+        Picasso.get().load("file://"+url)
                 .placeholder(R.drawable.default_avatar)
                 .error(R.drawable.default_avatar)
-                .memoryPolicy(MemoryPolicy.NO_CACHE)
-                .networkPolicy(NetworkPolicy.NO_CACHE)
                 .into(mHeadImage);
     }
     private void initEvent(){
@@ -168,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // 点击的是headerView或者footerView
                     return;
                 }
+
                 int realPosition=(int)id;
                 LeftContentModel item=adapter.getItem(realPosition);
                 // 响应代码
@@ -177,12 +189,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startActivity(login);
                         break;
                     case KTVType.MineType.PERSONAL_INFO:
-                        startActivity(new Intent(MainActivity.this,PersonInfoActivity.class));
+                        if(KTVApplication.getCurrentUser()==null){
+                            Toast.makeText(KTVApplication.getContext(),"Please Login!",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        startActivity(new Intent(MainActivity.this, PersonInfoActivity.class));
                         break;
                     case KTVType.MineType.SET_PWD:
+                        if(KTVApplication.getCurrentUser()==null){
+                            Toast.makeText(KTVApplication.getContext(),"Please Login!",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         startActivity(new Intent(MainActivity.this,ChangePwdActivity.class));
                         break;
                     case KTVType.MineType.LOG_OUT:
+                        if(KTVApplication.getCurrentUser()==null){
+                            Toast.makeText(KTVApplication.getContext(),"Please Login!",Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         KTVApplication.setCurrentUser(null);
                         KTVApplication.setIsLogin(false);
                         tv_main_username.setVisibility(View.GONE);
@@ -205,12 +229,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             //打开菜单栏后触发的方法
             @Override
             public void onDrawerOpened(View view) {
-                Toast.makeText(MainActivity.this, "打开了侧边栏" , Toast.LENGTH_SHORT).show();
+               // Toast.makeText(MainActivity.this, "打开了侧边栏" , Toast.LENGTH_SHORT).show();
             }
             //关闭菜单栏后触发的方法
             @Override
             public void onDrawerClosed(View view) {
-                Toast.makeText(MainActivity.this, "关闭了侧边栏" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "关闭了侧边栏" , Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -310,6 +334,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent_tansaction=new Intent(MainActivity.this,TransactionActivity.class);
                 startActivity(intent_tansaction);
                 break;
+            case R.id.btn_load_database:
+                KTVApplication.CreateDatabase();
+                Toast.makeText(this,"Loaded Database Successfully!",Toast.LENGTH_SHORT).show();
+                break;
             default:
                 break;
         }
@@ -382,7 +410,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //camera();
             }else{
                 //如果没有授权的话，可以给用户一个友好提示
-                Toast.makeText(MainActivity.this, "用户拒绝了拍照权限", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "User Refused!", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -397,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         } else if (requestCode == PHOTO_REQUEST_CAMERA) {
             if (hasSdcard()) {
-                tempFile = new File(getExternalFilesDir(null), PHOTO_FILE_NAME);
+                //tempFile = new File(getExternalFilesDir(null), PHOTO_FILE_NAME);
                 crop(imgUri);
             } else {
                 //"未找到存储卡，无法存储照片！"
@@ -411,8 +439,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 saveImage(bitmap);
                 //SetImageByURL(pathPicture);
                 isHave = true;
-                boolean delete = tempFile.delete();
-                System.out.println("delete = " + delete);
+                //boolean delete = tempFile.delete();
+                //System.out.println("delete = " + delete);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -486,12 +514,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
         }
-        pathPicture = file.getPath();//获取图片保存路径
+        pathPicture = file.getAbsolutePath();//获取图片保存路径
         if(KTVApplication.isLogin()){
             KTVApplication.getCurrentUser().setUser_photo(pathPicture);
             KTVApplication.UpdateUserInfo();
         }
 
+
     }
 
+    private long firstTime = 0;
+    @Override
+    public void onBackPressed() {
+        long secondTime = System.currentTimeMillis();
+        if (secondTime - firstTime > 2000) {
+            Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            firstTime = secondTime;
+        } else {
+            System.exit(0);
+        }
+    }
 }

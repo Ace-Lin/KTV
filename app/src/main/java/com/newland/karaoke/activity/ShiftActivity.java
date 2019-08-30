@@ -104,18 +104,18 @@ public class ShiftActivity extends AppCompatActivity implements View.OnClickList
         //用户认证
 
         KTVUserLogin user= LitePal.where("user_account=? and user_password=?",username,password)
-                            .findLast(KTVUserLogin.class,true);
+                            .findFirst(KTVUserLogin.class,true);
         if(user==null){
             Toast.makeText(this,"Username Or Password Error!",Toast.LENGTH_SHORT).show();
             return;
         }
         KTVUserInfo userInfo=user.getUser_info();
-        KTVApplication.setCurrentUserByUser(userInfo);
+        KTVApplication.setCurrentUserByUser(userInfo,user.getId());
         KTVApplication.setIsLogin(true);
         Message msg=new Message();
         msg.what= KTVType.MsgType.UPDATE_IMG;
-        shiftHandler.sendMessage(msg);
         KTVApplication.setIsLogin(true);
+        shiftHandler.sendMessage(msg);
         startActivity(new Intent(ShiftActivity.this,MainActivity.class));
         finish();
     }

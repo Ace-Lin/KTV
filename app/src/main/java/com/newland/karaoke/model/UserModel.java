@@ -12,14 +12,21 @@ public class UserModel {
     private String mobile_phone;
     private String user_email;
     private String user_photo;
+    private int user_acount_id=-1;
+    public int getUser_acount_id() {
+        return user_acount_id;
+    }
 
-    public UserModel(KTVUserInfo userInfo){
+
+
+    public UserModel(KTVUserInfo userInfo,int user_acount_id){
         id=userInfo.getId();
         user_name=userInfo.getUser_name();
         identity_card_no=userInfo.getIdentity_card_no();
         mobile_phone=userInfo.getMobile_phone();
         user_email=userInfo.getUser_email();
         user_photo=userInfo.getUser_photo();
+        this.user_acount_id=user_acount_id;
     }
 
     public int getId() {

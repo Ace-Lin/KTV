@@ -39,20 +39,18 @@ public class KTVApplication extends Application {
         context=getApplicationContext();
         LitePal.initialize(this);
         FileUtils.createDir(getExternalFilesDir("/Picture").getPath());
-        CreateDatabase();
+        //CreateDatabase();
     }
     public static Context getContext(){
          return context;
     }
 
     //调试：初始化数据库
-    public void CreateDatabase(){
+    public static void CreateDatabase(){
 
             SQLiteDatabase db= LitePal.getDatabase();
             LitePal.deleteAll(KTVUserLogin.class);
             LitePal.deleteAll(KTVUserInfo.class);
-
-
 
             KTVUserInfo user_info=new KTVUserInfo();
             user_info.setIdentity_card_no("1234");
@@ -120,7 +118,7 @@ public class KTVApplication extends Application {
             KTVUserInfo userInfo=new KTVUserInfo();
             userInfo.setIdentity_card_no("123432435");
             userInfo.setMobile_phone("15059115150");
-            userInfo.setUser_photo("none");
+            userInfo.setUser_photo("");
             userInfo.setUser_name("yiyi");
             userInfo.save();
 
@@ -129,8 +127,6 @@ public class KTVApplication extends Application {
             userLogin.setUser_account("yi");
             userLogin.setUser_password("12345");
             userLogin.save();
-
-
     }
 
         public static UserModel getCurrentUser() {
@@ -141,8 +137,8 @@ public class KTVApplication extends Application {
                 currentUser = user;
         }
 
-        public static void setCurrentUserByUser(KTVUserInfo user_info) {
-            currentUser=new UserModel(user_info);
+        public static void setCurrentUserByUser(KTVUserInfo user_info,int id) {
+            currentUser=new UserModel(user_info,id);
         }
 
     public static boolean isLogin() {
