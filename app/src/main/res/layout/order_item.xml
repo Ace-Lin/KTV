@@ -17,7 +17,7 @@
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="20dp"
         android:text="商品名字"
         android:textSize="20dp"
         android:textColor="@android:color/black"

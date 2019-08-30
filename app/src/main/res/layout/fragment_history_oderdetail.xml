@@ -5,76 +5,56 @@
 
     <include layout="@layout/setting_toolbar"/>
 
-    <include layout="@layout/room_detail_item"
-        >
-
-    </include>
-
-
-
-    <!--商品订单-->
-
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/detail_scrollview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/shape_circle_white"
-        >
-
-         <!---商品列表-->
-        <ListView
-            android:id="@+id/detail_product_listview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
-        </ListView>
-
-        <!--付款-->
-        <TextView
-            android:id="@+id/detail_order_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/order_amount"
-            android:textColor="@color/coloryellow"
-            android:textSize="20dp"
-            android:layout_gravity="right"
-            />
-
-    </LinearLayout>
-
-    <!--底部信息-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        android:background="@drawable/shape_circle_white"
-        >
-    <RelativeLayout
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:layout_width="wrap_content"
+     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/room_detail_item"/>
+
+        <!--商品订单-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/shape_circle_white"
+            >
+
+             <!---商品列表-->
+            <com.newland.karaoke.view.ScollViewListView
+                android:id="@+id/detail_product_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+            </com.newland.karaoke.view.ScollViewListView>
+
+            <!--付款-->
+            <TextView
+                android:id="@+id/detail_order_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/order_amount"
+                android:textColor="@color/coloryellow"
+                android:textSize="20dp"
+                android:layout_gravity="right"
+                />
+
+        </LinearLayout>
+
+        <!--底部信息-->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textSize="20dp"
-            android:text="@string/detail_order_number"
-            />
-
-        <TextView
-            android:id="@+id/detail_order_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:textSize="20dp"
-            android:layout_alignParentRight="true"
-            android:text="@string/detail_order_number"
-            />
-
-    </RelativeLayout>
-
+            android:orientation="vertical"
+            android:background="@drawable/shape_circle_white"
+            >
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -84,68 +64,100 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="20dp"
-                android:text="@string/detail_pay_type"
+                android:text="@string/detail_order_number"
                 />
 
             <TextView
-                android:id="@+id/detail_pay_type"
+                android:id="@+id/detail_order_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="20dp"
                 android:layout_alignParentRight="true"
-                android:text="@string/detail_pay_type"
+                android:text="@string/detail_order_number"
+                android:textColor="@android:color/black"
                 />
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:text="@string/detail_order_time"
-                />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/detail_order_time"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp"
+                    android:text="@string/detail_pay_type"
+                    />
+
+                <TextView
+                    android:id="@+id/detail_pay_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/detail_pay_type"
+                    android:textColor="@android:color/black"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:layout_alignParentRight="true"
-                android:text="@string/detail_order_time"
-                />
+                android:layout_height="wrap_content">
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp"
+                    android:text="@string/detail_order_time"
+                    />
+
+                <TextView
+                    android:id="@+id/detail_order_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/detail_order_time"
+                    android:textColor="@android:color/black"
+                    />
+
+            </RelativeLayout>
 
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:text="@string/detail_pay_time"
-                />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/detail_pay_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:layout_alignParentRight="true"
-                android:text="@string/detail_pay_time"
-                />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp"
+                    android:text="@string/detail_pay_time"
+                    />
 
-        </RelativeLayout>
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/detail_pay_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="20dp"
+                    android:layout_alignParentRight="true"
+                    android:text="@string/detail_pay_time"
+                    android:textColor="@android:color/black"
+                    />
+
+            </RelativeLayout>
+            </LinearLayout>
+
+       </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

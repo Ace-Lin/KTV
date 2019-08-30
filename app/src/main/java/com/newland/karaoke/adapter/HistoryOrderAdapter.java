@@ -9,11 +9,10 @@ import android.widget.TextView;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.database.KTVOrderInfo;
-import com.newland.karaoke.database.KTVRoomInfo;
 
 import java.util.List;
 
-import static com.newland.karaoke.utils.Utility.getSimpleDate;
+import static com.newland.karaoke.utils.DateUtil.getSimpleDate;
 
 public class HistoryOrderAdapter extends BaseAdapter {
 

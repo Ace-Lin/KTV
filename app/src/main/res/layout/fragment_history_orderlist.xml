@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:minHeight="0dp"
-            android:text="2019-8"
+            android:text="2019-8-29"
             android:textSize="18dp"
             android:drawableRight="@drawable/down_arrow"
             android:layout_alignParentLeft="true"

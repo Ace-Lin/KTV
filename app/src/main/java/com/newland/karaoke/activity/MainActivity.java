@@ -1,17 +1,14 @@
 package com.newland.karaoke.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
-import com.newland.karaoke.KTVApplication;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.newland.karaoke.R;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVOrderInfo;
@@ -27,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.newland.karaoke.utils.Utility.getNoFormatDate;
+import static com.newland.karaoke.utils.DateUtil.getNoFormatDate;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     //主界面四个按钮
@@ -163,31 +160,33 @@ private ImageButton shift;
         ktvOrderProducts1.add(ktvOrderProduct2);
         
         List<KTVOrderProduct> ktvOrderProducts2 =new ArrayList<>();
+        ktvOrderProducts2.add(ktvOrderProduct1);
+        ktvOrderProducts2.add(ktvOrderProduct2);
         ktvOrderProducts2.add(ktvOrderProduct3);
         ktvOrderProducts2.add(ktvOrderProduct4);
         ktvOrderProducts2.add(ktvOrderProduct5);
 
 
-        KTVOrderInfo ktvOrderInfo = new KTVOrderInfo();
-        ktvOrderInfo.setOrder_start_time(new Date());
-        ktvOrderInfo.setOrder_end_time(new Date());
-        ktvOrderInfo.setOrder_number(getNoFormatDate(new Date()));
-        ktvOrderInfo.setRoom_id(ktvRoomInfos.get(0));
-        ktvOrderInfo.setProductList(ktvOrderProducts);
-        ktvOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
-        ktvOrderInfo.setPay_amount(800.00);
-        ktvOrderInfo.save();
-
-
-        KTVOrderInfo ktvOrderInfo1 = new KTVOrderInfo();
-        ktvOrderInfo1.setOrder_start_time(new Date());
-        ktvOrderInfo1.setOrder_end_time(new Date());
-        ktvOrderInfo1.setOrder_number(getNoFormatDate(new Date()));
-        ktvOrderInfo1.setRoom_id(ktvRoomInfos.get(1));
-        ktvOrderInfo1.setProductList(ktvOrderProducts1);
-        ktvOrderInfo1.setOrder_status(KTVType.OrderStatus.PAID);
-        ktvOrderInfo1.setPay_amount(900.00);
-        ktvOrderInfo1.save();
+//        KTVOrderInfo ktvOrderInfo = new KTVOrderInfo();
+//        ktvOrderInfo.setOrder_start_time(new Date());
+//        ktvOrderInfo.setOrder_end_time(new Date());
+//        ktvOrderInfo.setOrder_number(getNoFormatDate(new Date()));
+//        ktvOrderInfo.setRoom_id(ktvRoomInfos.get(0));
+//        ktvOrderInfo.setProductList(ktvOrderProducts);
+//        ktvOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
+//        ktvOrderInfo.setPay_amount(800.00);
+//        ktvOrderInfo.save();
+//
+//
+//        KTVOrderInfo ktvOrderInfo1 = new KTVOrderInfo();
+//        ktvOrderInfo1.setOrder_start_time(new Date());
+//        ktvOrderInfo1.setOrder_end_time(new Date());
+//        ktvOrderInfo1.setOrder_number(getNoFormatDate(new Date()));
+//        ktvOrderInfo1.setRoom_id(ktvRoomInfos.get(1));
+//        ktvOrderInfo1.setProductList(ktvOrderProducts1);
+//        ktvOrderInfo1.setOrder_status(KTVType.OrderStatus.PAID);
+//        ktvOrderInfo1.setPay_amount(900.00);
+//        ktvOrderInfo1.save();
 
 
         KTVOrderInfo ktvOrderInfo2 = new KTVOrderInfo();
@@ -222,7 +221,7 @@ private ImageButton shift;
                 startActivity(intent_settings);
                 break;
             case R.id.bt_transactions:
-                Intent intent_shift=new Intent(MainActivity.this,TransactionActivity.class);
+                Intent intent_shift=new Intent(MainActivity.this, TransactionActivity.class);
                 startActivity(intent_shift);
                 break;
             default:

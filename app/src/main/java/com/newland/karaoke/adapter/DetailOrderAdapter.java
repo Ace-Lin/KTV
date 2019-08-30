@@ -1,7 +1,6 @@
 package com.newland.karaoke.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import com.newland.karaoke.database.KTVProduct;
 import java.util.List;
 
 import static com.newland.karaoke.utils.Utility.getPirBitMap;
-import static com.newland.karaoke.utils.Utility.getSimpleDate;
 
 public class DetailOrderAdapter extends BaseAdapter {
 

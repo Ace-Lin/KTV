@@ -35,6 +35,9 @@ public class BaseFragment extends Fragment {
         mAppCompatActivity=(AppCompatActivity)mActivity;
    }
 
+    /**
+     * 显示toolbar和title
+     */
     public void initBaseView(View view,int id,String title)
     {
         commonToolBar = (Toolbar)view.findViewById(id);

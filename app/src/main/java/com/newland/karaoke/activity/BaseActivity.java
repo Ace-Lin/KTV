@@ -25,7 +25,9 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     private Toolbar commonToolBar;
 
-
+    /**
+     * 输入toolbar的id,和文本内容
+     */
    public void initBaseView(int id)
    {
        commonToolBar =  (Toolbar)findViewById(id);
