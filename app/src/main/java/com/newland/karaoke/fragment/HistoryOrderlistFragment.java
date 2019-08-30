@@ -4,16 +4,23 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.TextView;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.activity.TransactionActivity;
@@ -24,6 +31,7 @@ import com.newland.karaoke.database.KTVOrderInfo;
 import org.litepal.LitePal;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -39,25 +47,36 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
     private List<KTVOrderInfo> ktvOrderInfoList;
     private  HistoryOrderAdapter historyAdapter;
 
+
     private  Calendar currentDate;//当前日期
     private int currentYear;
     private int currentMonth;
     private int currentDay;
 
-    //region Description
+    //region UI变量
     private TextView txt_turnover;//总营业额
     private ListView list_history;
     private Button btn_searchTime;
-
     //endregion
 
-    public HistoryOrderlistFragment() {
-        // Required empty public constructor
-    }
+
+
+    public HistoryOrderlistFragment() {    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     @Override
@@ -79,10 +98,11 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search_toolbar, menu);
-        super.onCreateOptionsMenu(menu,inflater);
+         super.onCreateOptionsMenu(menu,inflater);
 
     }
 
+    //region UI数据处理
     /**
      * 初始化获取UI数据
      */
@@ -94,7 +114,7 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
         list_history = (ListView)view.findViewById(R.id.history_listview);
         currentDate = Calendar.getInstance();
         currentYear = currentDate.get(Calendar.YEAR);
-        currentMonth = currentDate.get(Calendar.MONTH) + 1;//数从0开始,需要加1
+        currentMonth = currentDate.get(Calendar.MONTH)+1;//数从0开始,需要加1
         currentDay = currentDate.get(Calendar.DAY_OF_MONTH);
     }
 
@@ -111,8 +131,10 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
         list_history.setAdapter(historyAdapter);
         list_history.setOnItemClickListener(this);
 
-        btn_searchTime.setText(String.format("%d-%d-%d",currentDay-1,currentMonth,currentYear));
+        btn_searchTime.setText(String.format("%d-%d-%d",currentDay,currentMonth,currentYear));
         txt_turnover.setText(getCurrTurnover(ktvOrderInfoList));
+
+
     }
 
 
@@ -126,24 +148,14 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
                 String.valueOf(KTVType.OrderStatus.PAID), getCurrentDayBegin(currentDate),getCurrentDayEnd(currentDate)).find(KTVOrderInfo.class));
         historyAdapter.notifyDataSetChanged();
 
-        txt_turnover.setText(getCurrTurnover(ktvOrderInfoList));
         btn_searchTime.setText(currentDay+"-"+currentMonth+"-"+currentYear);
+        txt_turnover.setText(getCurrTurnover(ktvOrderInfoList));
     }
 
 
+    //endregion
 
-
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
+    //region 点击事件处理
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -155,8 +167,9 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
         if (view.getId()==R.id.btn_order_time)
             setSearchDate();
     }
+    //endregion
 
-
+    //region 时间选择处理
     //获取查询时间
     private void setSearchDate(){
 
@@ -166,7 +179,7 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
                 setCurrentDate(dayOfMonth,monthOfYear,year);
                 updateUIdata();
             }
-        },currentYear,currentMonth,currentDay);
+        },currentYear,currentMonth-1,currentDay);
         dp.show();
     }
 
@@ -175,13 +188,14 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
      */
     private  void setCurrentDate(int day,int month, int year)
     {
-        currentDate.set(Calendar. YEAR, year);
-        currentDate.set(Calendar. MONTH,  month-1);
-        currentDate.set(Calendar. DAY_OF_MONTH , day);
+        currentDate.set(Calendar.YEAR, year);
+        currentDate.set(Calendar.MONTH, month);
+        currentDate.set(Calendar.DAY_OF_MONTH , day);
         currentYear = year;
-        currentMonth = month;
+        currentMonth = month+1;
         currentDay = day;
     }
+    //endregion
 
     /**
      * 返回当前营业额
