@@ -69,4 +69,7 @@
     <string name="dollar"> $ </string>
     <string name="detail_count"> X </string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="no_record">There is no record of this transaction.</string>
+
 </resources>

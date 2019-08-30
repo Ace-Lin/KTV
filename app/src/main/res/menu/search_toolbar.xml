@@ -4,7 +4,7 @@
 
     <!--永远显示在(菜单)中-->
     <item
-        android:id="@+id/histody_search"
+        android:id="@+id/history_search"
         android:icon="@mipmap/icon_search"
         android:title="search"
         app:showAsAction="always"
