@@ -47,7 +47,7 @@
     <string name="tips_add_success">  Added Successfully</string>
 
     <!-- TODO:添加对话框提示信息 text -->
-    <string name="dialog_title_add"> Are you sure to exit Add?</string>
+    <string name="dialog_title_edit"> Are you sure to exit editing?</string>
     <string name="dialog_btn_cancel_text">Cancel</string>
     <string name="dialog_btn_confirm_text">OK</string>
     <string name="dialog_btn_camera_text">Camera</string>
@@ -69,7 +69,9 @@
     <string name="dollar"> $ </string>
     <string name="detail_count"> X </string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO:搜索信息 text -->
     <string name="no_record">There is no record of this transaction.</string>
+    <string name="search_btn_content">"Search"</string>
+    <string name="search_tip_enter">Please enter the  order number</string>
 
 </resources>

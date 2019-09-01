@@ -8,9 +8,13 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.fragment.app.Fragment;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.activity.TransactionActivity;
@@ -25,14 +29,18 @@ import java.util.List;
 /**
  * A simple
  */
-public class SearchFragment extends BaseFragment implements AdapterView.OnItemClickListener {
+public class SearchFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
 
 
     private  HistoryOrderAdapter searchAdapter;
-    private ListView list_search;
-    private List<KTVOrderInfo> searchList = new ArrayList<>();
-    private TextView txt_feedback;
+    private  List<KTVOrderInfo> searchList = new ArrayList<>();
 
+    //region UI变量
+    private  EditText edit_OrderNumber;
+    private  TextView txt_feedback;
+    private  Button btn_Search;
+    private  ListView list_search;
+    //endregion
 
 
     @Override
@@ -54,25 +62,18 @@ public class SearchFragment extends BaseFragment implements AdapterView.OnItemCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_history_orderlist, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setHasOptionsMenu(true);
-        initBaseView(view,R.id.setting_toolbar,getString(R.string.order_history));
         initUIData(view);
         initShowUIData();
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_toolbar, menu);
-        super.onCreateOptionsMenu(menu,inflater);
 
-    }
 
 
     /**
@@ -80,8 +81,10 @@ public class SearchFragment extends BaseFragment implements AdapterView.OnItemCl
      */
     private void initUIData(View view)
     {
-        list_search = (ListView)view.findViewById(R.id.search_listview);
         txt_feedback = (TextView)view.findViewById(R.id.search_feedback);
+        edit_OrderNumber =(EditText) view.findViewById(R.id.search_txt);
+        btn_Search = (Button)view.findViewById(R.id.search_btn);
+        list_search = (ListView)view.findViewById(R.id.search_listview);
     }
 
 
@@ -94,15 +97,19 @@ public class SearchFragment extends BaseFragment implements AdapterView.OnItemCl
         searchAdapter = new HistoryOrderAdapter(searchList, getContext());
         list_search.setAdapter(searchAdapter);
         list_search.setOnItemClickListener(this);
-
+        btn_Search.setOnClickListener(this);
     }
 
 
-
-
+    /**
+     * 搜索更新数据
+     */
     private  void showSearchInfo(String number)
     {
+        //先重置
         searchList.clear();
+        txt_feedback.setVisibility(View.GONE);
+
         searchList.addAll(LitePal.where("order_number=?",number).find(KTVOrderInfo.class));
         if (searchList.size()<=0)
             txt_feedback.setVisibility(View.VISIBLE);
@@ -114,8 +121,14 @@ public class SearchFragment extends BaseFragment implements AdapterView.OnItemCl
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        ((TransactionActivity)getActivity()).switchFragment(searchList.get(i));
+        ((TransactionActivity)getActivity()).openDetailFragment(searchList.get(i));
     }
 
 
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId()==R.id.search_btn)
+            showSearchInfo(edit_OrderNumber.getText().toString());
+    }
 }

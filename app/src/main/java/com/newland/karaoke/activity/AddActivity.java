@@ -95,7 +95,7 @@ public class AddActivity extends BaseActivity {
         Button dialogBtnCancel = (Button) dialogView.findViewById(R.id.alert_dialog_btn_cancel);
 
         //设置组件
-        dialogText.setText(getString(R.string.dialog_title_add));
+        dialogText.setText(getString(R.string.dialog_title_edit));
         dialogBtnConfirm .setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

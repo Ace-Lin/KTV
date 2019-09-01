@@ -41,7 +41,7 @@ private ImageButton shift;
         initUI();
         //CreateDatabase();
         SearchData();
-       // addOrder();
+        //addOrder();
     }
 
     void initUI(){
@@ -160,6 +160,7 @@ private ImageButton shift;
         ktvOrderProducts1.add(ktvOrderProduct2);
         
         List<KTVOrderProduct> ktvOrderProducts2 =new ArrayList<>();
+        ktvOrderProducts2.add(ktvOrderProduct);
         ktvOrderProducts2.add(ktvOrderProduct1);
         ktvOrderProducts2.add(ktvOrderProduct2);
         ktvOrderProducts2.add(ktvOrderProduct3);

@@ -14,13 +14,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.SearchView;
 import android.widget.TextView;
 
-import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.Toolbar;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.activity.TransactionActivity;
@@ -31,7 +28,6 @@ import com.newland.karaoke.database.KTVOrderInfo;
 import org.litepal.LitePal;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -41,7 +37,7 @@ import static com.newland.karaoke.utils.DateUtil.getCurrentDayEnd;
 /**
  * A simple
  */
-public class HistoryOrderlistFragment extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class HistoryOrderlistFragment extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener, Toolbar.OnMenuItemClickListener {
 
 
     private List<KTVOrderInfo> ktvOrderInfoList;
@@ -89,17 +85,11 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setHasOptionsMenu(true);
         initBaseView(view,R.id.setting_toolbar,getString(R.string.order_history));
+        commonToolBar.inflateMenu(R.menu.search_toolbar);
+        commonToolBar.setOnMenuItemClickListener(this);
         initUIData(view);
         initShowUIData();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search_toolbar, menu);
-         super.onCreateOptionsMenu(menu,inflater);
-
     }
 
     //region UI数据处理
@@ -133,8 +123,6 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
 
         btn_searchTime.setText(String.format("%d-%d-%d",currentDay,currentMonth,currentYear));
         txt_turnover.setText(getCurrTurnover(ktvOrderInfoList));
-
-
     }
 
 
@@ -159,11 +147,13 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        ((TransactionActivity)getActivity()).switchFragment(ktvOrderInfoList.get(i));
+        ((TransactionActivity)getActivity()).openDetailFragment(ktvOrderInfoList.get(i));
     }
+
 
     @Override
     public void onClick(View view) {
+        super.onClick(view);
         if (view.getId()==R.id.btn_order_time)
             setSearchDate();
     }
@@ -211,6 +201,12 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
     }
 
 
-
-
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId()==R.id.history_search) {
+            ((TransactionActivity) getActivity()).openSearchFragment();
+            return true;
+        }
+        return false;
+    }
 }
