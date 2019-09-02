@@ -33,6 +33,7 @@ import java.util.List;
 
 import static com.newland.karaoke.utils.DateUtil.getCurrentDayBegin;
 import static com.newland.karaoke.utils.DateUtil.getCurrentDayEnd;
+import static com.newland.karaoke.utils.DensityUtil.df_two;
 
 /**
  * A simple
@@ -191,13 +192,12 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
      * 返回当前营业额
      */
     private String getCurrTurnover(List<KTVOrderInfo> list){
-        DecimalFormat df = new DecimalFormat("0.00");
         double turnover = 0;
 
         for (KTVOrderInfo orderInfo:list)
             turnover += orderInfo.getPay_amount();
 
-        return  String.valueOf(df.format(turnover));
+        return  df_two.format(turnover);
     }
 
 

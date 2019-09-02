@@ -2,11 +2,14 @@ package com.newland.karaoke.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +20,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.newland.karaoke.R;
+import com.newland.karaoke.activity.MainActivity;
 import com.newland.karaoke.activity.TransactionActivity;
 import com.newland.karaoke.adapter.HistoryOrderAdapter;
 import com.newland.karaoke.database.KTVOrderInfo;
@@ -26,10 +30,12 @@ import org.litepal.LitePal;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.newland.karaoke.utils.Utility.closeSoftKeybord;
+
 /**
- * A simple
+ *搜索fragment
  */
-public class SearchFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener {
+public class SearchFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener, TextView.OnEditorActionListener {
 
 
     private  HistoryOrderAdapter searchAdapter;
@@ -74,8 +80,6 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
     }
 
 
-
-
     /**
      * 初始化获取UI数据
      */
@@ -98,6 +102,7 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
         list_search.setAdapter(searchAdapter);
         list_search.setOnItemClickListener(this);
         btn_Search.setOnClickListener(this);
+        edit_OrderNumber.setOnEditorActionListener(this);
     }
 
 
@@ -126,9 +131,25 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
 
 
 
+
     @Override
     public void onClick(View view) {
-        if (view.getId()==R.id.search_btn)
+        if (view.getId()==R.id.search_btn) {
+            closeSoftKeybord(edit_OrderNumber,getContext());
             showSearchInfo(edit_OrderNumber.getText().toString());
+        }
+    }
+
+
+    /**
+     * 监听搜索按钮
+     */
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+            showSearchInfo(v.getText().toString());
+            return true;
+        }
+        return false;
     }
 }

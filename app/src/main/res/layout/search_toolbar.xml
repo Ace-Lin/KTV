@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:padding="10dp"
+    android:background="@android:color/white"
     android:orientation="horizontal">
 
 
@@ -11,6 +12,9 @@
             android:layout_weight="3"
             android:layout_height="match_parent"
             android:textSize="16dp"
+            android:singleLine="true"
+            android:inputType="number"
+            android:imeOptions="actionSearch"
             android:layout_marginRight="10dp"
             android:hint="@string/search_tip_enter"
             android:textColor="@android:color/black"

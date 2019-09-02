@@ -12,6 +12,7 @@ import com.newland.karaoke.database.KTVRoomInfo;
 
 import java.util.List;
 
+import static com.newland.karaoke.utils.DensityUtil.df_two;
 import static com.newland.karaoke.utils.Utility.getRoomType;
 
 public class SettingRoomAdapter extends BaseAdapter {
@@ -57,7 +58,7 @@ public class SettingRoomAdapter extends BaseAdapter {
 
         viewHolder.txt_room_name.setText(ktvRoomInfo.getRoom_name());
         viewHolder.txt_room_type.setText(getRoomType(ktvRoomInfo.getRoom_type()));
-        viewHolder.txt_room_price.setText(String.valueOf(ktvRoomInfo.getRoom_price()));
+        viewHolder.txt_room_price.setText(df_two.format(ktvRoomInfo.getRoom_price()));
         return view;
     }
 

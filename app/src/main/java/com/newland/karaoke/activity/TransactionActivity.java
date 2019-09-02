@@ -37,7 +37,7 @@ public class TransactionActivity extends BaseActivity {
     private HistoryOderdetailFragment detailFragment;
     private HistoryOrderlistFragment listFragment;
     private SearchFragment searchFragment;
-    private boolean isSearch;
+    private boolean isSearch;//搜索标志位
     private FragmentType currFragment = FragmentType.HOME;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

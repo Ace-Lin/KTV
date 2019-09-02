@@ -19,7 +19,9 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -90,20 +92,8 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_product, container, false);
-
         initUI(view);
-
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     /**
@@ -118,6 +108,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
         txt_productPrice = (TextView) view.findViewById(R.id.add_product_price);
         btn_save = (Button) view.findViewById(R.id.btn_save_product);
         btn_save.setOnClickListener(this);
+        txt_productPrice.addTextChangedListener(textWatcher);
         if (isUpdate)
             showUpdateInfo();
     }
@@ -155,9 +146,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
         bottomDialog.show();
     }
 
-
-
-
+    //region 拍照选择照片相关逻辑
     //获取照片和存储照片
     private static final int PHOTO_REQUEST_CAMERA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
@@ -347,6 +336,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
 
         pathPicture = file.getPath();//获取图片保存路径
     }
+    //endregion
 
     @Override
     public void onClick(View view) {
@@ -402,5 +392,33 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
             }
         }
     }
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            String editStr = editable.toString().trim();
+
+            int posDot = editStr.indexOf(".");
+            //不允许输入3位小数,超过三位就删掉
+            if (posDot < 0) {
+                return;
+            }
+            if (editStr.length() - posDot - 1 > 2) {
+                editable.delete(posDot + 3, posDot + 4);
+            } else {
+                //TODO...这里写逻辑
+            }
+        }
+    };
 
 }

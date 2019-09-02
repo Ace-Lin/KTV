@@ -14,6 +14,7 @@ import com.newland.karaoke.database.KTVRoomInfo;
 
 import java.util.List;
 
+import static com.newland.karaoke.utils.DensityUtil.df_two;
 import static com.newland.karaoke.utils.Utility.getPirBitMap;
 
 public class SettingProductAdapter extends BaseAdapter {
@@ -61,7 +62,7 @@ public class SettingProductAdapter extends BaseAdapter {
         viewHolder.txt_product_name.setText(ktvProduct.getProduct_name());
         viewHolder.txt_product_picture.setImageBitmap(getPirBitMap(ktvProduct.getProduct_picture()));
         viewHolder.txt_product_count.setText(String.valueOf(ktvProduct.getProduct_count()));
-        viewHolder.txt_product_price.setText(String.valueOf(ktvProduct.getProduct_price()));
+        viewHolder.txt_product_price.setText(df_two.format(ktvProduct.getProduct_price()));
         return view;
     }
 

@@ -1,8 +1,11 @@
 package com.newland.karaoke.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import java.io.File;
@@ -83,5 +86,13 @@ public class Utility {
             default:
                 return  null;
         }
+    }
+
+    /**
+     *收起系统键盘的操作
+     */
+    public static void closeSoftKeybord(EditText mEditText, Context mContext) {
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
     }
 }
