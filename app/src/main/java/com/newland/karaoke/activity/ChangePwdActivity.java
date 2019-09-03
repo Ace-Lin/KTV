@@ -87,7 +87,7 @@ public class ChangePwdActivity extends AppCompatActivity implements View.OnClick
                 .findFirst(KTVUserLogin.class,true);
         if(tempUser==null){
             Toast.makeText(KTVApplication.getContext(),
-                    "Error password!",Toast.LENGTH_SHORT).show();
+                    "Error old password!",Toast.LENGTH_SHORT).show();
             return false;
         }
         tempUser.setUser_password(pswNew);

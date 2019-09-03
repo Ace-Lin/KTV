@@ -38,4 +38,8 @@ dependencies {
 
     // photo
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //炫酷的dialog
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.github.sd6352051.niftydialogeffects:niftydialogeffects:1.0.0@aar'
 }

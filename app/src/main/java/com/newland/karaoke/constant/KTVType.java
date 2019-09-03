@@ -86,4 +86,16 @@ public class KTVType {
 
     }
 
+    /**
+     * 对话框类型
+     */
+    public class DlgType{
+        public static final int DLG_NAME=0;
+        public static final int DLG_PHONE=1;
+        public static final int DLG_IDCARD=2;
+        public static final int DLG_EMAIL=3;
+
+
+    }
+
 }

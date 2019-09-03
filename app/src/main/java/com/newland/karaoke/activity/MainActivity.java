@@ -108,10 +108,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     void initData(){
         leftContentModels=new ArrayList<>();
-        leftContentModels.add(new LeftContentModel(R.drawable.middle,"Login",KTVType.MineType.LOGIN));
-        leftContentModels.add(new LeftContentModel(R.drawable.middle,"Personal Info",KTVType.MineType.PERSONAL_INFO));
-        leftContentModels.add(new LeftContentModel(R.drawable.middle,"Set Password",KTVType.MineType.SET_PWD));
-        leftContentModels.add(new LeftContentModel(R.drawable.middle,"Log out",KTVType.MineType.LOG_OUT));
+        leftContentModels.add(new LeftContentModel(R.drawable.main_login,"Login",KTVType.MineType.LOGIN));
+        leftContentModels.add(new LeftContentModel(R.drawable.main_person_info,"Personal Info",KTVType.MineType.PERSONAL_INFO));
+        leftContentModels.add(new LeftContentModel(R.drawable.main_psw,"Set Password",KTVType.MineType.SET_PWD));
+        leftContentModels.add(new LeftContentModel(R.drawable.main_logout,"Log out",KTVType.MineType.LOG_OUT));
     }
     void initUI(){
         //初始化UI
@@ -410,7 +410,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //camera();
             }else{
                 //如果没有授权的话，可以给用户一个友好提示
-                Toast.makeText(MainActivity.this, "User Refused!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "User Refused! ", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -534,4 +534,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.exit(0);
         }
     }
+
+
 }

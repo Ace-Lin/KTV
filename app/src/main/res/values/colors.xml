@@ -5,4 +5,6 @@
     <color name="colorAccent">#D81B60</color>
 
     <color name="dialog_blue">#0083FF</color>
+
+    <color name="main_bg_color">#41a5f6</color>
 </resources>
