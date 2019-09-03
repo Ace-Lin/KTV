@@ -6,6 +6,8 @@
     android:orientation="vertical"
     tools:context=".fragment.ProductDetailsFragment">
 
+    <include layout="@layout/setting_toolbar"/>
+
    <include layout="@layout/product_item"/>
 
     <!-- 标题和内容间隔-->

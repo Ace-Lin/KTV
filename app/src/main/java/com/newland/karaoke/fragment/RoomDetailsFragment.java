@@ -1,23 +1,22 @@
 package com.newland.karaoke.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.widget.Toolbar;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.newland.karaoke.R;
-import com.newland.karaoke.activity.AddActivity;
+import com.newland.karaoke.activity.SettingActivity;
 import com.newland.karaoke.adapter.SettingRoomAdapter;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVRoomInfo;
@@ -32,22 +31,22 @@ import static com.newland.karaoke.utils.DensityUtil.dp2px;
 /**
  * 用来显示所有房间信息的Fragment
  */
-public class RoomDetailsFragment extends Fragment implements SwipeMenuListView.OnMenuItemClickListener {
+public class RoomDetailsFragment extends BaseFragment implements SwipeMenuListView.OnMenuItemClickListener, Toolbar.OnMenuItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    private FragmentManager fManager;
+
     private List<KTVRoomInfo> roomDatas= new ArrayList<>();
     private SwipeMenuListView list_news;
     private  SwipeMenuCreator creator;
     private Context context;
     private SettingRoomAdapter roomAdapter;
 
-    public RoomDetailsFragment(FragmentManager fManager,Context context) {
-        this.fManager = fManager;
+    public RoomDetailsFragment(Context context) {
         this.context = context;
+
     }
 
 
@@ -55,14 +54,21 @@ public class RoomDetailsFragment extends Fragment implements SwipeMenuListView.O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        creatSwipeMenu();
         roomDatas =LitePal.findAll(KTVRoomInfo.class);
+        creatSwipeMenu();
         View view = inflater.inflate(R.layout.fragment_room_details, container, false);
+
+        initToolbar(view,getString(R.string.setting_roomDetails));
+        commonToolBar.inflateMenu(R.menu.add_toolbar);
+        commonToolBar.setOnMenuItemClickListener(this);
+
+
         list_news = (SwipeMenuListView) view.findViewById(R.id.room_listview);
         roomAdapter = new SettingRoomAdapter(roomDatas, getActivity());
         list_news.setAdapter(roomAdapter);
         list_news.setMenuCreator(creator);    // 设置 creator
         list_news.setOnMenuItemClickListener(this);
+
         return view;
     }
 
@@ -142,16 +148,21 @@ public class RoomDetailsFragment extends Fragment implements SwipeMenuListView.O
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
              switch (index) {
             case 0:
-                Intent intent=new Intent();
-                intent = new Intent(context, AddActivity.class);
-                intent.putExtra(getString(R.string.fragment_type), KTVType.FragmentType.EDITROOM);
-                intent.putExtra(getString(R.string.edit_detail_id),roomDatas.get(position).getId());
-                startActivity(intent);
+                ((SettingActivity) getActivity()).openUpdateFragment(KTVType.FragmentType.ADDROOM,roomDatas.get(position).getId());
                 break;
             case 1:
                 LitePal.delete(KTVRoomInfo.class,roomDatas.get(position).getId());
                 updateListview();
                 break;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId()==R.id.setting_add) {
+            ((SettingActivity) getActivity()).openFragment(KTVType.FragmentType.ADDROOM);
+            return true;
         }
         return false;
     }

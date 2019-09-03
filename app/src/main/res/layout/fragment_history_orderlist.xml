@@ -5,7 +5,7 @@
     android:orientation="vertical"
     >
 
-    <include layout="@layout/history_toolbar"/>
+    <include layout="@layout/setting_toolbar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

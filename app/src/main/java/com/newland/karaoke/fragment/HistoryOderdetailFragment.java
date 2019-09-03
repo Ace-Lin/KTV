@@ -80,7 +80,7 @@ public class HistoryOderdetailFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initBaseView(view,R.id.setting_toolbar,getString(R.string.order_detail));
+        initToolbar(view,getString(R.string.order_detail));
         initUIData(view);
         showUIData();
         initProductList();

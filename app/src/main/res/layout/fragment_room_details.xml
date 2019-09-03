@@ -6,6 +6,8 @@
     android:orientation="vertical"
     tools:context=".fragment.RoomDetailsFragment">
 
+    <include layout="@layout/setting_toolbar"/>
+
     <include layout="@layout/room_item" />
 
     <!-- 标题和内容间隔-->

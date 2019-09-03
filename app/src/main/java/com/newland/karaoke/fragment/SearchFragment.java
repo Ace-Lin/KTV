@@ -2,25 +2,21 @@ package com.newland.karaoke.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.newland.karaoke.R;
-import com.newland.karaoke.activity.MainActivity;
 import com.newland.karaoke.activity.TransactionActivity;
 import com.newland.karaoke.adapter.HistoryOrderAdapter;
 import com.newland.karaoke.database.KTVOrderInfo;
@@ -135,6 +131,10 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
     @Override
     public void onClick(View view) {
         if (view.getId()==R.id.search_btn) {
+            //判断是否输入订单号码
+            if (TextUtils.isEmpty(edit_OrderNumber.getText().toString()))
+                return;
+
             closeSoftKeybord(edit_OrderNumber,getContext());
             showSearchInfo(edit_OrderNumber.getText().toString());
         }
@@ -146,6 +146,9 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
      */
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (TextUtils.isEmpty(edit_OrderNumber.getText().toString()))
+            return false;
+
         if (actionId == EditorInfo.IME_ACTION_SEARCH) {
             showSearchInfo(v.getText().toString());
             return true;

@@ -2,9 +2,6 @@ package com.newland.karaoke.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,10 +12,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.newland.karaoke.R;
-import com.newland.karaoke.activity.AddActivity;
+import com.newland.karaoke.activity.SettingActivity;
 import com.newland.karaoke.database.KTVRoomInfo;
 
 import org.litepal.LitePal;
@@ -28,20 +24,16 @@ import static com.newland.karaoke.utils.ToastUtil.showShortText;
 /**
  * 用来显示添加房间信息的Fragment
  */
-public class AddRoomFragment extends Fragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
-    private  Context context;
-    private Spinner spinner_roomType;
-    private TextView txt_roomNum;
-    private TextView txt_roomPrice;
-    private Button btn_save;
+public class AddRoomFragment extends BaseFragment implements AdapterView.OnItemSelectedListener, View.OnClickListener {
+
+    private  Spinner spinner_roomType;
+    private  TextView txt_roomNum;
+    private  TextView txt_roomPrice;
+    private  Button btn_save;
     private  int roomType;
     private  boolean isUpdate;//判断是否是更新数据
     private  int roomId;//需要更改的商品id
     private  KTVRoomInfo ktvRoomInfo;//需要更新的room
-
-    public AddRoomFragment(Context context) {
-        this.context = context;
-    }
 
     /**
      * 获取需要修改的房间id
@@ -51,6 +43,7 @@ public class AddRoomFragment extends Fragment implements AdapterView.OnItemSelec
     {
         isUpdate = true;
         this.roomId = roomId;
+        Log.e("111111", "updateRoom:");
     }
 
     @Override
@@ -63,6 +56,8 @@ public class AddRoomFragment extends Fragment implements AdapterView.OnItemSelec
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_add_room, container, false);
+        initToolbar(view,getString(R.string.setting_AddRoom));
+        Log.e("1111", "onCreateView:");
         initUI(view);
         return view;
     }
@@ -78,7 +73,7 @@ public class AddRoomFragment extends Fragment implements AdapterView.OnItemSelec
         btn_save.setOnClickListener(this);
         spinner_roomType = (Spinner)view.findViewById(R.id.room_type_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,R.array.room_type_array, R.layout.room_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.room_type_array, R.layout.room_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(R.layout.room_dropdown_item);
         // Apply the adapter to the spinner
@@ -122,13 +117,13 @@ public class AddRoomFragment extends Fragment implements AdapterView.OnItemSelec
 
     @Override
     public void onClick(View view) {
-
+        super.onClick(view);
        if (view.getId()==R.id.btn_save_room){
 
         if (TextUtils.isEmpty(txt_roomNum.getText()))
-           showShortText(context,getString(R.string.tips_room_name));
+           showShortText(getContext(),getString(R.string.tips_room_name));
         else if (TextUtils.isEmpty(txt_roomPrice.getText()))
-           showShortText(context,getString(R.string.tips_room_price));
+           showShortText(getContext(),getString(R.string.tips_room_price));
         else {
             KTVRoomInfo roomInfo = new KTVRoomInfo();
             if (isUpdate)
@@ -139,11 +134,8 @@ public class AddRoomFragment extends Fragment implements AdapterView.OnItemSelec
             roomInfo.setRoom_price(Double.valueOf( txt_roomPrice.getText().toString()));
             roomInfo.save();
 
-            if (roomInfo.isSaved())
-            {
-                showShortText(context,getString(R.string.tips_add_success));
-                ((AddActivity)context).finish();
-            }
+            ((SettingActivity)getActivity()).editDataCallBack(roomInfo.isSaved());
+
         }
 
        }

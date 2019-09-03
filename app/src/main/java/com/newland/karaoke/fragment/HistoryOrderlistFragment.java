@@ -4,10 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +24,6 @@ import com.newland.karaoke.database.KTVOrderInfo;
 
 import org.litepal.LitePal;
 
-import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -86,7 +82,7 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initBaseView(view,R.id.setting_toolbar,getString(R.string.order_history));
+        initToolbar(view,getString(R.string.order_history));
         commonToolBar.inflateMenu(R.menu.search_toolbar);
         commonToolBar.setOnMenuItemClickListener(this);
         initUIData(view);

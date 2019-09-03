@@ -6,17 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.core.content.PermissionChecker;
-import androidx.fragment.app.Fragment;
-
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -32,10 +24,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.content.PermissionChecker;
+
 import com.newland.karaoke.R;
-import com.newland.karaoke.activity.AddActivity;
+import com.newland.karaoke.activity.SettingActivity;
 import com.newland.karaoke.database.KTVProduct;
-import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.utils.FileUtils;
 
 import org.litepal.LitePal;
@@ -51,7 +47,7 @@ import static com.newland.karaoke.utils.Utility.getPirBitMap;
 /**
  * 用来显示添加商品信息的Fragment
  */
-public class AddProductFragment extends Fragment implements View.OnClickListener {
+public class AddProductFragment extends BaseFragment implements View.OnClickListener {
 
     private  Context context;
 
@@ -92,6 +88,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_product, container, false);
+        initToolbar(view,getString(R.string.setting_AddProduct));
         initUI(view);
         return view;
     }
@@ -340,6 +337,7 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
+        super.onClick(view);
         switch (view.getId()){
             case R.id.picture_gllary:
                 openGallery();
@@ -385,14 +383,13 @@ public class AddProductFragment extends Fragment implements View.OnClickListener
             ktvProduct.setProduct_picture(pathPicture);
             ktvProduct.save();
 
-            if (ktvProduct.isSaved())
-            {
-                showShortText(context,getString(R.string.tips_add_success));
-                ((AddActivity)context).finish();//这里使用finish不适用befinish
-            }
+            ((SettingActivity)getActivity()).editDataCallBack(ktvProduct.isSaved());
         }
     }
 
+    /**
+     * 限制两位小数
+     */
     private TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

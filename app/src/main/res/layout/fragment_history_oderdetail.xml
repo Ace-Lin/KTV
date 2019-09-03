@@ -3,6 +3,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include layout="@layout/history_toolbar"/>
+    <include layout="@layout/setting_toolbar"/>
     <include layout="@layout/history_orderdetail_content"/>
 </LinearLayout>

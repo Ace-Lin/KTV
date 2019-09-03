@@ -14,8 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.TransactionActivity"></activity>
-        <activity android:name=".activity.AddActivity" />
-        <activity android:name=".activity.DetailsListActivity" />
         <activity android:name=".activity.ShiftActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.OrderActivity" />

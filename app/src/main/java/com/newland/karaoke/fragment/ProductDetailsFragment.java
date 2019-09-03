@@ -1,23 +1,22 @@
 package com.newland.karaoke.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.widget.Toolbar;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.newland.karaoke.R;
-import com.newland.karaoke.activity.AddActivity;
+import com.newland.karaoke.activity.SettingActivity;
 import com.newland.karaoke.adapter.SettingProductAdapter;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVProduct;
@@ -32,17 +31,15 @@ import static com.newland.karaoke.utils.DensityUtil.dp2px;
 /**
  * 用来显示所有商品信息的Fragment
  */
-public class ProductDetailsFragment extends Fragment implements SwipeMenuListView.OnMenuItemClickListener {
+public class ProductDetailsFragment extends BaseFragment implements SwipeMenuListView.OnMenuItemClickListener, Toolbar.OnMenuItemClickListener {
 
-    private FragmentManager fManager;
     private List<KTVProduct> productDatas = new ArrayList<>();
     private SwipeMenuListView list_news;
     private SwipeMenuCreator creator;
     private Context context;
     private SettingProductAdapter productAdapter;
 
-    public ProductDetailsFragment(FragmentManager fManager, Context context) {
-        this.fManager = fManager;
+    public ProductDetailsFragment(Context context) {
         this.context = context;
         productDatas= LitePal.findAll(KTVProduct.class);
     }
@@ -69,25 +66,22 @@ public class ProductDetailsFragment extends Fragment implements SwipeMenuListVie
                              Bundle savedInstanceState) {
         creatSwipeMenu();
         View view = inflater.inflate(R.layout.fragment_product_details, container, false);
+
+        initToolbar(view,getString(R.string.setting_productDetails));
+        commonToolBar.inflateMenu(R.menu.add_toolbar);
+        commonToolBar.setOnMenuItemClickListener(this);
+
         list_news = (SwipeMenuListView) view.findViewById(R.id.project_listview);
         productAdapter = new SettingProductAdapter(productDatas, getActivity());
         list_news.setAdapter(productAdapter);
         list_news.setMenuCreator(creator);    // 设置 creator
+
         list_news.setOnMenuItemClickListener(this);
         return view;
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
+   //每次回退显示进行刷新
     @Override
     public void onStart()
     {
@@ -138,16 +132,21 @@ public class ProductDetailsFragment extends Fragment implements SwipeMenuListVie
     public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
         switch (index) {
             case 0:
-                Intent intent=new Intent();
-                intent = new Intent(context, AddActivity.class);
-                intent.putExtra(getString(R.string.fragment_type), KTVType.FragmentType.EDITRODUCT);
-                intent.putExtra(getString(R.string.edit_detail_id),productDatas.get(position).getId());
-                startActivity(intent);
+                ((SettingActivity) getActivity()).openUpdateFragment(KTVType.FragmentType.ADDPRODUCT,productDatas.get(position).getId());
                 break;
             case 1:
                 LitePal.delete(KTVProduct.class,productDatas.get(position).getId());
                 updateListview();
                 break;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        if (item.getItemId()==R.id.setting_add) {
+            ((SettingActivity) getActivity()).openFragment(KTVType.FragmentType.ADDPRODUCT);
+            return true;
         }
         return false;
     }

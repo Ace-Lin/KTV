@@ -11,7 +11,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.newland.karaoke.R;
-import com.newland.karaoke.activity.TransactionActivity;
+import com.newland.karaoke.activity.BaseActivity;
 
 public class BaseFragment extends Fragment implements View.OnClickListener {
     /**
@@ -36,9 +36,9 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
     /**
      * 显示toolbar和title
      */
-    public void initBaseView(View view,int id,String title)
+    public void initToolbar(View view, String title)
     {
-        commonToolBar = (Toolbar)view.findViewById(id);
+        commonToolBar = (Toolbar)view.findViewById(R.id.setting_toolbar);
 
         btnBack = (Button)view.findViewById(R.id.fragment_back_btn);
         btnBack.setOnClickListener(this);
@@ -52,8 +52,8 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if (view.getId()==R.id.fragment_back_btn) {
-            Log.e("Jeffrey", "onClick: " );
-            ((TransactionActivity) getActivity()).basefinish();
+            //重写的话，记得super
+            ((BaseActivity) getActivity()).basefinish();
         }
     }
 }
