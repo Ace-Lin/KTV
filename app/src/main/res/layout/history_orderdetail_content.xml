@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/shape_circle_white"
+                android:background="@drawable/shape_circle_pad_white"
                 >
 
                 <!---商品列表-->
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
-                android:background="@drawable/shape_circle_white"
+                android:background="@drawable/shape_circle_pad_white"
                 >
                 <RelativeLayout
                     android:layout_width="wrap_content"

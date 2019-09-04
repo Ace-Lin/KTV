@@ -26,7 +26,7 @@
             android:drawableRight="@drawable/down_arrow"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/shape_btn_circle_white"
+            android:background="@drawable/shape_circle_pad_white"
             />
 
         <TextView

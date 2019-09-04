@@ -134,10 +134,11 @@ public class AddProductFragment extends BaseFragment implements View.OnClickList
         choosePhoto.setOnClickListener(this);
         takePhoto.setOnClickListener(this);
         cancel.setOnClickListener(this);
+        //距离下边框距离
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) contentView.getLayoutParams();
-        params.width = getResources().getDisplayMetrics().widthPixels - dp2px(context, 16f);
         params.bottomMargin = dp2px(context, 8f);
         contentView.setLayoutParams(params);
+        bottomDialog.setCanceledOnTouchOutside(true);
         bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
         bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
         bottomDialog.show();

@@ -51,7 +51,7 @@
     <string name="dialog_btn_cancel_text">Cancel</string>
     <string name="dialog_btn_confirm_text">OK</string>
     <string name="dialog_btn_camera_text">Camera</string>
-    <string name="dialog_btn_gallery_text">Album</string>
+    <string name="dialog_btn_gallery_text">Choos from Album</string>
 
     <!-- TODO: 历史订单信息 text -->
     <string name="order_history">Order History</string>

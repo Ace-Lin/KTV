@@ -5,4 +5,11 @@
         <item>Middle</item>
         <item>Small</item>
     </string-array>
+
+    <string-array name="setting_type_array">
+        <item>@string/setting_roomDetails</item>
+        <item>@string/setting_productDetails</item>
+        <item>@string/setting_AddRoom</item>
+        <item>@string/setting_AddProduct</item>
+    </string-array>
 </resources>

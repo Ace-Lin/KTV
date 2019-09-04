@@ -12,6 +12,7 @@ import com.newland.karaoke.activity.SettingActivity;
 import com.newland.karaoke.adapter.SettingAdapter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,10 +36,7 @@ public class SettingFragment extends BaseFragment implements AdapterView.OnItemC
     private void initUI(View view)
     {
         List<String> nameData =new ArrayList<>();
-        nameData.add(getString(R.string.setting_roomDetails));
-        nameData.add(getString(R.string.setting_productDetails));
-        nameData.add(getString(R.string.setting_AddRoom));
-        nameData.add(getString(R.string.setting_AddProduct));
+                     nameData.addAll(Arrays.asList(getResources().getStringArray(R.array.setting_type_array)));
         ListView list_news = (ListView)view.findViewById(R.id.setting_listview);
         SettingAdapter myAdapter = new SettingAdapter(nameData, getContext());
         list_news.setAdapter(myAdapter);

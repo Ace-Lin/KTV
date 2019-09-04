@@ -72,7 +72,7 @@ public class ProductDetailsFragment extends BaseFragment implements SwipeMenuLis
         commonToolBar.setOnMenuItemClickListener(this);
 
         list_news = (SwipeMenuListView) view.findViewById(R.id.project_listview);
-        productAdapter = new SettingProductAdapter(productDatas, getActivity());
+        productAdapter = new SettingProductAdapter(productDatas, context);
         list_news.setAdapter(productAdapter);
         list_news.setMenuCreator(creator);    // 设置 creator
 

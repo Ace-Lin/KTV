@@ -57,7 +57,6 @@ public class AddRoomFragment extends BaseFragment implements AdapterView.OnItemS
 
         View view = inflater.inflate(R.layout.fragment_add_room, container, false);
         initToolbar(view,getString(R.string.setting_AddRoom));
-        Log.e("1111", "onCreateView:");
         initUI(view);
         return view;
     }
@@ -94,15 +93,16 @@ public class AddRoomFragment extends BaseFragment implements AdapterView.OnItemS
     }
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
+    //删除输入信息
+     @Override
+     public void onDestroyView() {
+         Log.e("Jeffrey", "onDestroyView: " );
+         spinner_roomType.setSelection(0,true);
+         txt_roomNum.setText("222");
+         txt_roomPrice.setText("222");
+         super.onDestroyView();
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
+     }
 
    //下拉框选择
     @Override

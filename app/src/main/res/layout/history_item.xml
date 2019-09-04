@@ -2,7 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="@drawable/shape_btn_circle_white"
+    android:background="@drawable/shape_circle_pad_white"
     android:orientation="vertical">
 
     <!--订单交易记录信息-->
