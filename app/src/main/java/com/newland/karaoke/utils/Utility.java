@@ -3,6 +3,7 @@ package com.newland.karaoke.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -23,8 +24,11 @@ public class Utility {
 
     public static  Bitmap  getPirBitMap(Context context,String path)
     {
-        File file = new File(path);
-        if(file.exists())
+        if (TextUtils.isEmpty(path))
+            //如果没有添加图片返回默认图片
+            return  BitmapFactory.decodeResource(context.getResources(), R.drawable.product_image);
+
+        if(new File(path).exists())
             return BitmapFactory.decodeFile(path);
 
         //如果没有图片返回默认图片
