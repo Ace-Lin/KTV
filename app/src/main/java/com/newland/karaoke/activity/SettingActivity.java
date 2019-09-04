@@ -30,8 +30,10 @@ import static com.newland.karaoke.utils.ToastUtil.showShortText;
 public class SettingActivity extends BaseActivity {
 
     private FragmentManager fManager;
-    private boolean isEditContent;//是否是编辑内容页面标志位
-    private List<Integer> fragmentTypeList = new ArrayList<>();//用于添加fragment的类型，如果hide,show可以使用List<BaseFragment>
+    //是否是编辑内容页面标志位
+    private boolean isEditContent;
+    //因为是replace是所以添加fragment的类型，如果hide,show可以使用List<BaseFragment>
+    private List<Integer> fragmentTypeList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
