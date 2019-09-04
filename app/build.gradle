@@ -22,6 +22,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.drawerlayout:drawerlayout:1.0.0'
+
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
@@ -30,4 +32,14 @@ dependencies {
     implementation 'org.litepal.android:java:3.0.0'
     //listview左滑添加menu swipemenulistview
     implementation 'com.baoyz.swipemenulistview:library:1.3.0'
+
+    //Circleimageview
+    implementation 'de.hdodenhof:circleimageview:2.1.0'
+
+    // photo
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //炫酷的dialog
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.github.sd6352051.niftydialogeffects:niftydialogeffects:1.0.0@aar'
 }

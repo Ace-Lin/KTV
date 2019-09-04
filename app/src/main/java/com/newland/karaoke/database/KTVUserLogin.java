@@ -6,6 +6,15 @@ public class KTVUserLogin extends LitePalSupport {
     private int id;
     private String user_account;
     private String user_password;
+    private KTVUserInfo user_info;
+
+    public KTVUserInfo getUser_info() {
+        return user_info;
+    }
+
+    public void setUser_info(KTVUserInfo user_info) {
+        this.user_info = user_info;
+    }
 
     public int getId() {
         return id;

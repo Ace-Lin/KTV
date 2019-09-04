@@ -63,4 +63,37 @@ public class KTVType {
         public static final int ADDPRODUCT = 3;
     }
 
+    /**
+     * 侧拉框选项类型
+     */
+    public class MineType
+    {
+        public static final int SET_PHOTO = 0;
+        public static final int LOGIN = 1;
+        public static final int PERSONAL_INFO = 2;
+        public static final int SET_PWD= 3;
+        public static final int LOG_OUT = 4;
+
+    }
+    /**
+     * 消息类型
+     */
+    public class MsgType{
+        public static final int UPDATE_IMG=0;
+
+
+    }
+
+    /**
+     * 对话框类型
+     */
+    public class DlgType{
+        public static final int DLG_NAME=0;
+        public static final int DLG_PHONE=1;
+        public static final int DLG_IDCARD=2;
+        public static final int DLG_EMAIL=3;
+
+
+    }
+
 }

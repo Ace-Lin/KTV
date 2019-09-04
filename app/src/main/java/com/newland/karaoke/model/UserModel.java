@@ -1,19 +1,33 @@
-package com.newland.karaoke.database;
+package com.newland.karaoke.model;
 
-import org.litepal.crud.LitePalSupport;
+import com.newland.karaoke.database.KTVUserInfo;
+import com.newland.karaoke.database.KTVUserLogin;
 
 import java.util.Date;
 
-public class KTVUserInfo extends LitePalSupport {
-
+public class UserModel {
     private int id ;
     private String user_name;
     private String identity_card_no;
     private String mobile_phone;
     private String user_email;
-    private Date register_time;
     private String user_photo;
+    private int user_acount_id=-1;
+    public int getUser_acount_id() {
+        return user_acount_id;
+    }
 
+
+
+    public UserModel(KTVUserInfo userInfo,int user_acount_id){
+        id=userInfo.getId();
+        user_name=userInfo.getUser_name();
+        identity_card_no=userInfo.getIdentity_card_no();
+        mobile_phone=userInfo.getMobile_phone();
+        user_email=userInfo.getUser_email();
+        user_photo=userInfo.getUser_photo();
+        this.user_acount_id=user_acount_id;
+    }
 
     public int getId() {
         return id;
@@ -53,14 +67,6 @@ public class KTVUserInfo extends LitePalSupport {
 
     public void setUser_email(String user_email) {
         this.user_email = user_email;
-    }
-
-    public Date getRegister_time() {
-        return register_time;
-    }
-
-    public void setRegister_time(Date register_time) {
-        this.register_time = register_time;
     }
 
     public String getUser_photo() {
