@@ -8,6 +8,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.newland.karaoke.R;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -19,13 +21,14 @@ public class Utility {
      *   照片路径转化为图片返回
      */
 
-    public static   Bitmap  getPirBitMap(String path)
+    public static  Bitmap  getPirBitMap(Context context,String path)
     {
         File file = new File(path);
         if(file.exists())
             return BitmapFactory.decodeFile(path);
 
-        return null;
+        //如果没有图片返回默认图片
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.product_image);
     }
 
     /**

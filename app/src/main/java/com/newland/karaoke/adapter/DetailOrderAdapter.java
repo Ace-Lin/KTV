@@ -59,7 +59,7 @@ public class DetailOrderAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.order_item_picture.setImageBitmap(getPirBitMap(product.getProduct_picture()));
+        viewHolder.order_item_picture.setImageBitmap(getPirBitMap(mContext,product.getProduct_picture()));
         viewHolder.order_item_name.setText(product.getProduct_name());
         viewHolder.order_item_price.setText(mContext.getString(R.string.dollar)+" "+product.getProduct_price());
         viewHolder.order_item_count.setText(mContext.getString(R.string.detail_count)+" "+orderProduct.getProduct_quantity());

@@ -118,7 +118,7 @@ public class AddProductFragment extends BaseFragment implements View.OnClickList
         txt_productName.setText(ktvProduct.getProduct_name());
         txt_productCount.setText(String.valueOf(ktvProduct.getProduct_count()));
         txt_productPrice.setText(String.valueOf(ktvProduct.getProduct_price()));
-        productPic.setImageBitmap(getPirBitMap(ktvProduct.getProduct_picture()));
+        productPic.setImageBitmap(getPirBitMap(context,ktvProduct.getProduct_picture()));
     }
 
     /**
