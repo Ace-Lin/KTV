@@ -161,7 +161,7 @@ public class RoomDetailsFragment extends BaseFragment implements SwipeMenuListVi
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId()==R.id.setting_add) {
-            ((SettingActivity) getActivity()).openFragment(KTVType.FragmentType.ADDROOM);
+            ((SettingActivity) getActivity()).openFragment(KTVType.FragmentType.ADDROOM,false);
             return true;
         }
         return false;

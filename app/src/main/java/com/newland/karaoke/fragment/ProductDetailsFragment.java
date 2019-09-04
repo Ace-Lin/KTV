@@ -145,7 +145,7 @@ public class ProductDetailsFragment extends BaseFragment implements SwipeMenuLis
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId()==R.id.setting_add) {
-            ((SettingActivity) getActivity()).openFragment(KTVType.FragmentType.ADDPRODUCT);
+            ((SettingActivity) getActivity()).openFragment(KTVType.FragmentType.ADDPRODUCT,false);
             return true;
         }
         return false;

@@ -16,10 +16,14 @@ import com.newland.karaoke.R;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.fragment.AddProductFragment;
 import com.newland.karaoke.fragment.AddRoomFragment;
+import com.newland.karaoke.fragment.BaseFragment;
 import com.newland.karaoke.fragment.ProductDetailsFragment;
 import com.newland.karaoke.fragment.RoomDetailsFragment;
 import com.newland.karaoke.fragment.SettingFragment;
 import com.newland.karaoke.utils.FileUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.newland.karaoke.utils.ToastUtil.showShortText;
 
@@ -27,11 +31,7 @@ public class SettingActivity extends BaseActivity {
 
     private FragmentManager fManager;
     private boolean isEditContent;//是否是编辑内容页面标志位
-    private SettingFragment settingFragment;
-    private RoomDetailsFragment roomDetailsFragment;
-    private ProductDetailsFragment productDetailsFragment;
-    private AddRoomFragment addRoomFragment;
-    private AddProductFragment addProductFragment;
+    private List<Integer> fragmentTypeList = new ArrayList<>();//用于添加fragment的类型，如果hide,show可以使用List<BaseFragment>
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,61 +39,49 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
 
         FileUtils.createDir(getExternalFilesDir("/Picture").getPath());
-        initFragment();
-    }
-
-    /**
-     * 初始化加载fragment页面
-     */
-    private void initFragment(){
         fManager = getSupportFragmentManager();
-        FragmentTransaction fTransaction = fManager.beginTransaction();
-        settingFragment = new SettingFragment();
-        fTransaction.add(R.id.setting_content, settingFragment);
-        fTransaction.commit();
+        openFragment(KTVType.FragmentType.SETTING,false);
     }
 
 
     /**
      * 打开对应的fragment
      * @param fragment_type
+     * @param isBack 是否是后退操作，用于判定动画方向
      */
-    public void openFragment(int fragment_type)
+    public void openFragment(int fragment_type,boolean isBack)
     {
+        BaseFragment baseFragment = null;
         FragmentTransaction fTransaction = fManager.beginTransaction();
-        fTransaction.setCustomAnimations(R.anim.slide_right_in,R.anim.slide_left_out,R.anim.slide_left_in,R.anim.slide_right_out);
+
+        if (isBack)
+            fTransaction.setCustomAnimations(R.anim.slide_left_in,R.anim.slide_right_out);
+        else
+           fTransaction.setCustomAnimations(R.anim.slide_right_in,R.anim.slide_left_out);
 
         switch (fragment_type) {
             case KTVType.FragmentType.ROOMDETAIL:
-               if (roomDetailsFragment == null)
-                   roomDetailsFragment = new RoomDetailsFragment(this);
-
-                 fTransaction.replace(R.id.setting_content, roomDetailsFragment);
+                baseFragment = new RoomDetailsFragment(this);
                 break;
             case KTVType.FragmentType.PRODUCTDETAIL:
-                if (productDetailsFragment == null)
-                    productDetailsFragment = new ProductDetailsFragment(this);
-
-                fTransaction.replace(R.id.setting_content, productDetailsFragment);
+                baseFragment = new ProductDetailsFragment(this);
                 break;
             case KTVType.FragmentType.ADDROOM:
-                if (addRoomFragment == null)
-                    addRoomFragment = new AddRoomFragment();
-
-                fTransaction.replace(R.id.setting_content, addRoomFragment);
+                baseFragment = new AddRoomFragment();
                 isEditContent = true;
                 break;
             case KTVType.FragmentType.ADDPRODUCT:
-                if (addProductFragment == null)
-                    addProductFragment = new AddProductFragment(this);
-
-                fTransaction.replace(R.id.setting_content, addProductFragment);
+                baseFragment = new AddProductFragment(this);
                 isEditContent = true;
+                break;
+            case KTVType.FragmentType.SETTING:
+                baseFragment = new SettingFragment();
                 break;
             default:
         }
 
-        fTransaction.addToBackStack(null);
+        fragmentTypeList.add(fragment_type);
+        fTransaction.replace(R.id.setting_content, baseFragment);
         fTransaction.commit();
     }
 
@@ -104,28 +92,23 @@ public class SettingActivity extends BaseActivity {
      * @param updateId
      */
     public void openUpdateFragment(int fragment_type , int updateId){
+        BaseFragment baseFragment = null;
         FragmentTransaction fTransaction = fManager.beginTransaction();
-        fTransaction.setCustomAnimations(R.anim.slide_right_in,R.anim.slide_left_out,R.anim.slide_left_in,R.anim.slide_right_out);
+        fTransaction.setCustomAnimations(R.anim.slide_right_in,R.anim.slide_left_out);
+
         switch (fragment_type) {
             case KTVType.FragmentType.ADDROOM:
-                if (addRoomFragment == null)
-                    addRoomFragment = new AddRoomFragment();
-
-                addRoomFragment.updateRoom(updateId);
-                fTransaction.replace(R.id.setting_content,addRoomFragment);
+                baseFragment = new AddRoomFragment(updateId);
                 break;
             case KTVType.FragmentType.ADDPRODUCT:
-                if (addProductFragment == null)
-                    addProductFragment = new AddProductFragment(this);
-
-                addProductFragment.updateProduct(updateId);
-                fTransaction.replace(R.id.setting_content,addProductFragment);
+                baseFragment = new AddProductFragment(this,updateId);
                 break;
             default:
         }
 
         isEditContent = true;
-        fTransaction.addToBackStack(null);
+        fragmentTypeList.add(fragment_type);
+        fTransaction.replace(R.id.setting_content, baseFragment);
         fTransaction.commit();
     }
 
@@ -142,16 +125,20 @@ public class SettingActivity extends BaseActivity {
 
     @Override
     public void basefinish() {
+
         if(isEditContent)
             showBackDialog();
         else {
-            if (getSupportFragmentManager().getBackStackEntryCount() <= 0)//这里是取出我们返回栈存在Fragment的个数
+            if (fragmentTypeList.size() > 1) {
+                int temp = fragmentTypeList.get(fragmentTypeList.size()-2);
+                //连续去除集合后两位
+                fragmentTypeList.remove(fragmentTypeList.size()-1);
+                fragmentTypeList.remove(fragmentTypeList.size()-1);
+                openFragment(temp,true);
+            } else
                 finish();
-            else
-                getSupportFragmentManager().popBackStack();
        }
     }
-
 
     /**
      * 增加添加信息退出警告信息

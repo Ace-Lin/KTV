@@ -61,6 +61,7 @@ public class KTVType {
         public static final int PRODUCTDETAIL = 1;
         public static final int ADDROOM = 2;
         public static final int ADDPRODUCT = 3;
+        public static final int SETTING = 4;
     }
 
     /**

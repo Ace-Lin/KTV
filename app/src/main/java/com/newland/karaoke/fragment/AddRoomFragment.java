@@ -35,15 +35,16 @@ public class AddRoomFragment extends BaseFragment implements AdapterView.OnItemS
     private  int roomId;//需要更改的商品id
     private  KTVRoomInfo ktvRoomInfo;//需要更新的room
 
+    public AddRoomFragment() {
+    }
+
     /**
      * 获取需要修改的房间id
      * @param roomId 房间id
      */
-    public  void updateRoom(int roomId)
-    {
-        isUpdate = true;
+    public AddRoomFragment(int roomId) {
+        this.isUpdate = true;
         this.roomId = roomId;
-        Log.e("111111", "updateRoom:");
     }
 
     @Override

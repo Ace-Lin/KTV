@@ -68,13 +68,13 @@ public class AddProductFragment extends BaseFragment implements View.OnClickList
     }
 
     /**
-     * 获取需要修改的商品id
+     * 获取需要修改的id
      * @param productId id
      */
-    public  void updateProduct(int productId)
-    {
-        isUpdate = true;
-        isHave=true;//修改代表已经添加了照片
+    public AddProductFragment(Context context, int productId) {
+        this.context = context;
+        this.isHave = true;
+        this.isUpdate = true;
         this.productId = productId;
     }
 
@@ -136,6 +136,7 @@ public class AddProductFragment extends BaseFragment implements View.OnClickList
         cancel.setOnClickListener(this);
         //距离下边框距离
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) contentView.getLayoutParams();
+        params.width = getResources().getDisplayMetrics().widthPixels - dp2px(context, 16f);
         params.bottomMargin = dp2px(context, 8f);
         contentView.setLayoutParams(params);
         bottomDialog.setCanceledOnTouchOutside(true);

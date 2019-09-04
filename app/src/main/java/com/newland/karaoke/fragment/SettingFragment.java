@@ -46,6 +46,6 @@ public class SettingFragment extends BaseFragment implements AdapterView.OnItemC
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        ((SettingActivity)getActivity()).openFragment(i);
+        ((SettingActivity)getActivity()).openFragment(i,false);
     }
 }
