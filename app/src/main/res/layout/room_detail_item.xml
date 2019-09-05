@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="商品名字"
+            android:text="房间名字"
             android:textSize="20dp"
             android:layout_toRightOf="@+id/order_room_picture"
             android:textColor="@android:color/black"
