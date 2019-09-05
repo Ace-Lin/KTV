@@ -94,16 +94,6 @@ public class AddRoomFragment extends BaseFragment implements AdapterView.OnItemS
     }
 
 
-    //删除输入信息
-     @Override
-     public void onDestroyView() {
-         Log.e("Jeffrey", "onDestroyView: " );
-         spinner_roomType.setSelection(0,true);
-         txt_roomNum.setText("222");
-         txt_roomPrice.setText("222");
-         super.onDestroyView();
-
-     }
 
    //下拉框选择
     @Override

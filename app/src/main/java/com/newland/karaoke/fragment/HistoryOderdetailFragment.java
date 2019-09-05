@@ -11,7 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.newland.karaoke.R;
-import com.newland.karaoke.adapter.DetailOrderAdapter;
+import com.newland.karaoke.adapter.HistoryDetailAdapter;
 import com.newland.karaoke.database.KTVOrderInfo;
 import com.newland.karaoke.database.KTVOrderProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
@@ -31,7 +31,7 @@ public class HistoryOderdetailFragment extends BaseFragment {
     private   KTVOrderInfo ktvOrderInfo;
     private   KTVRoomInfo  ktvRoomInfo;
     private   List<KTVOrderProduct> ktvOrderProducts;
-    private   DetailOrderAdapter detailOrderAdapter;
+    private HistoryDetailAdapter detailOrderAdapter;
     //region UI变量声明
     private  ImageView roomPicture;
     private  TextView roomInfo;
@@ -128,7 +128,7 @@ public class HistoryOderdetailFragment extends BaseFragment {
         if(ktvOrderProducts.size()<=0)
             return;
 
-        detailOrderAdapter = new DetailOrderAdapter(ktvOrderProducts, getContext());
+        detailOrderAdapter = new HistoryDetailAdapter(ktvOrderProducts, getContext());
         list_history.setAdapter(detailOrderAdapter);
     }
 

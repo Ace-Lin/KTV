@@ -5,7 +5,7 @@
     <string name="check_in">Check-in</string>
     <string name="order">Order</string>
     <string name="transactions">Transactions</string>
-
+    <string name="order_today">Order today</string>
 
     <!-- TODO: 设置信息 text -->
     <string name="setting">Setting</string>

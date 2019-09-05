@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.newland.karaoke.database.KTVOrderInfo;
 import org.litepal.LitePal;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import static com.newland.karaoke.utils.DateUtil.getCurrentDayBegin;
@@ -100,6 +102,8 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
         txt_turnover = (TextView)view.findViewById(R.id.txt_turnover);
         list_history = (ListView)view.findViewById(R.id.history_listview);
         currentDate = Calendar.getInstance();
+        Log.e(currentDate.getTimeInMillis()+"", "getTimeInMillis: ");
+        Log.e(new Date().getTime()+"", "getTime: ");
         currentYear = currentDate.get(Calendar.YEAR);
         currentMonth = currentDate.get(Calendar.MONTH)+1;//数从0开始,需要加1
         currentDay = currentDate.get(Calendar.DAY_OF_MONTH);
