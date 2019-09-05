@@ -37,6 +37,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener{
     private ImageView iv_fg_product_back;
     private ListView lv_fg_product_info;
     private TextView tv_fg_product_amount_show;
+    private double currentAmount;
 
     public List<ProductModel> getProductModels() {
         return productModels;
@@ -72,6 +73,10 @@ public class FragmentProduct extends Fragment implements View.OnClickListener{
 
         //初始化金额显示
         tv_fg_product_amount_show=view.findViewById(R.id.tv_fg_product_amount_show);
+    }
+
+    public double getCurrentAmount() {
+        return currentAmount;
     }
 
     @Override
@@ -124,13 +129,13 @@ public class FragmentProduct extends Fragment implements View.OnClickListener{
     }
 
     public void SetAmount(){
-        double amount=0;
+        currentAmount=0;
         for(ProductModel productModel:productModels){
             if(productModel.getProduct_num()>0){
-                amount+=productModel.getProduct_num()*productModel.getProduct_price();
+                currentAmount+=productModel.getProduct_num()*productModel.getProduct_price();
             }
         }
-        tv_fg_product_amount_show.setText(String.valueOf(amount));
+        tv_fg_product_amount_show.setText(String.valueOf(currentAmount));
 
     }
     @Override
