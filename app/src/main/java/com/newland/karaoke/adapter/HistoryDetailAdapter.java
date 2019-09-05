@@ -16,12 +16,12 @@ import java.util.List;
 
 import static com.newland.karaoke.utils.Utility.getPirBitMap;
 
-public class DetailOrderAdapter extends BaseAdapter {
+public class HistoryDetailAdapter extends BaseAdapter {
 
     private List<KTVOrderProduct> orderProductList;
     private Context mContext;
 
-    public DetailOrderAdapter(List<KTVOrderProduct> mData, Context mContext) {
+    public HistoryDetailAdapter(List<KTVOrderProduct> mData, Context mContext) {
         this.orderProductList = mData;
         this.mContext = mContext;
 
@@ -48,7 +48,7 @@ public class DetailOrderAdapter extends BaseAdapter {
         ViewHolder viewHolder;
 
         if(view == null){
-            view = LayoutInflater.from(mContext).inflate(R.layout.order_item,viewGroup,false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.history_order_item,viewGroup,false);
             viewHolder = new ViewHolder();
             viewHolder.order_item_picture = (ImageView) view.findViewById(R.id.order_item_picture);
             viewHolder.order_item_name = (TextView) view.findViewById(R.id.order_item_name);

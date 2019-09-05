@@ -134,18 +134,22 @@ public class AddProductFragment extends BaseFragment implements View.OnClickList
         choosePhoto.setOnClickListener(this);
         takePhoto.setOnClickListener(this);
         cancel.setOnClickListener(this);
-        //距离下边框距离
+
+        //<editor-fold desc="距离下，左右边框距离，根据需求可删除或者增大">
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) contentView.getLayoutParams();
         params.width = getResources().getDisplayMetrics().widthPixels - dp2px(context, 16f);
         params.bottomMargin = dp2px(context, 8f);
         contentView.setLayoutParams(params);
+        //</editor-fold>
+
         bottomDialog.setCanceledOnTouchOutside(true);
         bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
         bottomDialog.getWindow().setWindowAnimations(R.style.BottomDialog_Animation);
         bottomDialog.show();
     }
 
-    //region 拍照选择照片相关逻辑
+
+    //region 选择照片逻辑处理
     //获取照片和存储照片
     private static final int PHOTO_REQUEST_CAMERA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
@@ -336,6 +340,7 @@ public class AddProductFragment extends BaseFragment implements View.OnClickList
         pathPicture = file.getPath();//获取图片保存路径
     }
     //endregion
+
 
     @Override
     public void onClick(View view) {
