@@ -20,9 +20,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.newland.karaoke.KTVApplication;
 import com.newland.karaoke.R;
 import com.newland.karaoke.activity.CheckInActivity;
 import com.newland.karaoke.adapter.RoomAdapter;
+import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVRoomInfo;
 
 import org.litepal.LitePal;
@@ -50,9 +52,9 @@ public class FragmentRoom extends Fragment implements View.OnClickListener{
         sp_fg_room_choose = (Spinner) view.findViewById(R.id.sp_fg_room_choose);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        roomInfos= LitePal.findAll(KTVRoomInfo.class,true);
+        roomInfos= LitePal.where("room_status=?",String.valueOf(KTVType.RoomStatus.FREE)).find(KTVRoomInfo.class,true);
         for(KTVRoomInfo room:roomInfos){
-            adapter.add(room.getRoom_name());
+                adapter.add(room.getRoom_name());
         }
         sp_fg_room_choose.setAdapter(adapter);
         sp_fg_room_choose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

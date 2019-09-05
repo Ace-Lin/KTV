@@ -13,14 +13,16 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal">
-
+        <View
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
         <ImageView
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:src="@drawable/logo_npt"/>
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:src="@drawable/mic"/>
         <GridLayout
             android:id="@+id/gl_box"
@@ -33,7 +35,10 @@
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:orientation="vertical">
                 <ImageButton
@@ -42,14 +47,18 @@
                     android:layout_height="70dp"
                     android:background="@drawable/icon_reserve_norma"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
                     android:text="@string/check_in"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:orientation="vertical">
                 <ImageButton
@@ -58,14 +67,16 @@
                     android:layout_height="70dp"
                     android:background="@drawable/icon_order_norma"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
                     android:text="@string/order"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:gravity="center"
                 android:orientation="vertical">
                 <ImageButton
@@ -74,14 +85,16 @@
                     android:layout_height="70dp"
                     android:background="@drawable/icon_settings_normal"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:gravity="center"
                     android:text="@string/setting"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_margin="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:gravity="center"
                 android:orientation="vertical">
                 <ImageButton
@@ -90,9 +103,10 @@
                     android:layout_height="70dp"
                     android:background="@drawable/icon_transactions_normal"/>
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/transactions"/>
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:text="@string/transactions"
+                    android:gravity="center"/>
             </LinearLayout>
         </GridLayout>
         <Button
@@ -109,6 +123,9 @@
         android:layout_gravity="left"
         android:orientation="vertical"
         android:background="@android:color/white" >
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="20dp"/>
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ci_main_photo"
             android:layout_width="96dp"

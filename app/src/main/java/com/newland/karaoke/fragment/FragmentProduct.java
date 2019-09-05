@@ -56,7 +56,7 @@ public class FragmentProduct extends Fragment implements View.OnClickListener{
 
     public  void initUI(View view){
 
-        List<KTVProduct> productInfos=LitePal.findAll(KTVProduct.class,true);
+        List<KTVProduct> productInfos=LitePal.where("product_count>0").find(KTVProduct.class,true);
         productModels=new ArrayList<>();
         for(KTVProduct product:productInfos)
         {
