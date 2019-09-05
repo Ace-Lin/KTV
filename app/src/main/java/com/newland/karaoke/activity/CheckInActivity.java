@@ -157,17 +157,22 @@ public class CheckInActivity extends AppCompatActivity implements View.OnClickLi
         return mFragmentProduct;
     }
     private void OrderSubmit(){
+        double totalMoney=mKTVRoomInfo.getRoom_price()+mFragmentProduct.getCurrentAmount();
         //添加房间与商品订单至订单表
         KTVOrderInfo ktvOrder=new KTVOrderInfo();
         ktvOrder.setOrder_start_time(new Date());
         ktvOrder.setRoom_id(mKTVRoomInfo);
         ktvOrder.setProductList(new ArrayList<KTVOrderProduct>());
         ktvOrder.setOrder_status(KTVType.OrderStatus.UNPAID);
+        ktvOrder.setPay_amount(totalMoney);
         ktvOrder.save();
+        //房间的价格
+
 
         //修改房间状态
         mKTVRoomInfo.setRoom_status(KTVType.RoomStatus.NO_FREE);
         mKTVRoomInfo.save();
+
 
 
         //遍历添加商品订单
