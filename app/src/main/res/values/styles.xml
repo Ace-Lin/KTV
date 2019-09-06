@@ -4,9 +4,10 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorTopBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
 
             <!--TODO:选择图片底部弹窗-->
     <style name="BottomDialog" parent="@style/Base.V7.Theme.AppCompat.Light.Dialog">

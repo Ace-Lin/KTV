@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.newland.karaoke.R;
+import com.newland.karaoke.activity.BaseActivity;
 import com.newland.karaoke.activity.SettingActivity;
 import com.newland.karaoke.adapter.SettingAdapter;
 

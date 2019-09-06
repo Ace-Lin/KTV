@@ -108,7 +108,6 @@ public class AddRoomFragment extends BaseFragment implements AdapterView.OnItemS
 
     @Override
     public void onClick(View view) {
-        super.onClick(view);
        if (view.getId()==R.id.btn_save_room){
 
         if (TextUtils.isEmpty(txt_roomNum.getText()))

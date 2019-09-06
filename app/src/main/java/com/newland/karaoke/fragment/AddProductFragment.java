@@ -344,7 +344,6 @@ public class AddProductFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        super.onClick(view);
         switch (view.getId()){
             case R.id.picture_gllary:
                 openGallery();

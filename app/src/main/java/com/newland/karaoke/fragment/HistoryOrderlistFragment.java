@@ -154,7 +154,6 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
 
     @Override
     public void onClick(View view) {
-        super.onClick(view);
         if (view.getId()==R.id.btn_order_time)
             setSearchDate();
     }

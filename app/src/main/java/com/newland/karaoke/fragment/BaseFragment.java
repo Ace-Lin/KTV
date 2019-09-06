@@ -13,16 +13,12 @@ import androidx.fragment.app.Fragment;
 import com.newland.karaoke.R;
 import com.newland.karaoke.activity.BaseActivity;
 
-public class BaseFragment extends Fragment implements View.OnClickListener {
+public class BaseFragment extends Fragment {
     /**
      * 通用的ToolBar标题
      */
    public TextView commonTitle;
 
-    /**
-     * 通用的ToolBar后退
-     */
-    public Button btnBack;
     /**
      * 通用的ToolBar
      */
@@ -39,21 +35,16 @@ public class BaseFragment extends Fragment implements View.OnClickListener {
     public void initToolbar(View view, String title)
     {
         commonToolBar = (Toolbar)view.findViewById(R.id.setting_toolbar);
-
-        btnBack = (Button)view.findViewById(R.id.fragment_back_btn);
-        btnBack.setOnClickListener(this);
+        commonToolBar.setNavigationIcon(R.drawable.icon_back_left);
+        commonToolBar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((BaseActivity)getActivity()).basefinish();
+            }
+        });
 
         commonTitle=(TextView)view.findViewById(R.id.setting_title);
         commonTitle.setText(title);
     }
 
-
-
-    @Override
-    public void onClick(View view) {
-        if (view.getId()==R.id.fragment_back_btn) {
-            //重写的话，记得super
-            ((BaseActivity) getActivity()).basefinish();
-        }
-    }
 }

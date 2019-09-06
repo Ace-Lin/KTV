@@ -41,6 +41,9 @@ import com.newland.karaoke.UI.SelectDialog;
 import com.newland.karaoke.adapter.LeftContentAdapter;
 import com.newland.karaoke.constant.Const;
 import com.newland.karaoke.constant.KTVType;
+import com.newland.karaoke.database.KTVOrderInfo;
+import com.newland.karaoke.database.KTVOrderProduct;
+import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.database.KTVUserInfo;
 import com.newland.karaoke.database.KTVUserLogin;
@@ -57,10 +60,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.newland.karaoke.utils.DateUtil.getNoFormatDate;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -98,14 +104,77 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //取消顶部标题
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+       requestWindowFeature(Window.FEATURE_NO_TITLE);
         //设置全屏
         getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,WindowManager.LayoutParams. FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
         initData();
         initUI();
         initEvent();
+
+      //  initOrder();
     }
+
+    private void initOrder()
+    {
+        List<KTVRoomInfo> roomInfos = LitePal.findAll(KTVRoomInfo.class);
+        List<KTVProduct> products = LitePal.findAll(KTVProduct.class);
+        
+        KTVOrderProduct ktvProduct = new KTVOrderProduct();
+        ktvProduct.setProduct_quantity(10);
+        ktvProduct.setProduct(products.get(0));
+        ktvProduct.save();
+        
+        KTVOrderProduct ktvProduct1 = new KTVOrderProduct();
+        ktvProduct1.setProduct_quantity(10);
+        ktvProduct1.setProduct(products.get(0));
+        ktvProduct1.save();
+        
+        KTVOrderProduct ktvProduct2 = new KTVOrderProduct();
+        ktvProduct2.setProduct_quantity(10);
+        ktvProduct2.setProduct(products.get(0));
+        ktvProduct2.save();
+        
+        KTVOrderProduct ktvProduct3 = new KTVOrderProduct();
+        ktvProduct3.setProduct_quantity(5);
+        ktvProduct3.setProduct(products.get(0));
+        ktvProduct3.save();
+        
+        KTVOrderProduct ktvProduct4 = new KTVOrderProduct();
+        ktvProduct4.setProduct_quantity(8);
+        ktvProduct4.setProduct(products.get(0));
+        ktvProduct4.save();
+        
+        KTVOrderProduct ktvProduct5 = new KTVOrderProduct();
+        ktvProduct5.setProduct_quantity(1);
+        ktvProduct5.setProduct(products.get(0));
+        ktvProduct5.save();
+
+        List<KTVOrderProduct> ktvOrderProducts =new ArrayList<>();
+        ktvOrderProducts.add(ktvProduct);
+        ktvOrderProducts.add(ktvProduct1);
+        ktvOrderProducts.add(ktvProduct2);
+        ktvOrderProducts.add(ktvProduct3);
+        ktvOrderProducts.add(ktvProduct4);
+        ktvOrderProducts.add(ktvProduct5);
+
+        KTVOrderInfo ktvOrderInfo = new KTVOrderInfo();
+        ktvOrderInfo.setOrder_number(getNoFormatDate(new Date()));
+        ktvOrderInfo.setOrder_start_time(new Date());
+        ktvOrderInfo.setOrder_end_time(new Date());
+        ktvOrderInfo.setRoom_id(roomInfos.get(0));
+        ktvOrderInfo.setProductList(ktvOrderProducts);
+        ktvOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
+        ktvOrderInfo.setOrder_pay_type(KTVType.PayType.CARD);
+        ktvOrderInfo.save();
+
+        
+    }
+
+
+
+
     void initData(){
         leftContentModels=new ArrayList<>();
         leftContentModels.add(new LeftContentModel(R.drawable.main_login,"Login",KTVType.MineType.LOGIN));
