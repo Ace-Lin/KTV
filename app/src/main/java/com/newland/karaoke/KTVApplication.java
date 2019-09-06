@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.newland.karaoke.constant.KTVType;
+import com.newland.karaoke.database.KTVOrderInfo;
 import com.newland.karaoke.database.KTVOrderProduct;
 import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
@@ -16,6 +17,7 @@ import com.newland.karaoke.utils.FileUtils;
 import org.litepal.LitePal;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import android.os.Handler;
 
@@ -127,6 +129,25 @@ public class KTVApplication extends Application {
             userLogin.setUser_account("yi");
             userLogin.setUser_password("12345");
             userLogin.save();
+
+            //添加商品订单
+            KTVOrderProduct ktvOrderProduct=new KTVOrderProduct();
+            ktvOrderProduct.setProduct_quantity(2);
+            ktvOrderProduct.setProduct(ktvProduct4);
+            ktvOrderProduct.save();
+            //添加订单
+            KTVOrderInfo ktvOrderInfo=new KTVOrderInfo();
+            ktvOrderInfo.setOrder_start_time(new Date());
+            ktvOrderInfo.setRoom_id(ktvRoomInfo3);
+            ktvOrderInfo.setPay_amount(76);
+            List<KTVOrderProduct> list=new ArrayList<>();
+            list.add(ktvOrderProduct);
+            ktvOrderInfo.setProductList(list);
+            ktvOrderInfo.setOrder_status(KTVType.OrderStatus.UNPAID);
+            ktvOrderInfo.save();
+            //更新商品订单
+            ktvOrderProduct.setKtvOrderInfo(ktvOrderInfo);
+            ktvOrderProduct.save();
     }
 
         public static UserModel getCurrentUser() {

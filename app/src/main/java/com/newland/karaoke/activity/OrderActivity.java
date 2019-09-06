@@ -1,5 +1,6 @@
 package com.newland.karaoke.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public class OrderActivity extends BaseActivity implements AdapterView.OnItemCli
     private  TextView txt_title;
     private  ListView list_order;
     private  OrderAdapter orderAdapter;
+    private List<KTVOrderInfo>   ktvOrderInfoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class OrderActivity extends BaseActivity implements AdapterView.OnItemCli
     //初始化数据
     private  void showListView(){
 
-        List<KTVOrderInfo>   ktvOrderInfoList = LitePal.where("order_status= ? and (order_start_time>? and order_start_time<?) ",
+        ktvOrderInfoList = LitePal.where("order_status= ? and (order_start_time>? and order_start_time<?) ",
                 String.valueOf(KTVType.OrderStatus.UNPAID),  getCurrentDayBegin(Calendar.getInstance()),String.valueOf(new Date().getTime())).find(KTVOrderInfo.class);
 
 
@@ -81,14 +83,20 @@ public class OrderActivity extends BaseActivity implements AdapterView.OnItemCli
 
     @Override
     public void listSubClick(View view) {
-        int  postions = (Integer)view.getTag();//adapter设置了tag
-
+        int  position = (Integer)view.getTag();//adapter设置了tag
+        KTVOrderInfo orderInfo=ktvOrderInfoList.get(position);
+        int orderId=orderInfo.getId();
         if (view.getId()==R.id.order_btn_details) {
-
-              showShortText(this,postions + "order_btn_details");
+            showShortText(this,position + "order_btn_details");
+            Bundle bundle=new Bundle();
+            bundle.putInt("id",orderId);
+            Intent intentOrderDetail=new Intent(OrderActivity.this,OrderDetailActivity.class);
+            intentOrderDetail.putExtras(bundle);
+            startActivity(intentOrderDetail);
+            finish();
         }
          else if (view.getId()==R.id.order_btn_pay) {
-            showShortText(this,postions + "order_btn_pay");
+            showShortText(this,position + "order_btn_pay");
         }
 
     }

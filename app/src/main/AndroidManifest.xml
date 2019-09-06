@@ -18,6 +18,7 @@
         <activity android:name=".activity.PersonInfoActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.ChangePwdActivity" />
+        <activity android:name=".activity.OrderDetailActivity" />
         <activity android:name=".activity.ShiftActivity" />
         <activity android:name=".activity.SettingActivity" />
         <activity android:name=".activity.OrderActivity" />

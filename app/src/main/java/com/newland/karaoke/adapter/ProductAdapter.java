@@ -47,25 +47,33 @@ public class ProductAdapter extends ArrayAdapter<ProductModel> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ProductModel product=getItem(position);
         View view= LayoutInflater.from(getContext()).inflate(resourceId,parent,false);
+        ViewHolder viewHolder=new ViewHolder();
 
         //实例化控件
-        TextView tv_item_product_name=(TextView)view.findViewById(R.id.tv_item_product_name);
-        TextView tv_item_product_num=(TextView)view.findViewById(R.id.tv_item_product_num);
-        TextView tv_item_product_price=(TextView)view.findViewById(R.id.tv_item_product_price);
-        ImageButton iv_item_product_add=(ImageButton)view.findViewById(R.id.iv_item_product_add);
-        ImageButton iv_item_product_sub=(ImageButton)view.findViewById(R.id.iv_item_product_sub);
+        viewHolder.tv_item_product_name=(TextView)view.findViewById(R.id.tv_item_product_name);
+        viewHolder.tv_item_product_num=(TextView)view.findViewById(R.id.tv_item_product_num);
+        viewHolder.tv_item_product_price=(TextView)view.findViewById(R.id.tv_item_product_price);
+        viewHolder.iv_item_product_add=(ImageButton)view.findViewById(R.id.iv_item_product_add);
+        viewHolder.iv_item_product_sub=(ImageButton)view.findViewById(R.id.iv_item_product_sub);
 
         //设置控件值
-        tv_item_product_name.setText(product.getProduct_name());
-        tv_item_product_num.setText(String.valueOf(product.getProduct_num()));
-        tv_item_product_price.setText(String.valueOf(product.getProduct_price()));
+        viewHolder.tv_item_product_name.setText(product.getProduct_name());
+        viewHolder.tv_item_product_num.setText(String.valueOf(product.getProduct_num()));
+        viewHolder.tv_item_product_price.setText(String.valueOf(product.getProduct_price()));
 
-        iv_item_product_add.setOnClickListener(onClickListener);
-        iv_item_product_add.setTag(position);
-        iv_item_product_sub.setOnClickListener(onClickListener);
-        iv_item_product_sub.setTag(position);
-
+        viewHolder.iv_item_product_add.setOnClickListener(onClickListener);
+        viewHolder.iv_item_product_add.setTag(position);
+        viewHolder.iv_item_product_sub.setOnClickListener(onClickListener);
+        viewHolder.iv_item_product_sub.setTag(position);
         return view;
+    }
+
+    private class ViewHolder{
+        public TextView tv_item_product_name;
+        public TextView tv_item_product_num;
+        public TextView tv_item_product_price;
+        public ImageButton iv_item_product_add;
+        public ImageButton iv_item_product_sub;
     }
 
 }
