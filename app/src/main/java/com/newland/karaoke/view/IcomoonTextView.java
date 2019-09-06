@@ -1,4 +1,4 @@
-package com.newland.karaoke.UI;
+package com.newland.karaoke.view;
 
 import android.content.Context;
 import android.graphics.Typeface;

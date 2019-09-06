@@ -1,4 +1,4 @@
-package com.newland.karaoke.UI;
+package com.newland.karaoke.view;
 
 import android.app.Activity;
 import android.app.Dialog;

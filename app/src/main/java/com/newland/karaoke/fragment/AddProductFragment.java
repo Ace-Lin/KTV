@@ -135,12 +135,12 @@ public class AddProductFragment extends BaseFragment implements View.OnClickList
         takePhoto.setOnClickListener(this);
         cancel.setOnClickListener(this);
 
-        //<editor-fold desc="距离下，左右边框距离，根据需求可删除或者增大">
+        //region 距离下，左右边框距离，根据需求可删除或者增大
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) contentView.getLayoutParams();
         params.width = getResources().getDisplayMetrics().widthPixels - dp2px(context, 16f);
         params.bottomMargin = dp2px(context, 8f);
         contentView.setLayoutParams(params);
-        //</editor-fold>
+        //endregion
 
         bottomDialog.setCanceledOnTouchOutside(true);
         bottomDialog.getWindow().setGravity(Gravity.BOTTOM);
@@ -149,7 +149,7 @@ public class AddProductFragment extends BaseFragment implements View.OnClickList
     }
 
 
-    //region 选择照片逻辑处理
+    //region  选择照片逻辑处理
     //获取照片和存储照片
     private static final int PHOTO_REQUEST_CAMERA = 1;// 拍照
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择

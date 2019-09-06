@@ -19,6 +19,7 @@ import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.OrderAdapter;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVOrderInfo;
+import com.newland.karaoke.view.PayDialogFragment;
 
 import org.litepal.LitePal;
 
@@ -29,7 +30,7 @@ import java.util.List;
 import static com.newland.karaoke.utils.DateUtil.getCurrentDayBegin;
 import static com.newland.karaoke.utils.ToastUtil.showShortText;
 
-public class OrderActivity extends BaseActivity implements AdapterView.OnItemClickListener, OrderAdapter.Callback {
+public class OrderActivity extends BaseActivity implements  OrderAdapter.Callback, PayDialogFragment.NoticeDialogListener {
 
     private  TextView txt_title;
     private  ListView list_order;
@@ -73,11 +74,11 @@ public class OrderActivity extends BaseActivity implements AdapterView.OnItemCli
 
         orderAdapter = new OrderAdapter(ktvOrderInfoList, this,this);
         list_order.setAdapter(orderAdapter);
-        list_order.setOnItemClickListener(this);
     }
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+    private void payHandler(int poistion){
+        PayDialogFragment payDialog = new PayDialogFragment(100,this);
+        payDialog.show(getSupportFragmentManager(),"payDialog");
     }
 
 
@@ -96,7 +97,7 @@ public class OrderActivity extends BaseActivity implements AdapterView.OnItemCli
             finish();
         }
          else if (view.getId()==R.id.order_btn_pay) {
-            showShortText(this,position + "order_btn_pay");
+            payHandler(position);
         }
 
     }
@@ -104,5 +105,20 @@ public class OrderActivity extends BaseActivity implements AdapterView.OnItemCli
     @Override
     public void basefinish() {
         finish();
+    }
+
+    @Override
+    public void onDialogBtnClick(int payType) {
+        switch (payType){
+            case KTVType.PayType.CASH:
+                showShortText(this,payType);
+                break;
+            case KTVType.PayType.CARD:
+                showShortText(this,payType);
+                break;
+            case KTVType.PayType.QRCODE:
+                showShortText(this,payType);
+                break;
+        }
     }
 }
