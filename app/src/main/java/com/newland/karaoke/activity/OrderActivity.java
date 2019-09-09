@@ -35,7 +35,8 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
     private  TextView txt_title;
     private  ListView list_order;
     private  OrderAdapter orderAdapter;
-    private List<KTVOrderInfo>   ktvOrderInfoList;
+    private  List<KTVOrderInfo>   ktvOrderInfoList;
+    private  PayDialogFragment payDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +77,6 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
         list_order.setAdapter(orderAdapter);
     }
 
-    private void payHandler(int poistion){
-        PayDialogFragment payDialog = new PayDialogFragment(100,this);
-        payDialog.show(getSupportFragmentManager(),"payDialog");
-    }
 
 
     @Override
@@ -97,7 +94,8 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
             finish();
         }
          else if (view.getId()==R.id.order_btn_pay) {
-            payHandler(position);
+            payDialog= new PayDialogFragment(ktvOrderInfoList.get(position).getPay_amount(),this);
+            payDialog.show(getSupportFragmentManager(),"payDialog");
         }
 
     }
@@ -120,5 +118,7 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
                 showShortText(this,payType);
                 break;
         }
+
+        payDialog.dismiss();
     }
 }

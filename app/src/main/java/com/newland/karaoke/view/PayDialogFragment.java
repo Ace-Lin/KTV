@@ -1,12 +1,9 @@
 package com.newland.karaoke.view;
 
-import android.app.Dialog;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -37,18 +34,6 @@ public class PayDialogFragment extends DialogFragment implements View.OnClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL,R.style.PayDialog);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        Dialog dialog =getDialog();
-        if(dialog != null){
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            dialog.getWindow().setLayout((int) (displayMetrics.widthPixels *0.8),
-            ViewGroup.LayoutParams.WRAP_CONTENT);
-        }
     }
 
     @Nullable
