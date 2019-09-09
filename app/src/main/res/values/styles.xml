@@ -35,6 +35,8 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <!--是否去除标题 -->
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowEnterAnimation">@anim/scale_center_in</item>
+        <item name="android:windowExitAnimation">@anim/scale_center_out</item>
     </style>
 
 

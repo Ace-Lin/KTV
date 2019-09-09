@@ -34,18 +34,21 @@ public class PayDialogFragment extends DialogFragment implements View.OnClickLis
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setStyle(DialogFragment.STYLE_NORMAL,R.style.PayDialog);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-          View view = inflater.inflate(R.layout.dialog_pay, container);
+
+        getDialog().getWindow().getAttributes().windowAnimations = R.style.PayDialog;
+        View view = inflater.inflate(R.layout.dialog_pay, container);
 
           TextView textView = view.findViewById(R.id.txt_pay_amount);
           ImageButton btn_cash = view.findViewById(R.id.btn_pay_cash);
           ImageButton btn_bank_card = view.findViewById(R.id.btn_pay_bank_card);
           ImageButton btn_scan_code = view.findViewById(R.id.btn_pay_scan_code);
-          textView.setText(String.valueOf(amount));
+          textView.setText(getString(R.string.dollar) + amount);
           btn_cash.setOnClickListener(this);
           btn_bank_card.setOnClickListener(this);
           btn_scan_code.setOnClickListener(this);
