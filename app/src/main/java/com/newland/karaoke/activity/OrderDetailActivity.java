@@ -109,6 +109,9 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         //加载总金额
         tv_order_detail_amount=(TextView)findViewById(R.id.tv_order_detail_amount);
         tv_order_detail_amount.setText("Total Amount: $"+(foodAmount+roomAmount));
+
+        currentOrder.setPay_amount(foodAmount+roomAmount);
+        currentOrder.save();
         //加载商品信息
         lv_order_detail_product=(ScollViewListView)findViewById(R.id.sv_order_detail_product);
         adapter=new OrderDetailProductAdapter(currentOrderProducts,OrderDetailActivity.this);
@@ -177,6 +180,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.iv_order_detail_food_change:   //修改订单食物
                 JumpToDetail();
+                finish();
                 break;
             case R.id.iv_order_detail_room_change:   //修改订单房间
                 ShowConfirmRoomDialog();
@@ -268,5 +272,6 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         bundleBack.putInt("id",id);
         intentBack.putExtras(bundleBack);
         startActivity(intentBack);
+
     }
 }

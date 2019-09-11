@@ -53,10 +53,13 @@ public class KTVProduct extends LitePalSupport {
     public void setProduct_picture(String product_picture) {
         this.product_picture = product_picture;
     }
-
-    public List<KTVOrderProduct> getProduct() {
+    public List<KTVOrderProduct> getProductDirect() {
 
         return product;
+    }
+    public List<KTVOrderProduct> getProduct() {
+        KTVProduct product=LitePal.find(KTVProduct.class,id,true);
+        return product.getProductDirect();
     }
 
     public void setProduct(List<KTVOrderProduct> product) {

@@ -225,13 +225,68 @@ public class ChangeOrderInfoActivity extends BaseActivity implements View.OnClic
     }
 
     private void OrderInfoSubmit(){
-        for(ProductModel product:productModelList){
-            for(KTVOrderProduct orderProduct:currentOrderProducts){
-                if(product.getProduct_id()==orderProduct.getProduct().getId()){
+        //修改已购买商品信息
+        for(ProductModel modelChange:productModelBoughtList){
+            if(modelChange.getProduct_order()!=modelChange.getProduct_num()){
+                int delta=modelChange.getProduct_num()-modelChange.getProduct_order();
 
+                //修改商品订单表
+                for(KTVOrderProduct orderProduct:currentOrderProducts){
+                    if(orderProduct.getProduct().getId()==modelChange.getProduct_id()){
+                        orderProduct.setProduct_quantity(modelChange.getProduct_num());
+                        orderProduct.setKtvOrderInfo(currentOrder);
+                        orderProduct.setProduct(LitePal.find(KTVProduct.class,modelChange.getProduct_id(),true));
+                        orderProduct.save();
+                        break;
+                    }
                 }
+
+                //修改商品库存数量
+                KTVProduct changeProduct= LitePal.find(KTVProduct.class,modelChange.getProduct_id(),true);
+                int productCountUpdate=changeProduct.getProduct_count()-delta;
+                changeProduct.setProduct_count(productCountUpdate);
+                changeProduct.save();
             }
 
+        }
+        //新增商品
+        for(ProductModel modelAdd:productModelList){
+            if(modelAdd.getProduct_num()!=0){
+                //创建商品订单
+                KTVOrderProduct ktvOrderProduct=new KTVOrderProduct();
+                ktvOrderProduct.setProduct_quantity(modelAdd.getProduct_num());
+                //保存商品订单
+                ktvOrderProduct.save();
+
+                //获取商品
+                KTVProduct ktvProduct= LitePal.find(KTVProduct.class,modelAdd.getProduct_id(),true);
+                //添加商品至商品订单表
+                ktvOrderProduct.setProduct(ktvProduct);
+                ktvOrderProduct.save();
+
+                //添加商品订单至商品表
+                List<KTVOrderProduct> ktvProductTemp=ktvProduct.getProduct();
+                ktvProductTemp.add(ktvOrderProduct);
+                ktvProduct.setProduct(ktvProductTemp);
+                ktvProduct.save();
+
+                //添加订单至商品订单表
+                ktvOrderProduct.setKtvOrderInfo(currentOrder);
+                ktvOrderProduct.save();//保存商品订单表记录
+
+                //修改商品库存
+                int productCountUpdate=ktvProduct.getProduct_count()-modelAdd.getProduct_num();
+                ktvProduct.setProduct_count(productCountUpdate);
+                ktvProduct.save();
+
+
+                //添加商品订单至订单表
+                List<KTVOrderProduct> ktvOrderTemp=currentOrder.getProductList();
+                ktvOrderTemp.add(ktvOrderProduct);
+                currentOrder.setProductList(ktvOrderTemp);
+                currentOrder.save();
+
+            }
         }
 
 
@@ -242,7 +297,6 @@ public class ChangeOrderInfoActivity extends BaseActivity implements View.OnClic
         bundleBack.putInt("id",id);
         intentBack.putExtras(bundleBack);
         startActivity(intentBack);
-        finish();
     }
 
 

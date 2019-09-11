@@ -33,7 +33,7 @@ public class KTVOrderProduct extends LitePalSupport {
     public KTVProduct getProduct() {
        // KTVOrderProduct product = LitePal.find(KTVOrderProduct.class,getId());
         //LitePal.find(KTVOrderProduct.class,getId(),true).productList;
-        return LitePal.find(KTVOrderProduct.class,getId(),true).product();
+        return LitePal.find(KTVOrderProduct.class,id,true).product();
     }
 
     public void setProduct(KTVProduct product) {
