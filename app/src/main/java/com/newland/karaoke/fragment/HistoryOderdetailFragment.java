@@ -53,18 +53,6 @@ public class HistoryOderdetailFragment extends BaseFragment {
         ktvOrderProducts = ktvOrderInfo.getProductList();
     }
 
-    /**
-     * 获取传递的订单
-     * @param ktvOrderInfo
-     */
-    public void setKTVOrderInfo(KTVOrderInfo ktvOrderInfo)
-    {
-        this.ktvOrderInfo = ktvOrderInfo;
-        ktvRoomInfo=ktvOrderInfo.getRoom_id();
-        ktvOrderProducts.clear();
-        ktvOrderProducts.addAll(ktvOrderInfo.getProductList());
-        updateUIdata();
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,14 +121,6 @@ public class HistoryOderdetailFragment extends BaseFragment {
         list_history.setAdapter(detailOrderAdapter);
     }
 
-    /**
-     *更换订单更新显示数据
-     */
-    private void updateUIdata(){
-        showUIData();
-        detail_scrollview.scrollTo(0,0);//设置每次刷新新的订单详情回到最上方
-        detailOrderAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onAttach(Context context) {
