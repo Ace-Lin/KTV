@@ -49,19 +49,19 @@ import static com.newland.karaoke.utils.Utility.getPirBitMap;
  */
 public class AddProductFragment extends BaseFragment implements View.OnClickListener {
 
-    private  Context context;
-
     private Dialog bottomDialog;
     private TextView txt_productName;
     private TextView txt_productCount;
     private TextView txt_productPrice;
     private ImageView productPic;//展示图片
     private Button btn_save;
+
     private String pathPicture;//获取图片路径
     private  boolean isHave; //是否获取了图片
     private  boolean isUpdate;//判断是否是更新数据
     private  int productId;//需要更改的商品id
     private  KTVProduct ktvProduct;//需要更新的room
+    private  Context context;
     
     public AddProductFragment(Context context) {
         this.context = context;

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,6 +20,7 @@ import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.OrderAdapter;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVOrderInfo;
+import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.view.PayDialogFragment;
 
 import org.litepal.LitePal;
@@ -28,6 +30,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.newland.karaoke.utils.DateUtil.getCurrentDayBegin;
+import static com.newland.karaoke.utils.DateUtil.getNoFormatDate;
 import static com.newland.karaoke.utils.ToastUtil.showShortText;
 
 public class OrderActivity extends BaseActivity implements  OrderAdapter.Callback, PayDialogFragment.NoticeDialogListener {
@@ -37,6 +40,7 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
     private  OrderAdapter orderAdapter;
     private  List<KTVOrderInfo>   ktvOrderInfoList;
     private  PayDialogFragment payDialog;
+    private  KTVOrderInfo currOrderInfo;//当前订单
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +68,14 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
         list_order = (ListView)findViewById(R.id.order_listview);
 
         txt_title.setText(R.string.order_today);
+
     }
 
     //初始化数据
     private  void showListView(){
 
         ktvOrderInfoList = LitePal.where("order_status= ? and (order_start_time>? and order_start_time<?) ",
-                String.valueOf(KTVType.OrderStatus.UNPAID),  getCurrentDayBegin(Calendar.getInstance()),String.valueOf(new Date().getTime())).find(KTVOrderInfo.class);
+                String.valueOf(KTVType.OrderStatus.UNPAID),  getCurrentDayBegin(Calendar.getInstance()),String.valueOf(new Date().getTime())).find(KTVOrderInfo.class,true);
 
 
         orderAdapter = new OrderAdapter(ktvOrderInfoList, this,this);
@@ -82,8 +87,8 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
     @Override
     public void listSubClick(View view) {
         int  position = (Integer)view.getTag();//adapter设置了tag
-        KTVOrderInfo orderInfo=ktvOrderInfoList.get(position);
-        int orderId=orderInfo.getId();
+        currOrderInfo = ktvOrderInfoList.get(position);
+        int orderId=currOrderInfo.getId();
         if (view.getId()==R.id.order_btn_details) {
             showShortText(this,position + "order_btn_details");
             Bundle bundle=new Bundle();
@@ -119,6 +124,25 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
                 break;
         }
 
+        KTVRoomInfo roomInfo = currOrderInfo.getRoom_id();
+        roomInfo.setRoom_status(KTVType.RoomStatus.FREE);
+
+        List<KTVOrderInfo> orderInfos = roomInfo.getKtvOrderInfos();
+        orderInfos.add(currOrderInfo);
+        roomInfo.setKtvOrderInfos(orderInfos);
+
+        roomInfo.save();
+
+        currOrderInfo.setOrder_pay_type(payType);
+        currOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
+        currOrderInfo.setOrder_number(getNoFormatDate(new Date()));
+        currOrderInfo.setOrder_end_time(new Date());
+        currOrderInfo.save();
+
         payDialog.dismiss();
     }
+
+
+
+
 }

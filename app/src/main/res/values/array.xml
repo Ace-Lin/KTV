@@ -6,6 +6,16 @@
         <item>Small</item>
     </string-array>
 
+    <string-array name="delete_db_array">
+        <item>选择删除的表</item>
+        <item>RoomInfo</item>
+        <item>OrderInfo</item>
+        <item>OrderProduct</item>
+        <item>Product</item>
+        <item>UserInfo</item>
+        <item>Login</item>
+    </string-array>
+
     <string-array name="setting_type_array">
         <item>@string/setting_roomDetails</item>
         <item>@string/setting_productDetails</item>

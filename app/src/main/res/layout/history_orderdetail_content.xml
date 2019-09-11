@@ -13,9 +13,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <include layout="@layout/room_detail_item"/>
-
             <!--商品订单-->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -24,7 +21,13 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/shape_circle_pad_white"
                 >
-
+                <!--<include layout="@layout/room_detail_item"/>-->
+                <include layout="@layout/history_order_item"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                   android:background="@color/bg_gray"
+                    ></View>
                 <!---商品列表-->
                 <com.newland.karaoke.view.ScollViewListView
                     android:id="@+id/detail_product_listview"
@@ -51,6 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="vertical"
                 android:background="@drawable/shape_circle_pad_white"
                 >
@@ -61,7 +65,6 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:textSize="20dp"
                         android:text="@string/detail_order_number"
                         />
@@ -70,7 +73,6 @@
                         android:id="@+id/detail_order_number"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
                         android:textSize="20dp"
                         android:layout_alignParentRight="true"
                         android:text="@string/detail_order_number"
