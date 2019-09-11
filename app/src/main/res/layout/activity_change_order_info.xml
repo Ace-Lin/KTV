@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.ChangeOrderInfoActivity">
+    <include layout="@layout/order_detail_change_toolbar"></include>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_circle_white">
+            <TextView
+                android:id="@+id/tv_order_detail_change_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:textSize="25sp"
+                android:textColor="@color/coloryellow"
+                android:text="Amount:$0.0"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
+            android:background="@drawable/shape_circle_pad_white"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:textSize="20sp"
+                android:text="Current Food:"/>
+
+            <include layout="@layout/order_detail_title_product_item"/>
+            <com.newland.karaoke.view.ScollViewListView
+                android:id="@+id/sv_order_detail_check_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+            </com.newland.karaoke.view.ScollViewListView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
+            android:background="@drawable/shape_circle_pad_white"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:textSize="20sp"
+                android:text="Add Food:"/>
+
+            <include layout="@layout/order_detail_title_change_product_item"/>
+            <com.newland.karaoke.view.ScollViewListView
+                android:id="@+id/sv_order_detail_change_product"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+            </com.newland.karaoke.view.ScollViewListView>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</ScrollView>
+
+
+
+</LinearLayout>

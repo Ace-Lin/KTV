@@ -7,6 +7,9 @@
     <string name="transactions">Transactions</string>
     <string name="order_today">Order today</string>
 
+    <!-- TODO: 商品信息 text -->
+    <string name="product_stock">Stock:0</string>
+    <string name="product_order_num">Bought:0</string>
     <!-- TODO: 设置信息 text -->
     <string name="setting">Setting</string>
     <string name="setting_roomDetails">Room Details</string>
@@ -60,6 +63,7 @@
     <string name="order_room_no">Room No.:   </string>
     <string name="order_product_count">Products:    </string>
     <string name="order_amount">Amount: $   </string>
+    <string name="order_food_amount">Food: $   </string>
 
     <!-- TODO: 详细订单信息 text -->
     <string name="detail_order_number">Order Number :</string>

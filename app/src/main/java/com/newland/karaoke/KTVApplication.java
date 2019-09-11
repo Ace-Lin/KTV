@@ -116,6 +116,13 @@ public class KTVApplication extends Application {
             ktvProduct4.setProduct(new ArrayList<KTVOrderProduct>());
             ktvProduct4.save();
 
+            KTVProduct ktvProduct5=new KTVProduct();
+            ktvProduct5.setProduct_name("水");
+            ktvProduct5.setProduct_count(0);
+            ktvProduct5.setProduct_price(3);
+            ktvProduct5.setProduct(new ArrayList<KTVOrderProduct>());
+            ktvProduct5.save();
+
             //增加用户
             KTVUserInfo userInfo=new KTVUserInfo();
             userInfo.setIdentity_card_no("123432435");
@@ -135,19 +142,27 @@ public class KTVApplication extends Application {
             ktvOrderProduct.setProduct_quantity(2);
             ktvOrderProduct.setProduct(ktvProduct4);
             ktvOrderProduct.save();
+            //添加商品订单
+            KTVOrderProduct ktvOrderProduct1=new KTVOrderProduct();
+            ktvOrderProduct1.setProduct_quantity(1);
+            ktvOrderProduct1.setProduct(ktvProduct3);
+            ktvOrderProduct1.save();
             //添加订单
             KTVOrderInfo ktvOrderInfo=new KTVOrderInfo();
             ktvOrderInfo.setOrder_start_time(new Date());
+            ktvOrderInfo.setOrder_number("15472719");
             ktvOrderInfo.setRoom_id(ktvRoomInfo3);
-            ktvOrderInfo.setPay_amount(76);
-            List<KTVOrderProduct> list=new ArrayList<>();
+            ktvOrderInfo.setPay_amount(85);
+            List<KTVOrderProduct> list=new ArrayList<KTVOrderProduct>();
             list.add(ktvOrderProduct);
+            list.add(ktvOrderProduct1);
             ktvOrderInfo.setProductList(list);
             ktvOrderInfo.setOrder_status(KTVType.OrderStatus.UNPAID);
             ktvOrderInfo.save();
             //更新商品订单
             ktvOrderProduct.setKtvOrderInfo(ktvOrderInfo);
             ktvOrderProduct.save();
+
     }
 
         public static UserModel getCurrentUser() {

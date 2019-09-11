@@ -7,7 +7,177 @@
     android:orientation="vertical"
     tools:context=".activity.OrderDetailActivity">
 
-    <include layout="@layout/setting_toolbar"   ></include>
+    <include layout="@layout/order_detail_toolbar"   ></include>
+    <ScrollView
+        android:id="@+id/order_detail_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/order_room_detail_item"/>
+
+            <!--商品订单-->
+            <!--LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:background="@drawable/shape_circle_pad_white"
+                -->
+
+                <!---商品列表-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="5dp"
+                    android:padding="10dp"
+                    android:background="@drawable/shape_circle_pad_white"
+                    >
+                <include layout="@layout/order_detail_title_product_item"/>
+                <com.newland.karaoke.view.ScollViewListView
+                    android:id="@+id/sv_order_detail_product"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+                </com.newland.karaoke.view.ScollViewListView>
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right|center_vertical">
+                        <!--食品总价-->
+                        <TextView
+                            android:id="@+id/tv_order_detail_food_amount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/order_food_amount"
+                            android:textSize="20dp"
+                            android:layout_gravity="right"
+                            />
+                        <ImageView
+                            android:id="@+id/iv_order_detail_food_change"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="10dp"
+                            android:src="@drawable/order_detail_change_normal"
+                            android:clickable="true"
+                            android:layout_toRightOf="@+id/tv_order_detail_food_amount"/>
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+            <!--/LinearLayout-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_circle_white"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+                <!--总价-->
+                <TextView
+                    android:id="@+id/tv_order_detail_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/order_amount"
+                    android:textColor="@color/coloryellow"
+                    android:textSize="20dp"
+                    android:layout_gravity="right"
+                    />
+
+            </LinearLayout>
+
+
+            <!--底部信息-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/shape_circle_pad_white"
+                >
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:text="@string/detail_order_number"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_order_detail_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:layout_alignParentRight="true"
+                        android:text="@string/detail_order_number"
+                        android:textColor="@android:color/black"
+                        />
+
+                </RelativeLayout>
+
+
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:text="@string/detail_order_time"
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_order_detail_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:textSize="20dp"
+                        android:layout_alignParentRight="true"
+                        android:text="@string/detail_order_time"
+                        android:textColor="@android:color/black"
+                        />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+            <Button
+                android:id="@+id/btn_order_detail_delete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_border_radius_color"
+                android:elevation="5dp"
+                android:text="Delete"
+                android:textColor="#FFFFFF"/>
+            <Button
+                android:id="@+id/btn_order_detail_pay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/button_border_radius_color"
+                android:elevation="5dp"
+                android:text="Pay"
+                android:textColor="#FFFFFF"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
 
 </LinearLayout>

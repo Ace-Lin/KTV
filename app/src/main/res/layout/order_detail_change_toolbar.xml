@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="25dp"
+    android:orientation="horizontal"
+    android:background="@color/colorPrimaryDark"
+    >
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/order_detail_change_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="8dp"
+        android:background="@color/colorPrimaryDark"
+        >
+        <TextView
+            android:id="@+id/order_detail_change_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textSize="30dp"
+            android:textColor="@android:color/white"
+            />
+        <ImageView
+            android:id="@+id/iv_order_detail_change_submit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/room_submit_30"
+            android:clickable="true"
+            android:layout_gravity="right"/>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+</LinearLayout>

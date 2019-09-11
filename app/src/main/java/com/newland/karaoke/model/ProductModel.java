@@ -6,10 +6,11 @@ import com.newland.karaoke.database.KTVProduct;
 
 public class ProductModel{
     private String product_name;
-    private int product_count;
+    private int product_count;//商品储量
     private double product_price;
     private String product_picture;
-    private int product_num;
+    private int product_num;//商品输入数量
+    private int product_order;//已买商品数量
     private int product_id;
 
     public int getProduct_id() {
@@ -18,11 +19,21 @@ public class ProductModel{
 
     public ProductModel(KTVProduct ktvProduct) {
         product_num=0;
+        product_order=0;
         product_count= ktvProduct.getProduct_count();
         product_price= ktvProduct.getProduct_price();
         product_picture= ktvProduct.getProduct_picture();
         product_name= ktvProduct.getProduct_name();
         product_id= ktvProduct.getId();
+
+    }
+
+    public int getProduct_order() {
+        return product_order;
+    }
+
+    public void setProduct_order(int product_order) {
+        this.product_order = product_order;
     }
 
     public String getProduct_name() {

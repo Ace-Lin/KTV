@@ -87,7 +87,7 @@ public class OrderActivity extends BaseActivity implements AdapterView.OnItemCli
         KTVOrderInfo orderInfo=ktvOrderInfoList.get(position);
         int orderId=orderInfo.getId();
         if (view.getId()==R.id.order_btn_details) {
-            showShortText(this,position + "order_btn_details");
+            //showShortText(this,position + "order_btn_details");
             Bundle bundle=new Bundle();
             bundle.putInt("id",orderId);
             Intent intentOrderDetail=new Intent(OrderActivity.this,OrderDetailActivity.class);
@@ -96,7 +96,7 @@ public class OrderActivity extends BaseActivity implements AdapterView.OnItemCli
             finish();
         }
          else if (view.getId()==R.id.order_btn_pay) {
-            showShortText(this,position + "order_btn_pay");
+            //showShortText(this,position + "order_btn_pay");
         }
 
     }

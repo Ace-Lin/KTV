@@ -13,7 +13,7 @@ import com.newland.karaoke.model.ProductModel;
 
 import java.util.List;
 
-public class ProductAdapter extends ArrayAdapter<ProductModel> {
+public class OrderDetailChangeAdapter extends ArrayAdapter<ProductModel> {
     private int resourceId;
     private View.OnClickListener onClickListener;
 
@@ -31,7 +31,7 @@ public class ProductAdapter extends ArrayAdapter<ProductModel> {
         this.onClickListener = onClickListener;
     }
 
-    public ProductAdapter(Context context, int textViewResourceId, List<ProductModel> objects){
+    public OrderDetailChangeAdapter(Context context, int textViewResourceId, List<ProductModel> objects){
         super(context,textViewResourceId,objects);
         this.resourceId=textViewResourceId;
         this.productModels=objects;
@@ -50,16 +50,17 @@ public class ProductAdapter extends ArrayAdapter<ProductModel> {
         ViewHolder viewHolder=new ViewHolder();
 
         //实例化控件
-        viewHolder.tv_item_product_name=(TextView)view.findViewById(R.id.tv_item_product_name);
-        viewHolder.tv_item_product_num=(TextView)view.findViewById(R.id.tv_item_product_num);
-        viewHolder.tv_item_product_price=(TextView)view.findViewById(R.id.tv_item_product_price);
-        viewHolder.iv_item_product_add=(ImageButton)view.findViewById(R.id.iv_item_product_add);
-        viewHolder.iv_item_product_sub=(ImageButton)view.findViewById(R.id.iv_item_product_sub);
-        viewHolder.tv_item_product_stock=(TextView)view.findViewById(R.id.tv_item_product_stock);
+        viewHolder.tv_item_product_name=(TextView)view.findViewById(R.id.tv_item_detail_name);
+        viewHolder.tv_item_product_num=(TextView)view.findViewById(R.id.tv_item_detail_num);
+        viewHolder.tv_item_product_price=(TextView)view.findViewById(R.id.tv_item_detail_price);
+        viewHolder.iv_item_product_add=(ImageButton)view.findViewById(R.id.iv_item_detail_add);
+        viewHolder.iv_item_product_sub=(ImageButton)view.findViewById(R.id.iv_item_detail_sub);
+        viewHolder.tv_item_product_stock=(TextView)view.findViewById(R.id.tv_item_detail_stock);
+        viewHolder.tv_item_detail_order_num=(TextView)view.findViewById(R.id.tv_item_detail_order_num);
 
         //设置控件值
         viewHolder.tv_item_product_name.setText(product.getProduct_name());
-        viewHolder.tv_item_product_price.setText(String.valueOf(product.getProduct_price()));
+        viewHolder.tv_item_product_price.setText("$ "+product.getProduct_price());
         viewHolder.tv_item_product_stock.setText("stock:"+product.getProduct_count());
         if(product.getProduct_count()<1){
             viewHolder.tv_item_product_num.setText("none");
@@ -86,6 +87,7 @@ public class ProductAdapter extends ArrayAdapter<ProductModel> {
         public ImageButton iv_item_product_add;
         public ImageButton iv_item_product_sub;
         public TextView tv_item_product_stock;
+        public TextView tv_item_detail_order_num;
     }
 
 }
