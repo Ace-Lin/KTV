@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.newland.karaoke.R;
+import com.newland.karaoke.constant.KTVType;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -58,18 +59,15 @@ public class Utility {
      */
     public static String getRoomType(int type)
     {
-        switch (type)
-        {
-            case 0:
+        switch (type){
+            case KTVType.RoomType.BIG:
                 return "Big";
-
-            case 1:
+            case KTVType.RoomType.MIDDLE:
                 return "Middle";
-
-            case 2:
+            case KTVType.RoomType.SMAlL:
                 return "Small";
             default:
-                return  null;
+                return "info missing!";
         }
     }
 
@@ -80,18 +78,15 @@ public class Utility {
      */
     public static String getPayType(int type)
     {
-        switch (type)
-        {
-            case 0:
+        switch (type){
+            case KTVType.PayType.CASH:
                 return "Cash";
-
-            case 1:
+            case KTVType.PayType.CARD:
                 return "Card";
-
-            case 2:
+            case KTVType.PayType.QRCODE:
                 return "QRcode";
             default:
-                return  null;
+                return  "info missing!";
         }
     }
 
