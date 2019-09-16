@@ -171,12 +171,12 @@ public class CheckInActivity extends AppCompatActivity implements View.OnClickLi
 
         //修改房间状态
         mKTVRoomInfo.setRoom_status(KTVType.RoomStatus.NO_FREE);
-//        List<KTVOrderInfo> orderInfos=mKTVRoomInfo.getProduct();
-//        if(orderInfos==null){
-//            orderInfos=new ArrayList<>();
-//        }
-//        orderInfos.add(ktvOrder);
-//        mKTVRoomInfo.setProduct(orderInfos);
+        List<KTVOrderInfo> orderInfos=mKTVRoomInfo.getKtvOrderInfos();
+        if(orderInfos==null){
+            orderInfos=new ArrayList<>();
+        }
+        orderInfos.add(ktvOrder);
+        mKTVRoomInfo.setKtvOrderInfos(orderInfos);
         mKTVRoomInfo.save();
 
 
