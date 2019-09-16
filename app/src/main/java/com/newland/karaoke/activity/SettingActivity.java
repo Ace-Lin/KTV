@@ -44,11 +44,19 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
 
         hideStatusBar();
-        fManager = getSupportFragmentManager();
-        openFragment(KTVType.FragmentType.SETTING,false);
+        initFragment();
+       }
 
-
-    }
+    /**
+     * 初始化页面fragment
+     */
+    private void initFragment(){
+           fManager = getSupportFragmentManager();
+           FragmentTransaction fTransaction = fManager.beginTransaction();
+           fragmentTypeList.add(KTVType.FragmentType.SETTING);
+           fTransaction.replace(R.id.setting_content, new SettingFragment());
+           fTransaction.commit();
+       }
 
 
     /**

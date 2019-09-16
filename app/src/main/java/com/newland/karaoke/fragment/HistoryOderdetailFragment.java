@@ -53,18 +53,6 @@ public class HistoryOderdetailFragment extends BaseFragment {
         ktvOrderProducts = ktvOrderInfo.getProductList();
     }
 
-    /**
-     * 获取传递的订单
-     * @param ktvOrderInfo
-     */
-    public void setKTVOrderInfo(KTVOrderInfo ktvOrderInfo)
-    {
-        this.ktvOrderInfo = ktvOrderInfo;
-        ktvRoomInfo=ktvOrderInfo.getRoom_id();
-        ktvOrderProducts.clear();
-        ktvOrderProducts.addAll(ktvOrderInfo.getProductList());
-        updateUIdata();
-    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,10 +78,10 @@ public class HistoryOderdetailFragment extends BaseFragment {
      * 获取ui
      */
     private  void initUIData(View view){
-         roomPicture =(ImageView) view.findViewById(R.id.order_room_picture);
-         roomInfo =(TextView) view.findViewById(R.id.order_room_name);
-         roomType =(TextView) view.findViewById(R.id.order_room_type);
-         roomPirce =(TextView) view.findViewById(R.id.order_room_price);
+         roomPicture =(ImageView) view.findViewById(R.id.order_item_picture);
+         roomInfo =(TextView) view.findViewById(R.id.order_item_name);
+         roomType =(TextView) view.findViewById(R.id.order_item_count);
+         roomPirce =(TextView) view.findViewById(R.id.order_item_price);
          detail_order_amount =(TextView) view.findViewById(R.id.detail_order_amount);
          detail_order_number =(TextView) view.findViewById(R.id.detail_order_number);
          detail_pay_type =(TextView) view.findViewById(R.id.detail_pay_type);
@@ -107,11 +95,12 @@ public class HistoryOderdetailFragment extends BaseFragment {
      * 用来显示获取的UI数据
      */
     private void showUIData() {
-        roomPicture.setImageDrawable(getActivity().getDrawable(R.drawable.small_ktv));//暂时代替
+        roomPicture.setBackgroundResource(R.drawable.small_ktv);
+        //roomPicture.setImageDrawable(getActivity().getDrawable(R.drawable.small_ktv));//暂时代替
         roomInfo.setText(ktvRoomInfo.getRoom_name());
         roomType.setText(getRoomType(ktvRoomInfo.getRoom_type()));
         roomPirce.setText(getString(R.string.dollar)+" "+ktvRoomInfo.getRoom_price());
-        detail_order_amount.setText(" "+ktvOrderInfo.getPay_amount());
+        detail_order_amount.setText(getString(R.string.order_amount)+ktvOrderInfo.getPay_amount());
         detail_order_number.setText(" "+ktvOrderInfo.getOrder_number());
         detail_pay_type.setText(" "+getPayType(ktvOrderInfo.getOrder_pay_type()));
         detail_order_time.setText(" "+getSimpleDate(ktvOrderInfo.getOrder_start_time()));
@@ -132,14 +121,6 @@ public class HistoryOderdetailFragment extends BaseFragment {
         list_history.setAdapter(detailOrderAdapter);
     }
 
-    /**
-     *更换订单更新显示数据
-     */
-    private void updateUIdata(){
-        showUIData();
-        detail_scrollview.scrollTo(0,0);//设置每次刷新新的订单详情回到最上方
-        detailOrderAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public void onAttach(Context context) {

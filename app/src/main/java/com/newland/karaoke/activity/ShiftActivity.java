@@ -1,11 +1,6 @@
 package com.newland.karaoke.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,9 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.newland.karaoke.KTVApplication;
 import com.newland.karaoke.R;
-import com.newland.karaoke.UI.IcomoonTextView;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVUserInfo;
 import com.newland.karaoke.database.KTVUserLogin;

@@ -81,4 +81,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="pay_cash">Cash</string>
+    <string name="pay_bank_card">Bank Card</string>de
+    <string name="pay_scan_code">QR Code</string>
+
 </resources>

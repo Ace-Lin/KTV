@@ -102,8 +102,6 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
         txt_turnover = (TextView)view.findViewById(R.id.txt_turnover);
         list_history = (ListView)view.findViewById(R.id.history_listview);
         currentDate = Calendar.getInstance();
-        Log.e(currentDate.getTimeInMillis()+"", "getTimeInMillis: ");
-        Log.e(new Date().getTime()+"", "getTime: ");
         currentYear = currentDate.get(Calendar.YEAR);
         currentMonth = currentDate.get(Calendar.MONTH)+1;//数从0开始,需要加1
         currentDay = currentDate.get(Calendar.DAY_OF_MONTH);
@@ -148,7 +146,7 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        ((TransactionActivity)getActivity()).openDetailFragment(ktvOrderInfoList.get(i));
+        ((TransactionActivity)getActivity()).openFragment(ktvOrderInfoList.get(i));
     }
 
 
@@ -203,7 +201,7 @@ public class HistoryOrderlistFragment extends BaseFragment implements AdapterVie
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         if (item.getItemId()==R.id.history_search) {
-            ((TransactionActivity) getActivity()).openSearchFragment();
+            ((TransactionActivity) getActivity()).openFragment(null);
             return true;
         }
         return false;

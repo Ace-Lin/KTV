@@ -31,7 +31,7 @@ import static com.newland.karaoke.utils.Utility.closeSoftKeybord;
 /**
  *搜索fragment
  */
-public class SearchFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener, TextView.OnEditorActionListener {
+public class SearchFragment extends BaseFragment implements AdapterView.OnItemClickListener, View.OnClickListener, TextView.OnEditorActionListener {
 
 
     private  HistoryOrderAdapter searchAdapter;
@@ -122,7 +122,7 @@ public class SearchFragment extends Fragment implements AdapterView.OnItemClickL
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        ((TransactionActivity)getActivity()).openDetailFragment(searchList.get(i));
+        ((TransactionActivity)getActivity()).openFragment(searchList.get(i));
     }
 
 

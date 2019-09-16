@@ -72,7 +72,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.order_item_picture.setImageDrawable(getRoomPic(roomInfo.getRoom_type()));
+        viewHolder.order_item_picture.setBackgroundResource(getRoomPic(roomInfo.getRoom_type()));
         viewHolder.order_item_name.setText(roomInfo.getRoom_name());
         viewHolder.order_item_amount.setText(mContext.getString(R.string.order_amount)+" "+orderInfo.getPay_amount());
         viewHolder.btn_detail.setOnClickListener(this);
@@ -98,17 +98,17 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
 
 
     //暂时代替返回房间图片
-    private Drawable getRoomPic(int type)
+    private int getRoomPic(int type)
     {
         switch (type) {
             case KTVType.RoomType.BIG:
-                return   mContext.getDrawable(R.drawable.small_ktv);
+                return   R.drawable.small_ktv;
             case KTVType.RoomType.MIDDLE:
-                return   mContext.getDrawable(R.drawable.small_ktv);
+                return   R.drawable.small_ktv;
             case KTVType.RoomType.SMAlL:
-                return   mContext.getDrawable(R.drawable.small_ktv);
+                return  R.drawable.small_ktv;
             default:
-                return   mContext.getDrawable(R.drawable.small_ktv);
+                return   R.drawable.small_ktv;
         }
     }
 

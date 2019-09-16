@@ -1,5 +1,6 @@
 package com.newland.karaoke.database;
 
+import org.litepal.LitePal;
 import org.litepal.crud.LitePalSupport;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class KTVRoomInfo extends LitePalSupport {
     private int room_type;
     private int room_status;
     private double room_price;
-    private List<KTVOrderInfo> product = new ArrayList<KTVOrderInfo>();
+    private List<KTVOrderInfo> ktvOrderInfos = new ArrayList<KTVOrderInfo>();
 
     public double getRoom_price() {
         return room_price;
@@ -53,12 +54,17 @@ public class KTVRoomInfo extends LitePalSupport {
         this.room_status = room_status;
     }
 
-    public List<KTVOrderInfo> getProduct() {
-        return product;
+    public List<KTVOrderInfo> ktvOrderInfos(){
+        return ktvOrderInfos;
     }
 
-    public void setProduct(List<KTVOrderInfo> product) {
-        this.product = product;
+    public List<KTVOrderInfo> getKtvOrderInfos() {
+
+        return LitePal.find(KTVRoomInfo.class,getId(),true).ktvOrderInfos();
+    }
+
+    public void setKtvOrderInfos(List<KTVOrderInfo> ktvOrderInfos) {
+        this.ktvOrderInfos = ktvOrderInfos;
     }
 
     @Override

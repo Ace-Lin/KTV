@@ -1,6 +1,7 @@
 package com.newland.karaoke.database;
 
 import org.litepal.LitePal;
+import org.litepal.annotation.Column;
 import org.litepal.crud.LitePalSupport;
 
 import java.util.ArrayList;
@@ -34,7 +35,6 @@ public class KTVOrderInfo extends LitePalSupport {
     public KTVRoomInfo getRoom_id(){
            return LitePal.find(KTVOrderInfo.class,getId(),true).getRoom();
     }
-
 
     public void setRoom_id(KTVRoomInfo room_id) {
         this.room_id = room_id;

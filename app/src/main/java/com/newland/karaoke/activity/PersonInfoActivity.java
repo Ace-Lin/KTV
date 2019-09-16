@@ -34,11 +34,11 @@ import com.gitonway.lee.niftymodaldialogeffects.lib.Effectstype;
 import com.gitonway.lee.niftymodaldialogeffects.lib.NiftyDialogBuilder;
 import com.newland.karaoke.KTVApplication;
 import com.newland.karaoke.R;
-import com.newland.karaoke.UI.SelectDialog;
 import com.newland.karaoke.constant.Const;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.model.UserModel;
 import com.newland.karaoke.utils.FileUtils;
+import com.newland.karaoke.view.SelectDialog;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
