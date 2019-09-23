@@ -17,6 +17,7 @@ import com.newland.karaoke.R;
 import com.newland.karaoke.mesdk.AppConfig;
 import com.newland.karaoke.mesdk.SoundPoolImpl;
 import com.newland.karaoke.mesdk.device.SDKDevice;
+import com.newland.karaoke.mesdk.emv.SimpleTransferListener;
 import com.newland.mtype.event.DeviceEventListener;
 import com.newland.mtype.module.common.pin.AccountInputType;
 import com.newland.mtype.module.common.pin.K21Pininput;

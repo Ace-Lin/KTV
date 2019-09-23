@@ -1,4 +1,4 @@
-package com.newland.karaoke.mesdk.pin;
+package com.newland.karaoke.mesdk.emv;
 
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -18,7 +18,6 @@ import com.newland.karaoke.activity.CardPayActivity;
 import com.newland.karaoke.activity.MainActivity;
 import com.newland.karaoke.mesdk.AppConfig;
 import com.newland.karaoke.mesdk.device.SDKDevice;
-import com.newland.karaoke.utils.DialogUtils;
 import com.newland.karaoke.utils.LogUtil;
 import com.newland.me.SupportMSDAlgorithm;
 import com.newland.mtype.ModuleType;
@@ -638,31 +637,35 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 		}
 	}
 
+	/**
+	 * 如果输入金额为空，会出现这个提示弹窗继续输入金额
+	 * @param controller
+	 * @param emvTransInfo
+	 */
 	@Override
 	public void onRequestAmountEntry(final EmvTransController controller, EmvTransInfo emvTransInfo) {
 		LogUtil.debug(context.getString(R.string.msg_money_callback_request), getClass());
-		LogUtil.debug("999999999", getClass());
-		DialogUtils.createCustomDialog(context, context.getString(R.string.msg_enter_preauto_money), null, R.layout.dialog_amtinput, new DialogUtils.CustomDialogCallback() {
-			@Override
-			public void onResult(int id, View dialogView) {
-				if(id == 0){//sure
-					Editable editable = ((EditText) dialogView.findViewById(R.id.edit_amt_input)).getText();
-					if (editable.toString().equals("") || editable.toString() == null) {
-						LogUtil.debug(context.getString(R.string.msg_preauth_money_null), getClass());
-						controller.sendAmtInputResult(null);
-					} else {
-						DecimalFormat df = new DecimalFormat("#.00");
-						BigDecimal amt = new BigDecimal(editable.toString());
-						AppConfig.EMV.amt = amt;
-						LogUtil.debug(context.getString(R.string.msg_preauth_money) + df.format(amt), getClass());
-						controller.sendAmtInputResult(amt);
-					}
-				}else if(id == -1){//cancel
-					LogUtil.debug(context.getString(R.string.msg_trans_cancel), getClass());
-					controller.sendAmtInputResult(null); 	//When the amount of pre-authorization is empty ,it means to cancel the transaction.
-				}
-			}
-		});
+		//		DialogUtils.createCustomDialog(context, context.getString(R.string.msg_enter_preauto_money), null, R.layout.dialog_amtinput, new DialogUtils.CustomDialogCallback() {
+//			@Override
+//			public void onResult(int id, View dialogView) {
+//				if(id == 0){//sure
+//					Editable editable = ((EditText) dialogView.findViewById(R.id.edit_amt_input)).getText();
+//					if (editable.toString().equals("") || editable.toString() == null) {
+//						LogUtil.debug(context.getString(R.string.msg_preauth_money_null), getClass());
+//						controller.sendAmtInputResult(null);
+//					} else {
+//						DecimalFormat df = new DecimalFormat("#.00");
+//						BigDecimal amt = new BigDecimal(editable.toString());
+//						AppConfig.EMV.amt = amt;
+//						LogUtil.debug(context.getString(R.string.msg_preauth_money) + df.format(amt), getClass());
+//						controller.sendAmtInputResult(amt);
+//					}
+//				}else if(id == -1){//cancel
+//					LogUtil.debug(context.getString(R.string.msg_trans_cancel), getClass());
+//					controller.sendAmtInputResult(null); 	//When the amount of pre-authorization is empty ,it means to cancel the transaction.
+//				}
+//			}
+//		});
 	}
 
 	@Override

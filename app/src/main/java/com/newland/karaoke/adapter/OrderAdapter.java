@@ -20,6 +20,7 @@ import com.newland.karaoke.database.KTVRoomInfo;
 
 import java.util.List;
 
+import static com.newland.karaoke.utils.DensityUtil.df_two;
 import static com.newland.karaoke.utils.ToastUtil.showShortText;
 import static com.newland.karaoke.utils.Utility.getPirBitMap;
 
@@ -74,7 +75,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
 
         viewHolder.order_item_picture.setBackgroundResource(getRoomPic(roomInfo.getRoom_type()));
         viewHolder.order_item_name.setText(roomInfo.getRoom_name());
-        viewHolder.order_item_amount.setText(mContext.getString(R.string.order_amount)+" "+orderInfo.getPay_amount());
+        viewHolder.order_item_amount.setText(mContext.getString(R.string.order_amount)+" "+ df_two.format(orderInfo.getPay_amount()));
         viewHolder.btn_detail.setOnClickListener(this);
         viewHolder.btn_pay.setOnClickListener(this);
         viewHolder.btn_pay.setTag(i);//需要设置tag
