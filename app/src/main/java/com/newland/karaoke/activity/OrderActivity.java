@@ -1,5 +1,6 @@
 package com.newland.karaoke.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -21,6 +22,11 @@ import com.newland.karaoke.adapter.OrderAdapter;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVOrderInfo;
 import com.newland.karaoke.database.KTVRoomInfo;
+import com.newland.karaoke.mesdk.LoadKey;
+import com.newland.karaoke.mesdk.card.SwipModule;
+import com.newland.karaoke.mesdk.device.SDKDevice;
+import com.newland.karaoke.mesdk.print.PrinterModule;
+import com.newland.karaoke.mesdk.scan.ScannerModule;
 import com.newland.karaoke.view.PayDialogFragment;
 
 import org.litepal.LitePal;
@@ -41,6 +47,7 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
     private  List<KTVOrderInfo>   ktvOrderInfoList;
     private  PayDialogFragment payDialog;
     private  KTVOrderInfo currOrderInfo;//当前订单
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +57,9 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
         hideStatusBar();
         initView();
         showListView();
+        //初始化,链接设备
+        SDKDevice.getInstance().connectDevice(this);
+        context = this;
     }
 
     //初始化数据
@@ -101,7 +111,15 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
          else if (view.getId()==R.id.order_btn_pay) {
             payDialog= new PayDialogFragment(ktvOrderInfoList.get(position).getPay_amount(),this);
             payDialog.show(getSupportFragmentManager(),"payDialog");
+            //开线程加载秘钥，不然会延迟出现，加载慢
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    LoadKey.getInstance(context);
+                }
+            }).start();
         }
+
 
     }
 
@@ -115,31 +133,31 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
         switch (payType){
             case KTVType.PayType.CASH:
                 showShortText(this,payType);
+                new PrinterModule(this).printOrder();
                 break;
             case KTVType.PayType.CARD:
-                showShortText(this,payType);
+                // showShortText(this,payType);
+                Intent intent = new Intent(this, CardPayActivity.class);
+                intent.putExtra("Amount",currOrderInfo.getPay_amount());
+                startActivity(intent);
                 break;
             case KTVType.PayType.QRCODE:
                 showShortText(this,payType);
+                new ScannerModule(context).startScan();
                 break;
         }
+//
+//        KTVRoomInfo roomInfo = currOrderInfo.getRoom_id();
+//        roomInfo.setRoom_status(KTVType.RoomStatus.FREE);
+//        roomInfo.save();
+//
+//        currOrderInfo.setOrder_pay_type(payType);
+//        currOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
+//        currOrderInfo.setOrder_number(getNoFormatDate(new Date()));
+//        currOrderInfo.setOrder_end_time(new Date());
+//        currOrderInfo.save();
 
-        KTVRoomInfo roomInfo = currOrderInfo.getRoom_id();
-        roomInfo.setRoom_status(KTVType.RoomStatus.FREE);
-
-        List<KTVOrderInfo> orderInfos = roomInfo.getKtvOrderInfos();
-        orderInfos.add(currOrderInfo);
-        roomInfo.setKtvOrderInfos(orderInfos);
-
-        roomInfo.save();
-
-        currOrderInfo.setOrder_pay_type(payType);
-        currOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
-        currOrderInfo.setOrder_number(getNoFormatDate(new Date()));
-        currOrderInfo.setOrder_end_time(new Date());
-        currOrderInfo.save();
-
-        payDialog.dismiss();
+       // payDialog.dismiss();
     }
 
 

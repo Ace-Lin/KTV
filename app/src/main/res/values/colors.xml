@@ -9,4 +9,5 @@
     <color name="dialog_blue">#0083FF</color>
     <color name="main_bg_color">#41a5f6</color>
     <color name="bg_gray">#fafafa</color>
+    <color name="common_bg">#f0f0f0</color>
 </resources>

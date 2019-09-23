@@ -33,7 +33,9 @@ public class KTVOrderInfo extends LitePalSupport {
     }
 
     public KTVRoomInfo getRoom_id(){
-           return LitePal.find(KTVOrderInfo.class,getId(),true).getRoom();
+
+        return LitePal.find(KTVRoomInfo.class,LitePal.find(KTVOrderInfo.class,getId(),true).getRoom().getId(),true);
+           //return LitePal.find(KTVOrderInfo.class,getId(),true).getRoom();
     }
 
     public void setRoom_id(KTVRoomInfo room_id) {
