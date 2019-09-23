@@ -2,41 +2,36 @@ package com.newland.karaoke.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.OrderAdapter;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVOrderInfo;
-import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.mesdk.LoadKey;
-import com.newland.karaoke.mesdk.card.SwipModule;
 import com.newland.karaoke.mesdk.device.SDKDevice;
+import com.newland.karaoke.mesdk.pin.KeyBoardNumberActivity;
 import com.newland.karaoke.mesdk.print.PrinterModule;
+import com.newland.karaoke.mesdk.scan.ScanListener;
 import com.newland.karaoke.mesdk.scan.ScannerModule;
+import com.newland.karaoke.utils.LogUtil;
 import com.newland.karaoke.view.PayDialogFragment;
+import com.newland.mtype.util.ISOUtils;
 
 import org.litepal.LitePal;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import static com.newland.karaoke.utils.DateUtil.getCurrentDayBegin;
-import static com.newland.karaoke.utils.DateUtil.getNoFormatDate;
 import static com.newland.karaoke.utils.ToastUtil.showShortText;
 
 public class OrderActivity extends BaseActivity implements  OrderAdapter.Callback, PayDialogFragment.NoticeDialogListener {
@@ -49,6 +44,10 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
     private  KTVOrderInfo currOrderInfo;//当前订单
     private Context context;
 
+    public static final int BANK_CARD = 5;
+    public static final int SWIP_RESULT = 6;
+    public static final int IC_RESULT = 7;
+    public static final int RF_RESULT = 8;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,20 +131,18 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
     public void onDialogBtnClick(int payType) {
         switch (payType){
             case KTVType.PayType.CASH:
-                showShortText(this,payType);
-                new PrinterModule(this).printOrder();
+               new PrinterModule(this).printOrder();
                 break;
             case KTVType.PayType.CARD:
-                // showShortText(this,payType);
                 Intent intent = new Intent(this, CardPayActivity.class);
                 intent.putExtra("Amount",currOrderInfo.getPay_amount());
-                startActivity(intent);
+                startActivityForResult(intent,BANK_CARD);
                 break;
             case KTVType.PayType.QRCODE:
-                showShortText(this,payType);
-                new ScannerModule(context).startScan();
+                new ScannerModule(context).startScan(scanListener);
                 break;
         }
+
 //
 //        KTVRoomInfo roomInfo = currOrderInfo.getRoom_id();
 //        roomInfo.setRoom_status(KTVType.RoomStatus.FREE);
@@ -156,10 +153,59 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
 //        currOrderInfo.setOrder_number(getNoFormatDate(new Date()));
 //        currOrderInfo.setOrder_end_time(new Date());
 //        currOrderInfo.save();
-
-       // payDialog.dismiss();
+//       payDialog.dismiss();
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == BANK_CARD) {
+            if (resultCode == SWIP_RESULT) {
+                 int type = data.getIntExtra("type",0);
+                switch (type){
+                    case 0:
+                        LogUtil.debug("免密支付",getClass());
+                        break;
+                    case 2:
+                        //打印账号，加密密码信息
+                         LogUtil.debug(data.getStringExtra("account")+"||"+ISOUtils.hexString(data.getByteArrayExtra("password")), getClass());
+                        break;
+                    case 3:
+                    case 4:
+                        LogUtil.debug("重新打印数据",getClass());
+                        break;
+
+                }
+            }
+        }
+    }
+
+
+
+    // 扫码回调监听
+    public ScanListener scanListener = new ScanListener() {
+
+        @Override
+        public void scanResponse(String var1) {
+
+        }
+
+        @Override
+        public void scanError() {
+
+        }
+
+        @Override
+        public void scanTimeout() {
+
+        }
+
+        @Override
+        public void scanCancel() {
+
+        }
+    };
 
 
 

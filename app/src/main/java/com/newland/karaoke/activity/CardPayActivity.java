@@ -51,6 +51,8 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import static com.newland.karaoke.activity.OrderActivity.IC_RESULT;
+import static com.newland.karaoke.activity.OrderActivity.SWIP_RESULT;
 import static com.newland.karaoke.utils.DensityUtil.df_two;
 
 public class CardPayActivity extends AppCompatActivity {
@@ -59,9 +61,13 @@ public class CardPayActivity extends AppCompatActivity {
     private K21Swiper k21swiper;
     private EmvModule emvModule;
     private EmvTransController controller;
-    private static final int GET_TRACKTEXT_FAILED = 1003;
     private TextView tip_textview;
     private double pay_amount;
+    private String currAccNO;
+    private boolean isMagCard;
+
+
+    private static final int GET_TRACKTEXT_FAILED = 1003;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +175,7 @@ public class CardPayActivity extends AppCompatActivity {
                         LogUtil.debug(getString(R.string.common_third_track) + (thirdTrack == null ? "null" : Dump.getHexDump(thirdTrack)), getClass());
                         LogUtil.debug(getString(R.string.msg_siwper_succ), getClass());
                         LogUtil.debug(getString(R.string.msg_pl_enter_pwd), getClass());
-                        startOnlinePinInput(swipRslt.getAccount().getAcctNo());
+                        startOnlinePinInput(swipRslt.getAccount().getAcctNo(),true);
                     } else {
                         LogUtil.debug(getString(R.string.msg_swiper_null_reswiper), getClass());
                     }
@@ -274,12 +280,13 @@ public class CardPayActivity extends AppCompatActivity {
         }
     };
 
-
     /**
      * 开启pin键盘
      * @param accNo 账户
      */
-    public void startOnlinePinInput(String accNo){
+    public void startOnlinePinInput(String accNo ,boolean isMag){
+        currAccNO = accNo ;
+        isMagCard = isMag;
         Intent intent = new Intent(this, KeyBoardNumberActivity.class);
         intent.putExtra("accNo", accNo);
         startActivityForResult(intent, 002);
@@ -289,23 +296,32 @@ public class CardPayActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 002) {
+            Intent intent = new Intent();
             if (resultCode == RESULT_OK) {
                 byte[] pin = data.getByteArrayExtra("pin");
                 if (pin!=null && pin.length == 0) {
-                    LogUtil.debug(getString(R.string.msg_free_pwd), getClass());
+                    intent.putExtra("type",0);
                 } else if(pin!=null && Arrays.equals(pin, new byte[8]) ){
-                    Log.i("onActivityResult", getString(R.string.msg_offline_pwd_enter_succ) );
-                    int pinLen = data.getIntExtra("pinLength", 0);
-                    LogUtil.debug(getString(R.string.msg_offline_pwd_length)+ pinLen, getClass());
+                    intent.putExtra("type",1);
+                   // int pinLen = data.getIntExtra("pinLength", 0);
                 }else{
-                    Log.i("onActivityResult", getString(R.string.msg_enter_succ) + pin);
-                    LogUtil.debug(getString(R.string.msg_enter_succ) + ISOUtils.hexString(pin), getClass());
+                    intent.putExtra("type",2);
+                    intent.putExtra("password",pin);
                 }
             } else if (resultCode == RESULT_CANCELED) {
-                LogUtil.debug(getString(R.string.msg_n900_cancel_enter_pwd) + "\r\n", getClass());
+                intent.putExtra("type",3);
             }else if(resultCode == -2){
-                LogUtil.debug(getString(R.string.input_pin_fail) + "\r\n", getClass());
+                intent.putExtra("type",4);
             }
+            //返回数据到orderactivity
+            intent.putExtra("account",currAccNO);
+            if (isMagCard)
+                 setResult(SWIP_RESULT,intent);
+            else
+                 setResult(IC_RESULT,intent);
+
+            finish();
         }
     }
+
 }

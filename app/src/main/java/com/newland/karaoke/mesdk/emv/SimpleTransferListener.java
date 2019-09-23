@@ -437,7 +437,7 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 	public void doPinInput(boolean isOnline, EmvTransInfo emvTransInfo) throws Exception {
 		if(isOnline){
 			LogUtil.debug("44444444444"+"\r\n",getClass());
-			((CardPayActivity)context).startOnlinePinInput(emvTransInfo.getCardNo());
+			((CardPayActivity)context).startOnlinePinInput(emvTransInfo.getCardNo(),false);
 		}else{
 			//((MainActivity)context).startOfflinePinInput(emvTransInfo.getModulus(),emvTransInfo.getExponent());
 		}
