@@ -17,12 +17,7 @@ public class LogUtil {
         Log.d(TAG, currC.getSimpleName()+"->"+content);
     }
 
-    public static void logWarn(String content,Class currC)
-    {
-        Log.w(TAG, currC.getSimpleName()+"->"+content);
-    }
-
-    public static void logError(String content,Class currC)
+    public static void error(String content,Class currC)
     {
         Log.e(TAG, currC.getSimpleName()+"->"+content);
     }

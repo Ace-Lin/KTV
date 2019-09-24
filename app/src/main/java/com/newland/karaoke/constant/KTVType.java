@@ -41,16 +41,6 @@ public class KTVType {
         public static final int QRCODE = 2;
     }
 
-    /**
-     * 卡类型
-     */
-    public class CardType
-    {
-        public static final int ICCARD = 0;
-        public static final int RFCARD = 1;
-        public static final int SWIPER = 2;
-    }
-
 
     /**
      * 添加页面添加页面

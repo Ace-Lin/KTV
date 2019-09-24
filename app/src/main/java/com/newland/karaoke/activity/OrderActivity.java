@@ -3,12 +3,8 @@ package com.newland.karaoke.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import androidx.appcompat.widget.Toolbar;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.OrderAdapter;
@@ -16,7 +12,6 @@ import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVOrderInfo;
 import com.newland.karaoke.mesdk.LoadKey;
 import com.newland.karaoke.mesdk.device.SDKDevice;
-import com.newland.karaoke.mesdk.pin.KeyBoardNumberActivity;
 import com.newland.karaoke.mesdk.print.PrinterModule;
 import com.newland.karaoke.mesdk.scan.ScanListener;
 import com.newland.karaoke.mesdk.scan.ScannerModule;
@@ -26,17 +21,17 @@ import com.newland.mtype.util.ISOUtils;
 
 import org.litepal.LitePal;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import static com.newland.karaoke.mesdk.AppConfig.InputResultType;
+import static com.newland.karaoke.mesdk.AppConfig.ResultCode;
 import static com.newland.karaoke.utils.DateUtil.getCurrentDayBegin;
 import static com.newland.karaoke.utils.ToastUtil.showShortText;
 
 public class OrderActivity extends BaseActivity implements  OrderAdapter.Callback, PayDialogFragment.NoticeDialogListener {
 
-    private  TextView txt_title;
     private  ListView list_order;
     private  OrderAdapter orderAdapter;
     private  List<KTVOrderInfo>   ktvOrderInfoList;
@@ -44,45 +39,24 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
     private  KTVOrderInfo currOrderInfo;//当前订单
     private Context context;
 
-    public static final int BANK_CARD = 5;
-    public static final int SWIP_RESULT = 6;
-    public static final int IC_RESULT = 7;
-    public static final int RF_RESULT = 8;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
         hideStatusBar();
-        initView();
+        showToolBar(R.string.order_today);
         showListView();
         //初始化,链接设备
         SDKDevice.getInstance().connectDevice(this);
         context = this;
     }
 
-    //初始化数据
-    private void initView(){
-
-        Toolbar commonToolBar = (Toolbar)findViewById(R.id.setting_toolbar);
-        commonToolBar.setNavigationIcon(R.drawable.icon_back_left);
-        commonToolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                basefinish();
-            }
-        });
-
-        txt_title = findViewById(R.id.setting_title);
-        list_order = (ListView)findViewById(R.id.order_listview);
-
-        txt_title.setText(R.string.order_today);
-
-    }
 
     //初始化数据
     private  void showListView(){
-
+        list_order = (ListView)findViewById(R.id.order_listview);
         ktvOrderInfoList = LitePal.where("order_status= ? and (order_start_time>? and order_start_time<?) ",
                 String.valueOf(KTVType.OrderStatus.UNPAID),  getCurrentDayBegin(Calendar.getInstance()),String.valueOf(new Date().getTime())).find(KTVOrderInfo.class,true);
 
@@ -136,14 +110,14 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
             case KTVType.PayType.CARD:
                 Intent intent = new Intent(this, CardPayActivity.class);
                 intent.putExtra("Amount",currOrderInfo.getPay_amount());
-                startActivityForResult(intent,BANK_CARD);
+                startActivityForResult(intent,ResultCode.BANK_CARD);
                 break;
             case KTVType.PayType.QRCODE:
                 new ScannerModule(context).startScan(scanListener);
                 break;
         }
+        payDialog.dismiss();
 
-//
 //        KTVRoomInfo roomInfo = currOrderInfo.getRoom_id();
 //        roomInfo.setRoom_status(KTVType.RoomStatus.FREE);
 //        roomInfo.save();
@@ -153,34 +127,39 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
 //        currOrderInfo.setOrder_number(getNoFormatDate(new Date()));
 //        currOrderInfo.setOrder_end_time(new Date());
 //        currOrderInfo.save();
-//       payDialog.dismiss();
     }
 
 
+    //刷卡数据的返回
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == BANK_CARD) {
-            if (resultCode == SWIP_RESULT) {
-                 int type = data.getIntExtra("type",0);
+        if (requestCode == ResultCode.BANK_CARD) {
+            if (resultCode == ResultCode.SWIP_RESULT ) {
+                int type = data.getIntExtra("type",0);
                 switch (type){
-                    case 0:
+                    case InputResultType.FREE:
                         LogUtil.debug("免密支付",getClass());
                         break;
-                    case 2:
+                    case InputResultType.SUCC:
                         //打印账号，加密密码信息
-                         LogUtil.debug(data.getStringExtra("account")+"||"+ISOUtils.hexString(data.getByteArrayExtra("password")), getClass());
+                         LogUtil.error(data.getStringExtra("account")+"||"+ISOUtils.hexString(data.getByteArrayExtra("password")), getClass());
                         break;
-                    case 3:
-                    case 4:
+                    case InputResultType.CANCEL:
+                    case InputResultType.INPUTFAIL:
                         LogUtil.debug("重新打印数据",getClass());
                         break;
-
                 }
+            }else if (resultCode == ResultCode.IC_RESULT){
+                LogUtil.error(data.getStringExtra("account")+"||"+ISOUtils.hexString(data.getByteArrayExtra("password")), getClass());
+            }else if (resultCode == ResultCode.RF_RESULT){
+                LogUtil.error(data.getStringExtra("account"), getClass());
+            }else if (resultCode == ResultCode.EXCEPTION){
+                LogUtil.error(getString(R.string.msg_reader_open_exception)+data.getStringExtra("exception"), getClass());
             }
         }
-    }
 
+    }
 
 
     // 扫码回调监听
@@ -188,7 +167,7 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
 
         @Override
         public void scanResponse(String var1) {
-
+            LogUtil.error(var1, getClass());
         }
 
         @Override

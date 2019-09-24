@@ -6,6 +6,7 @@
     <string name="order">Order</string>
     <string name="transactions">Transactions</string>
     <string name="order_today">Order today</string>
+    <string name="read_card">Read Card</string>>
 
     <!-- TODO: 商品信息 text -->
     <string name="product_stock">Stock:0</string>
@@ -51,8 +52,9 @@
 
     <!-- TODO:添加对话框提示信息 text -->
     <string name="dialog_title_edit"> Are you sure to exit editing?</string>
-    <string name="dialog_btn_cancel_text">Cancel</string>
-    <string name="dialog_btn_confirm_text">OK</string>
+    <string name="dialog_title_transa"> Cancel the transaction?</string>
+    <string name="dialog_btn_cancel_text">NO</string>
+    <string name="dialog_btn_confirm_text">YES</string>
     <string name="dialog_btn_camera_text">Camera</string>
     <string name="dialog_btn_gallery_text">Choos from Album</string>
 

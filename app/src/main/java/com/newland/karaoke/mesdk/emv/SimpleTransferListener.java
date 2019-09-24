@@ -4,11 +4,10 @@ import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.text.Editable;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -37,8 +36,6 @@ import com.newland.mtype.module.common.swiper.SwipResult;
 import com.newland.mtype.tlv.TLVPackage;
 import com.newland.mtype.util.ISOUtils;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +60,10 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 	private int transType;
 	private int trackKeyIndex;
 	private int mkIndex;
+	//监听所需数据
+     private Intent resultIntent = new Intent();
+	//增加监听回调
+	public CardPayActivity.ReadCardListener listener;
 
 	static {
 		L_55TAGS[0] = 0x9f26;
@@ -121,7 +122,8 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 		L_REVTAGS[4] = 0xDF31;
 	}
 
-	public SimpleTransferListener(Context context, EmvModule emvModule, int transType) {
+	public SimpleTransferListener(Context context, EmvModule emvModule, int transType,CardPayActivity.ReadCardListener listener) {
+		this.listener = listener;
 		this.context = context;
 		this.emvModule = emvModule;
 		this.transType = transType;
@@ -147,6 +149,7 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 	public void onEmvFinished(boolean isSuccess, EmvTransInfo emvTransInfo) throws Exception {
 		// TTransaction code
 		int executeRslt = emvTransInfo.getExecuteRslt();
+
 		String resultMsg = null;
 		switch (executeRslt) {
 		case 0:
@@ -166,7 +169,7 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 			resultMsg = context.getString(R.string.msg_trans_failed);
 			break;
 		}
-		LogUtil.debug("222222222222222222"+"\r\n", getClass());
+		LogUtil.debug("222222222222222222 onEmvFinished", getClass());
 		LogUtil.debug(context.getString(R.string.msg_trans_result) + resultMsg, getClass());
 		//The specific reason for the error code
 		int errorCode = emvTransInfo.getErrorcode();
@@ -220,7 +223,13 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 		}
 		if (errorCode != 0) {
 			LogUtil.debug(context.getString(R.string.msg_trans_error_details) + errorCode + resultMsg, getClass());
+			//添加错误信息
+			resultIntent.putExtra("result", AppConfig.ReadCardResult.FAIL);
+			resultIntent.putExtra("exception",errorCode +"||"+resultMsg);
 		}
+		else
+			resultIntent.putExtra("result", AppConfig.ReadCardResult.SUCC);
+
 		int[] emvTags = new int[3];
 		emvTags[0] = 0x5a;
 		emvTags[1] = 0x5F34;
@@ -273,6 +282,9 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 		LogUtil.debug(context.getString(R.string.msg_term_script) + dataScript, getClass());
 		String revData = emvModule.fetchEmvData(L_REVTAGS);
 		LogUtil.debug(context.getString(R.string.msg_term_flushes_data) + revData, getClass());
+
+		resultIntent.putExtra("account", cardNo);
+		listener.resultInfo(resultIntent);
 	}
 
 	@Override
@@ -286,6 +298,12 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 		LogUtil.debug(context.getString(R.string.msg_ic_env_notmeet_fallback), getClass());
 	}
 
+	/**
+	 * 进行联网数据操作
+	 * @param controller
+	 * @param emvTransInfo
+	 * @throws Exception
+	 */
 	@Override
     public void onRequestOnline(EmvTransController controller, EmvTransInfo emvTransInfo) throws Exception {
 		int emvResult = emvTransInfo.getEmvrsltCode();
@@ -298,7 +316,7 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 			resultMsg = context.getString(R.string.msg_rfqpboc_online);
 			break;
 		}
-		LogUtil.debug("1111111111111111"+"\r\n",getClass());
+		LogUtil.debug("1111111111111111 onRequestOnline",getClass());
 		LogUtil.debug(context.getString(R.string.msg_request_online_result) + resultMsg, getClass());
 
 		int[] emvTags = new int[4];
@@ -423,6 +441,8 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 			waitPinInputThreat.waitForRslt();
 			LogUtil.debug(context.getString(R.string.msg_pwd) + (pinBlock == null ? "null" : ISOUtils.hexString(pinBlock)), getClass());
 			emvTransController.sendPinInputResult(pinBlock);
+			//传递密码数据
+            resultIntent.putExtra("password",pinBlock);
 		} else {
 			LogUtil.debug(context.getString(R.string.msg_swipresult_null), getClass());
 		}
@@ -437,7 +457,7 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 	public void doPinInput(boolean isOnline, EmvTransInfo emvTransInfo) throws Exception {
 		if(isOnline){
 			LogUtil.debug("44444444444"+"\r\n",getClass());
-			((CardPayActivity)context).startOnlinePinInput(emvTransInfo.getCardNo(),false);
+			((CardPayActivity)context).startOnlinePinInput(emvTransInfo.getCardNo());
 		}else{
 			//((MainActivity)context).startOfflinePinInput(emvTransInfo.getModulus(),emvTransInfo.getExponent());
 		}

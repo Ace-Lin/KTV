@@ -52,9 +52,18 @@ public class AppConfig {
         public static int consumeType; // Consumption type, magnetic stripe card consumption did not pass the IC55-tag data, 0-magnetic 1-IC 2-RF. Distinguish the passing of parameters
         public static SwipResult swipResult;// Swiping result
     }
-    public static int INDEX_FRAGMENT_START = -1;
-    public static int INDEX_FRAGMENT_EMV = -1;
-    public static int INDEX_FRAGMENT_PIN = -1;
+
+
+    public static class ResultCode{
+        //region result码
+        public static final int BANK_CARD = 5;
+        public static final int SWIP_RESULT = 6;
+        public static final int IC_RESULT = 7;
+        public static final int RF_RESULT = 8;
+        public static final int EXCEPTION = 9;
+        //endregion
+    }
+
 
     public static class ScanResult{
         public static final int SCAN_FINISH = 0;
@@ -74,5 +83,22 @@ public class AppConfig {
          */
         public static final int BACK = 0;
     }
+
+    public static class InputResultType {
+
+        public static final int FREE = 0;
+        public static final int OFFLINE = 1;
+        public static final int SUCC = 2;
+        public static final int CANCEL = 3;
+        public static final int INPUTFAIL = 4;
+    }
+
+    public static class ReadCardResult {
+        public static final int SUCC = 0;
+        public static final int FAIL = 1;
+    }
+
+
+
 }
 
