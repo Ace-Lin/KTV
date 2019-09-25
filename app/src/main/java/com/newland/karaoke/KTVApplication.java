@@ -11,6 +11,8 @@ import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.database.KTVUserInfo;
 import com.newland.karaoke.database.KTVUserLogin;
+import com.newland.karaoke.mesdk.device.SDKDevice;
+import com.newland.karaoke.model.PrintModel;
 import com.newland.karaoke.model.UserModel;
 import com.newland.karaoke.utils.FileUtils;
 
@@ -162,6 +164,8 @@ public class KTVApplication extends Application {
             //更新商品订单
             ktvOrderProduct.setKtvOrderInfo(ktvOrderInfo);
             ktvOrderProduct.save();
+
+
 
     }
 

@@ -20,6 +20,7 @@ import com.newland.karaoke.database.KTVOrderInfo;
 import com.newland.karaoke.database.KTVOrderProduct;
 import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
+import com.newland.karaoke.view.PayDialogFragment;
 import com.newland.karaoke.view.ScollViewListView;
 
 import org.litepal.LitePal;

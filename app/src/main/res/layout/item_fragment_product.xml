@@ -58,9 +58,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25sp"
-            android:layout_marginLeft="50dp"
-            android:text="0"
+            android:layout_marginLeft="20dp"
+            android:text="0.00"
             android:textColor="#000"
+            android:gravity="right"
             android:layout_alignParentRight="true"
             />
     </LinearLayout>
