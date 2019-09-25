@@ -5,9 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -104,20 +102,20 @@ public class CardPayActivity extends BaseActivity {
         pay_amount = getIntent().getDoubleExtra("Amount",0);
         TextView pay = findViewById(R.id.txt_pay_amount);
         pay.setText(getString(R.string.dollar)+""+ df_two.format(pay_amount));
-
+        //在线loading请求
         onlineHandler = new Handler(){
             @Override
             public void handleMessage(@NonNull Message msg) {
                 super.handleMessage(msg);
-                simulOnlineTrans();
+                connectDialog();
             }
         };
     }
 
     /**
-     * 模拟在线交易
+     * 模拟连接网络进度loading
      */
-    private void simulOnlineTrans(){
+    private void connectDialog(){
         progressDialog = new ProgressDialog();
         progressDialog.show(getSupportFragmentManager(),"progress");
         new Handler().postDelayed(new Runnable() {
@@ -126,7 +124,7 @@ public class CardPayActivity extends BaseActivity {
                 progressDialog.dismiss();
             }
 
-        }, 2 * 1000);
+        }, 5* 500);
     }
 
     /**
@@ -367,6 +365,13 @@ public class CardPayActivity extends BaseActivity {
     @Override
     public void basefinish() {
         showBackDialog();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        //参数一：Activity1进入动画，参数二：Activity2退出动画
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
     }
 
     /**

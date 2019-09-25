@@ -378,13 +378,7 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 
  			// TODO  模拟联网操作的界面和耗时操作
 			CardPayActivity.onlineHandler.sendMessage(new Message());
-			new Timer().schedule(new TimerTask() {
-				public void run() {
-					controller.doEmvFinish(true);
-					this.cancel();
-				}
-			}, 2000);
-
+			simulOnlineTrans(()->controller.doEmvFinish(true));
 			// [step2].Online transaction failed or connectionless transaction End of the process，and return the result by calling onemvfinished.
 			 //controller.doEmvFinish(true);// .Online transaction success
 			// controller.doEmvFinish(false);Online transaction failed
@@ -400,15 +394,26 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 			//controller.secondIssuance(request);
 
 			//TODO 模拟联网操作的界面和操作
-			CardPayActivity.onlineHandler.sendMessage(new Message());
-			new Timer().schedule(new TimerTask() {
-				public void run() {
-					controller.secondIssuance(request);
-					this.cancel();
-				}
-			}, 2000);
+			simulOnlineTrans(()->controller.secondIssuance(request));
 		}
 	}
+
+	/**
+	 * 模拟联网操作的界面和耗时操作
+	 * @param runnable
+	 */
+	private void simulOnlineTrans(Runnable runnable){
+		CardPayActivity.onlineHandler.sendMessage(new Message());
+		//模拟耗时操作
+		new Timer().schedule(new TimerTask() {
+			public void run() {
+				runnable.run();
+				this.cancel();
+			}
+		}, 26*100);
+	}
+
+
 
 	//Multi-application card will callback this method for  select application
 	@Override

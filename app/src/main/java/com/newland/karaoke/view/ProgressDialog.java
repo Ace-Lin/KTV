@@ -1,6 +1,8 @@
 package com.newland.karaoke.view;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +28,11 @@ public class ProgressDialog extends DialogFragment {
 
         getDialog().getWindow().setWindowAnimations(R.style.ProgressBarDialog);
         getDialog().getWindow().getAttributes().alpha =  0.7f;
-        //实现点击外部不消失,setOnKeyListener ：禁用返回键
+        //实现点击外部不消失,
         getDialog().setCanceledOnTouchOutside(false);
+        //禁用返回键
+        getDialog().setOnKeyListener((dialogInterface, keyCode, keyEvent) -> {
+            if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getRepeatCount() == 0)  return true;   else   return false;  });
 
         return inflater.inflate(R.layout.progressbar_connect, container);
     }

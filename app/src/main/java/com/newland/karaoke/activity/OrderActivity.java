@@ -110,11 +110,13 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
                 Intent intent = new Intent(this, CardPayActivity.class);
                 intent.putExtra("Amount",currOrderInfo.getPay_amount());
                 startActivityForResult(intent,ResultCode.BANK_CARD);
+                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
                 break;
             case KTVType.PayType.QRCODE:
                 new ScannerModule(context).startScan(scanListener);
                 break;
         }
+
         payDialog.dismiss();
 
 //        KTVRoomInfo roomInfo = currOrderInfo.getRoom_id();
@@ -127,6 +129,8 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
 //        currOrderInfo.setOrder_end_time(new Date());
 //        currOrderInfo.save();
     }
+
+
 
 
     //刷卡数据的返回
@@ -159,7 +163,6 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
         }
 
     }
-
 
     // 扫码回调监听
     public ScanListener scanListener = new ScanListener() {

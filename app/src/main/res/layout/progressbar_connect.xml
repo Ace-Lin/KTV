@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="400dp"
-    android:layout_height="@dimen/dp250"
-    android:gravity="center"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingRight="@dimen/dp20"
+        android:paddingLeft="@dimen/dp20"
+        >
     <ProgressBar
         android:indeterminateDrawable="@drawable/connect_loading_anim"
         android:layout_width="@dimen/dp150"
@@ -21,5 +27,6 @@
         android:text="@string/tip_connect_net"
         />
 
+    </LinearLayout>
 
 </LinearLayout>
