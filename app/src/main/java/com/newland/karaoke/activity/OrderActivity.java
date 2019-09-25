@@ -1,13 +1,11 @@
 package com.newland.karaoke.activity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.OrderAdapter;
@@ -19,8 +17,8 @@ import com.newland.karaoke.mesdk.print.PrinterModule;
 import com.newland.karaoke.mesdk.scan.ScanListener;
 import com.newland.karaoke.mesdk.scan.ScannerModule;
 import com.newland.karaoke.utils.LogUtil;
-import com.newland.karaoke.view.PayDialogFragment;
-import com.newland.karaoke.view.ProgressDialog;
+import com.newland.karaoke.view.PayDialog;
+import com.newland.karaoke.view.TipDialog;
 import com.newland.mtype.util.ISOUtils;
 
 import org.litepal.LitePal;
@@ -34,12 +32,12 @@ import static com.newland.karaoke.mesdk.AppConfig.ResultCode;
 import static com.newland.karaoke.utils.DateUtil.getCurrentDayBegin;
 import static com.newland.karaoke.utils.ToastUtil.showShortText;
 
-public class OrderActivity extends BaseActivity implements  OrderAdapter.Callback, PayDialogFragment.NoticeDialogListener {
+public class OrderActivity extends BaseActivity implements  OrderAdapter.Callback, PayDialog.NoticeDialogListener {
 
     private  ListView list_order;
     private  OrderAdapter orderAdapter;
     private  List<KTVOrderInfo>   ktvOrderInfoList;
-    private  PayDialogFragment payDialog;
+    private PayDialog payDialog;
     private  KTVOrderInfo currOrderInfo;//当前订单
     private Context context;
 
@@ -86,7 +84,7 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
             finish();
         }
          else if (view.getId()==R.id.order_btn_pay) {
-           payDialog= new PayDialogFragment(ktvOrderInfoList.get(position).getPay_amount(),this);
+           payDialog= new PayDialog(ktvOrderInfoList.get(position).getPay_amount(),this);
            payDialog.show(getSupportFragmentManager(),"payDialog");
             //开线程加载秘钥，不然会延迟出现，加载慢
             new Thread(() -> LoadKey.getInstance(context)).start();
@@ -131,8 +129,6 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
     }
 
 
-
-
     //刷卡数据的返回
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -146,19 +142,22 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
                         break;
                     case InputResultType.SUCC:
                         //打印账号，加密密码信息
-                         LogUtil.error(data.getStringExtra("account")+"||"+ISOUtils.hexString(data.getByteArrayExtra("password")), getClass());
-                        break;
+                        openTipDialog(getString(R.string.tips_print),data.getStringExtra("account")+"/n"+ISOUtils.hexString(data.getByteArrayExtra("password")),false);
+                       break;
                     case InputResultType.CANCEL:
                     case InputResultType.INPUTFAIL:
-                        LogUtil.debug("重新打印数据",getClass());
+                        openTipDialog(getString(R.string.tips_error),getString(R.string.tips_rebrush),true);
                         break;
                 }
             }else if (resultCode == ResultCode.IC_RESULT){
-                LogUtil.error(data.getStringExtra("account")+"||"+ISOUtils.hexString(data.getByteArrayExtra("password")), getClass());
-            }else if (resultCode == ResultCode.RF_RESULT){
-                LogUtil.error(data.getStringExtra("account"), getClass());
+                     openTipDialog(getString(R.string.tips_print),data.getStringExtra("account")+"/n"+ISOUtils.hexString(data.getByteArrayExtra("password")),false);
+               }else if (resultCode == ResultCode.RF_RESULT){
+                if (data.getStringExtra("account")!=null)
+                    openTipDialog(getString(R.string.tips_print),data.getStringExtra("account"),false);
+                 else
+                    openTipDialog(getString(R.string.tips_error),getString(R.string.tips_rebrush),true);
             }else if (resultCode == ResultCode.EXCEPTION){
-                LogUtil.error(getString(R.string.msg_reader_open_exception)+data.getStringExtra("exception"), getClass());
+                    openTipDialog(getString(R.string.tips_error),data.getStringExtra("exception"),true);
             }
         }
 
@@ -188,6 +187,17 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
         }
     };
 
+   //刷卡之后的提示窗口信息
+    private void openTipDialog(String title, String info, boolean isError){
+        if (!isError)
+            startPrint();
 
+        TipDialog dialog = new TipDialog(title,info,isError);
+        new Handler().postDelayed(() -> dialog.show(getSupportFragmentManager(),"tip"), 500);
+    }
+
+    //完成订单开始打印数据
+    private  void startPrint(){
+    }
 
 }

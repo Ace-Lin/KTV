@@ -49,6 +49,9 @@
     <string name="tips_product_price">Product Price cannot be empty</string>
     <string name="tips_product_picture">Product Picture cannot be empty</string>
     <string name="tips_add_success">  Added Successfully</string>
+    <string name="tips_print">  Printing  </string>
+    <string name="tips_error">  Error  </string>
+    <string name="tips_rebrush">Please swipe your card again</string>
 
     <!-- TODO:添加对话框提示信息 text -->
     <string name="dialog_title_edit"> Are you sure to exit editing?</string>

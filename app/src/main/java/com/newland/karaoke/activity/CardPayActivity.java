@@ -118,13 +118,7 @@ public class CardPayActivity extends BaseActivity {
     private void connectDialog(){
         progressDialog = new ProgressDialog();
         progressDialog.show(getSupportFragmentManager(),"progress");
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                // do something
-                progressDialog.dismiss();
-            }
-
-        }, 5* 500);
+        new Handler().postDelayed(() -> progressDialog.dismiss(), 2500);
     }
 
     /**

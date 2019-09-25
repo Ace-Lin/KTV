@@ -377,8 +377,8 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 			// TODO Online transaction ....
 
  			// TODO  模拟联网操作的界面和耗时操作
-			CardPayActivity.onlineHandler.sendMessage(new Message());
 			simulOnlineTrans(()->controller.doEmvFinish(true));
+
 			// [step2].Online transaction failed or connectionless transaction End of the process，and return the result by calling onemvfinished.
 			 //controller.doEmvFinish(true);// .Online transaction success
 			// controller.doEmvFinish(false);Online transaction failed
@@ -410,7 +410,7 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 				runnable.run();
 				this.cancel();
 			}
-		}, 26*100);
+		}, 2600);
 	}
 
 

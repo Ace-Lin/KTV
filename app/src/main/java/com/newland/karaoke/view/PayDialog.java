@@ -16,12 +16,12 @@ import com.newland.karaoke.constant.KTVType;
 
 import static com.newland.karaoke.utils.DensityUtil.df_two;
 
-public class PayDialogFragment extends DialogFragment implements View.OnClickListener {
+public class PayDialog extends DialogFragment implements View.OnClickListener {
 
     private double amount;
     private NoticeDialogListener listener;
 
-    public PayDialogFragment(double amount, NoticeDialogListener listener) {
+    public PayDialog(double amount, NoticeDialogListener listener) {
         this.amount = amount;
         this.listener = listener;
     }
