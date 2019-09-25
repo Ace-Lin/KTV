@@ -1,15 +1,13 @@
 package com.newland.karaoke.mesdk.emv;
 
 import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.widget.Button;
-import android.widget.EditText;
+import android.util.Log;
 
 import com.newland.emv.jni.type.EmvConst;
 import com.newland.karaoke.R;
@@ -40,6 +38,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class SimpleTransferListener implements EmvFinalAppSelectListener {
 
@@ -51,11 +51,6 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 	private static WaitThreat waitPinInputThreat = new WaitThreat();
 	private static byte[] pinBlock = null;
 	private String encryptAlgorithm;
-	private Dialog amt_dialog;
-	private EditText edit_amt_input;
-	private Button btn_sure, btn_cancel;
-	private CharSequence temp;
-	private SDKDevice sdkDevice;
 	private EmvModule emvModule;
 	private int transType;
 	private int trackKeyIndex;
@@ -64,6 +59,7 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
      private Intent resultIntent = new Intent();
 	//增加监听回调
 	public CardPayActivity.ReadCardListener listener;
+
 
 	static {
 		L_55TAGS[0] = 0x9f26;
@@ -270,7 +266,7 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 		AppConfig.EMV.icCardNum =  cardNo;
 		AppConfig.EMV.emvTransInfo = emvTransInfo;
 		if (null != track2) {
-			K21Swiper swiper = sdkDevice.getInstance().getK21Swiper();
+			K21Swiper swiper = SDKDevice.getInstance().getK21Swiper();
 			SwipResult swipRslt = swiper.calculateTrackData(track2, null, new WorkingKey(trackKeyIndex), SupportMSDAlgorithm.getMSDAlgorithm(encryptAlgorithm));
 			LogUtil.debug(context.getString(R.string.msg_term_track2_ciphertext) + (swipRslt.getSecondTrackData() == null ? null : ISOUtils.hexString(swipRslt.getSecondTrackData())), getClass());
 		}
@@ -380,20 +376,37 @@ public class SimpleTransferListener implements EmvFinalAppSelectListener {
 			// [step1]：get ic card data from emvTransInfo then send to host
 			// TODO Online transaction ....
 
+ 			// TODO  模拟联网操作的界面和耗时操作
+			CardPayActivity.onlineHandler.sendMessage(new Message());
+			new Timer().schedule(new TimerTask() {
+				public void run() {
+					controller.doEmvFinish(true);
+					this.cancel();
+				}
+			}, 2000);
+
 			// [step2].Online transaction failed or connectionless transaction End of the process，and return the result by calling onemvfinished.
-			controller.doEmvFinish(true);// .Online transaction success
+			 //controller.doEmvFinish(true);// .Online transaction success
 			// controller.doEmvFinish(false);Online transaction failed
 
 		} else {
 			// [step1]：get ic card data from emvTransInfo then send to host
 			// TODO Online transaction ....
-
 			SecondIssuanceRequest request = new SecondIssuanceRequest();
 			request.setAuthorisationResponseCode("00");// 0x8a Transaction reply code:Taken from the 39 field value of unionpay 8583 specification, this parameter is populated with the actual value of the transaction.
 			// request.setAuthorisationCode("504343");//0x89 Authorization code
 			// request.setField55(ISOUtils.hex2byte("910A0B8B433AFD5C54F53030"));// 55 filed data of 8583 message
 			//[Step2].Online transaction success or credit for load wait onemvfinished callback to end porcess after calling secondIssuance.
-			controller.secondIssuance(request);
+			//controller.secondIssuance(request);
+
+			//TODO 模拟联网操作的界面和操作
+			CardPayActivity.onlineHandler.sendMessage(new Message());
+			new Timer().schedule(new TimerTask() {
+				public void run() {
+					controller.secondIssuance(request);
+					this.cancel();
+				}
+			}, 2000);
 		}
 	}
 

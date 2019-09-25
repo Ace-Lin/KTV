@@ -1,10 +1,13 @@
 package com.newland.karaoke.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.OrderAdapter;
@@ -17,6 +20,7 @@ import com.newland.karaoke.mesdk.scan.ScanListener;
 import com.newland.karaoke.mesdk.scan.ScannerModule;
 import com.newland.karaoke.utils.LogUtil;
 import com.newland.karaoke.view.PayDialogFragment;
+import com.newland.karaoke.view.ProgressDialog;
 import com.newland.mtype.util.ISOUtils;
 
 import org.litepal.LitePal;
@@ -82,15 +86,10 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
             finish();
         }
          else if (view.getId()==R.id.order_btn_pay) {
-            payDialog= new PayDialogFragment(ktvOrderInfoList.get(position).getPay_amount(),this);
-            payDialog.show(getSupportFragmentManager(),"payDialog");
+           payDialog= new PayDialogFragment(ktvOrderInfoList.get(position).getPay_amount(),this);
+           payDialog.show(getSupportFragmentManager(),"payDialog");
             //开线程加载秘钥，不然会延迟出现，加载慢
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    LoadKey.getInstance(context);
-                }
-            }).start();
+            new Thread(() -> LoadKey.getInstance(context)).start();
         }
 
 

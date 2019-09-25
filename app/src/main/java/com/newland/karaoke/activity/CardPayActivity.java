@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.newland.karaoke.mesdk.device.SDKDevice;
 import com.newland.karaoke.mesdk.emv.SimpleTransferListener;
 import com.newland.karaoke.mesdk.pin.KeyBoardNumberActivity;
 import com.newland.karaoke.utils.LogUtil;
+import com.newland.karaoke.view.ProgressDialog;
 import com.newland.me.SupportMSDAlgorithm;
 import com.newland.mtype.DeviceRTException;
 import com.newland.mtype.ModuleType;
@@ -73,6 +75,11 @@ public class CardPayActivity extends BaseActivity {
 
     public interface ReadCardListener{    void resultInfo(Intent intent);    }
 
+    //模拟联网弹窗
+    private ProgressDialog progressDialog;
+    //联网数据处理
+	public static Handler onlineHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,8 +104,30 @@ public class CardPayActivity extends BaseActivity {
         pay_amount = getIntent().getDoubleExtra("Amount",0);
         TextView pay = findViewById(R.id.txt_pay_amount);
         pay.setText(getString(R.string.dollar)+""+ df_two.format(pay_amount));
+
+        onlineHandler = new Handler(){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                simulOnlineTrans();
+            }
+        };
     }
 
+    /**
+     * 模拟在线交易
+     */
+    private void simulOnlineTrans(){
+        progressDialog = new ProgressDialog();
+        progressDialog.show(getSupportFragmentManager(),"progress");
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                // do something
+                progressDialog.dismiss();
+            }
+
+        }, 2 * 1000);
+    }
 
     /**
      * 开启读卡操作

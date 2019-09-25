@@ -587,5 +587,6 @@
     <string name="dialog_tv_money">money：</string>
     <string name="dialog_edit_enter_money">please enter money</string>
     <string name="tip_read_card">Reading the card, do not move</string>
+    <string name="tip_connect_net">Connecting</string>
 
 </resources>

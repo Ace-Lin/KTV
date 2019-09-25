@@ -42,12 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
         commonToolBar = findViewById(R.id.setting_toolbar);
         commonToolBar.setNavigationIcon(R.drawable.icon_back_left);
-        commonToolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                basefinish();
-            }
-        });
+        commonToolBar.setNavigationOnClickListener(v -> basefinish());
       //设置title
       TextView txt_title = findViewById(R.id.setting_title);
       txt_title.setText(titleID);
