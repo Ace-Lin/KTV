@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ListView;
 
+import com.newland.karaoke.PrintManager;
 import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.OrderAdapter;
 import com.newland.karaoke.constant.KTVType;
@@ -16,6 +17,7 @@ import com.newland.karaoke.mesdk.device.SDKDevice;
 import com.newland.karaoke.mesdk.print.PrinterModule;
 import com.newland.karaoke.mesdk.scan.ScanListener;
 import com.newland.karaoke.mesdk.scan.ScannerModule;
+import com.newland.karaoke.model.PrintModel;
 import com.newland.karaoke.utils.LogUtil;
 import com.newland.karaoke.view.PayDialog;
 import com.newland.karaoke.view.TipDialog;
@@ -168,6 +170,7 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
 
         @Override
         public void scanResponse(String var1) {
+            openTipDialog(getString(R.string.tips_print),var1,false);
             LogUtil.error(var1, getClass());
         }
 
@@ -198,6 +201,7 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
 
     //完成订单开始打印数据
     private  void startPrint(){
+
     }
 
 }
