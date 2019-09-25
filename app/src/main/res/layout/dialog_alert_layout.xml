@@ -23,20 +23,6 @@
         >
 
         <Button
-            android:id="@+id/alert_dialog_btn_confirm"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:background="@drawable/shape_btn_red"
-            android:textColor="@android:color/black"
-            android:textSize="25dp"
-            android:textAllCaps="false"
-            android:padding="10dp"
-            android:text="@string/dialog_btn_confirm_text"/>
-
-    <Space    android:layout_width="5dp"    android:layout_height="match_parent" />
-
-        <Button
             android:id="@+id/alert_dialog_btn_cancel"
             android:layout_width="0dp"
             android:layout_weight="1"
@@ -47,6 +33,19 @@
             android:textAllCaps="false"
             android:text="@string/dialog_btn_cancel_text"/>
 
+    <Space    android:layout_width="5dp"    android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/alert_dialog_btn_confirm"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_btn_red"
+            android:textColor="@android:color/black"
+            android:textSize="25dp"
+            android:textAllCaps="false"
+            android:padding="10dp"
+            android:text="@string/dialog_btn_confirm_text"/>
     </LinearLayout>
 
 </LinearLayout>

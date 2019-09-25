@@ -1,22 +1,25 @@
 package com.newland.karaoke.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.mesdk.AppConfig;
 import com.newland.karaoke.mesdk.device.SDKDevice;
-import com.newland.karaoke.mesdk.pin.KeyBoardNumberActivity;
 import com.newland.karaoke.mesdk.emv.SimpleTransferListener;
+import com.newland.karaoke.mesdk.pin.KeyBoardNumberActivity;
 import com.newland.karaoke.utils.LogUtil;
+import com.newland.karaoke.view.ProgressDialog;
 import com.newland.me.SupportMSDAlgorithm;
 import com.newland.mtype.DeviceRTException;
 import com.newland.mtype.ModuleType;
@@ -44,29 +47,44 @@ import com.newland.mtype.module.common.swiper.SwipResult;
 import com.newland.mtype.module.common.swiper.SwipResultType;
 import com.newland.mtype.module.common.swiper.SwiperReadModel;
 import com.newland.mtype.util.Dump;
-import com.newland.mtype.util.ISOUtils;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import static com.newland.karaoke.mesdk.AppConfig.InputResultType;
+import static com.newland.karaoke.mesdk.AppConfig.ReadCardResult;
+import static com.newland.karaoke.mesdk.AppConfig.ResultCode;
 import static com.newland.karaoke.utils.DensityUtil.df_two;
 
-public class CardPayActivity extends AppCompatActivity {
+public class CardPayActivity extends BaseActivity {
 
     private K21CardReader cardReader;
     private K21Swiper k21swiper;
     private EmvModule emvModule;
     private EmvTransController controller;
-    private static final int GET_TRACKTEXT_FAILED = 1003;
     private TextView tip_textview;
     private double pay_amount;
+    private String currAccNO;
+
+    private static final int GET_TRACKTEXT_FAILED = 1003;
+    private CommonCardType currCardType;
+
+    public interface ReadCardListener{    void resultInfo(Intent intent);    }
+
+    //模拟联网弹窗
+    private ProgressDialog progressDialog;
+    //联网数据处理
+	public static Handler onlineHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_pay);
+
+        hideStatusBar();
+        showToolBar(R.string.read_card);
         initData();
         startReadCard();
     }
@@ -84,8 +102,24 @@ public class CardPayActivity extends AppCompatActivity {
         pay_amount = getIntent().getDoubleExtra("Amount",0);
         TextView pay = findViewById(R.id.txt_pay_amount);
         pay.setText(getString(R.string.dollar)+""+ df_two.format(pay_amount));
+        //在线loading请求
+        onlineHandler = new Handler(){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                super.handleMessage(msg);
+                connectDialog();
+            }
+        };
     }
 
+    /**
+     * 模拟连接网络进度loading
+     */
+    private void connectDialog(){
+        progressDialog = new ProgressDialog();
+        progressDialog.show(getSupportFragmentManager(),"progress");
+        new Handler().postDelayed(() -> progressDialog.dismiss(), 2500);
+    }
 
     /**
      * 开启读卡操作
@@ -146,6 +180,8 @@ public class CardPayActivity extends AppCompatActivity {
                 throw new DeviceRTException(GET_TRACKTEXT_FAILED, "Should return only one type of cardread action!but is " + openedModuleTypes.length);
 
             }
+            //获取当前卡片类型
+            currCardType = openedModuleTypes[0];
             switch (openedModuleTypes[0]) {
                 case MSCARD:
                     LogUtil.debug(getString(R.string.msg_current_card_mc), getClass());
@@ -181,7 +217,7 @@ public class CardPayActivity extends AppCompatActivity {
                     try {
                         int transType = InnerProcessingCode.USING_STANDARD_PROCESSINGCODE;
 
-                        SimpleTransferListener simpleTransferListener = new SimpleTransferListener(this, emvModule, transType);
+                        SimpleTransferListener simpleTransferListener = new SimpleTransferListener(this, emvModule, transType,readCardListener);
                         controller = emvModule.getEmvTransController(simpleTransferListener);
                         if (controller != null) {
                             LogUtil.debug(getString(R.string.msg_iccard_start_emv), getClass());
@@ -198,7 +234,7 @@ public class CardPayActivity extends AppCompatActivity {
                     tipHandler.sendMessage(new Message());
                     AppConfig.EMV.isECSwitch = 1;
                     int transType = InnerProcessingCode.USING_STANDARD_PROCESSINGCODE;
-                    SimpleTransferListener simpleTransferListener = new SimpleTransferListener(this, emvModule, transType);
+                    SimpleTransferListener simpleTransferListener = new SimpleTransferListener(this, emvModule, transType,readCardListener);
                     controller = emvModule.getEmvTransController(simpleTransferListener);
                     if (controller != null) {
                         LogUtil.debug(getString(R.string.msg_rfcard_strat_emv), getClass());
@@ -213,6 +249,10 @@ public class CardPayActivity extends AppCompatActivity {
             e.printStackTrace();
             LogUtil.debug(getString(R.string.msg_reader_open_exception), getClass());
             LogUtil.debug(e.getMessage(), getClass());
+            Intent intent = new Intent();
+            intent.putExtra("exception",e.getMessage());
+            setResult(ResultCode.EXCEPTION,intent);
+            finish();
         }
     }
 
@@ -274,12 +314,12 @@ public class CardPayActivity extends AppCompatActivity {
         }
     };
 
-
     /**
      * 开启pin键盘
      * @param accNo 账户
      */
     public void startOnlinePinInput(String accNo){
+        currAccNO = accNo ;
         Intent intent = new Intent(this, KeyBoardNumberActivity.class);
         intent.putExtra("accNo", accNo);
         startActivityForResult(intent, 002);
@@ -289,23 +329,97 @@ public class CardPayActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 002) {
+            //只进行磁条卡的数据返回
+            if (currCardType != CommonCardType.MSCARD)
+                return;
+
+            Intent intent = new Intent();
             if (resultCode == RESULT_OK) {
                 byte[] pin = data.getByteArrayExtra("pin");
                 if (pin!=null && pin.length == 0) {
-                    LogUtil.debug(getString(R.string.msg_free_pwd), getClass());
+                    intent.putExtra("type",InputResultType.FREE);
                 } else if(pin!=null && Arrays.equals(pin, new byte[8]) ){
-                    Log.i("onActivityResult", getString(R.string.msg_offline_pwd_enter_succ) );
-                    int pinLen = data.getIntExtra("pinLength", 0);
-                    LogUtil.debug(getString(R.string.msg_offline_pwd_length)+ pinLen, getClass());
+                    intent.putExtra("type",InputResultType.OFFLINE);
                 }else{
-                    Log.i("onActivityResult", getString(R.string.msg_enter_succ) + pin);
-                    LogUtil.debug(getString(R.string.msg_enter_succ) + ISOUtils.hexString(pin), getClass());
+                    intent.putExtra("type",InputResultType.SUCC);
+                    intent.putExtra("password",pin);
                 }
             } else if (resultCode == RESULT_CANCELED) {
-                LogUtil.debug(getString(R.string.msg_n900_cancel_enter_pwd) + "\r\n", getClass());
+                intent.putExtra("type",InputResultType.CANCEL);
             }else if(resultCode == -2){
-                LogUtil.debug(getString(R.string.input_pin_fail) + "\r\n", getClass());
+                intent.putExtra("type", InputResultType.INPUTFAIL);
             }
+            intent.putExtra("account",currAccNO);
+            setResult(ResultCode.SWIP_RESULT,intent);
+            finish();
         }
     }
+
+
+    @Override
+    public void basefinish() {
+        showBackDialog();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        //参数一：Activity1进入动画，参数二：Activity2退出动画
+        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_right_out);
+    }
+
+    /**
+     * 增加添加信息退出警告信息
+     */
+    private void showBackDialog() {
+        final AlertDialog.Builder layoutDialog = new AlertDialog.Builder(this);
+        final AlertDialog dialog = layoutDialog.create();
+        dialog.show();
+
+        //加载布局并初始化组件
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_alert_layout,null);
+        TextView dialogText = (TextView) dialogView.findViewById(R.id.alert_dialog_text);
+        Button dialogBtnConfirm = (Button) dialogView.findViewById(R.id.alert_dialog_btn_confirm);
+        Button dialogBtnCancel = (Button) dialogView.findViewById(R.id.alert_dialog_btn_cancel);
+        //设置组件
+        dialogText.setText(getString(R.string.dialog_title_transa));
+        dialogBtnConfirm .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                dialog.dismiss();
+            }
+        });
+        dialogBtnCancel .setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        //在布局文件中设置了背景为圆角的shape后，发现上边显示的是我们的自定义的圆角的布局文件，
+        //底下居然还包含了一个方形的白块，如何去掉这个白块,添加下面这句话
+        dialog.getWindow().setBackgroundDrawable(new BitmapDrawable());
+        dialog.getWindow().setContentView(dialogView);//自定义布局应该在这里添加，要在dialog.show()的后面
+    }
+
+    /**
+     *EMV读卡监听接口
+     */
+    public ReadCardListener readCardListener = new ReadCardListener() {
+        @Override
+        public void resultInfo(Intent data) {
+            int result = data.getIntExtra("result",0);
+            if (result == ReadCardResult.SUCC){
+                if (currCardType == CommonCardType.ICCARD)
+                    setResult(ResultCode.IC_RESULT,data);
+                else
+                    setResult(ResultCode.RF_RESULT,data);
+            }
+            else {
+                setResult(ResultCode.EXCEPTION,data);
+            }
+            finish();
+        }
+    };
+
 }

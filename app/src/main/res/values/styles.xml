@@ -39,5 +39,18 @@
         <item name="android:windowExitAnimation">@anim/scale_center_out</item>
     </style>
 
+    <!--TODO:进度条加载 -->
+    <style name="ProgressBarDialog" parent="android:style/Theme.Dialog">
+        <!--背景颜色及和透明程度，尽量这里设置，透明或者直接需要的背景不然圆角会出现底边-->
+        <item name="android:windowBackground">@drawable/shape_circle_pad_black</item>
+        <!--是否去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowEnterAnimation">@anim/scale_center_in</item>
+        <item name="android:windowExitAnimation">@anim/scale_center_out</item>
+        <!-- 背景不模糊，弹窗外视图没有黑色透明遮罩 -->
+        <item name="android:backgroundDimEnabled">false</item>
+        <!--不要这里设置透明度，这是对所有控件进行透明度设置，如果只是设置背景透明度，代码获取设置-->
+        <!--<item name="android:alpha">0.6</item>-->
+    </style>
 
 </resources>

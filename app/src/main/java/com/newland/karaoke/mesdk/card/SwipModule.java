@@ -1,6 +1,7 @@
 package com.newland.karaoke.mesdk.card;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.mesdk.AppConfig;
