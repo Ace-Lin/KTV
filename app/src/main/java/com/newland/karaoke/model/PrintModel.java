@@ -1,6 +1,7 @@
 package com.newland.karaoke.model;
 
 import com.newland.karaoke.constant.KTVType;
+import com.newland.karaoke.database.KTVOrderInfo;
 import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.mesdk.device.SDKDevice;
 import com.newland.mtype.module.common.printer.Printer;
@@ -16,6 +17,13 @@ public class PrintModel {
     private KTVRoomInfo roomId;
     PrintModel(){
 
+    }
+    public PrintModel(KTVOrderInfo order){
+        orderNum=order.getOrder_number();
+        date=order.getOrder_end_time();
+        amount=order.getPay_amount();
+        pay_type=order.getOrder_pay_type();
+        roomId=order.getRoom_id();
     }
 
     public String getOrderNum() {
@@ -112,6 +120,8 @@ public class PrintModel {
             Apply(model);
             return model;
         }
+
+
     }
 
 
