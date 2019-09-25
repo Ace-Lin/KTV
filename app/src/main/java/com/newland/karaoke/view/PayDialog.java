@@ -16,12 +16,12 @@ import com.newland.karaoke.constant.KTVType;
 
 import static com.newland.karaoke.utils.DensityUtil.df_two;
 
-public class PayDialogFragment extends DialogFragment implements View.OnClickListener {
+public class PayDialog extends DialogFragment implements View.OnClickListener {
 
     private double amount;
     private NoticeDialogListener listener;
 
-    public PayDialogFragment(double amount, NoticeDialogListener listener) {
+    public PayDialog(double amount, NoticeDialogListener listener) {
         this.amount = amount;
         this.listener = listener;
     }
@@ -43,18 +43,19 @@ public class PayDialogFragment extends DialogFragment implements View.OnClickLis
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        getDialog().getWindow().getAttributes().windowAnimations = R.style.PayDialog;
-        View view = inflater.inflate(R.layout.dialog_pay, container);
+                getDialog().getWindow().setWindowAnimations(R.style.PayDialog);
+                View view = inflater.inflate(R.layout.dialog_pay, container);
 
-          TextView textView = view.findViewById(R.id.txt_pay_amount);
-          ImageButton btn_cash = view.findViewById(R.id.btn_pay_cash);
-          ImageButton btn_bank_card = view.findViewById(R.id.btn_pay_bank_card);
-          ImageButton btn_scan_code = view.findViewById(R.id.btn_pay_scan_code);
-          textView.setText(getString(R.string.dollar) + df_two.format(amount));
-          btn_cash.setOnClickListener(this);
-          btn_bank_card.setOnClickListener(this);
-          btn_scan_code.setOnClickListener(this);
-        return view;
+                TextView textView = view.findViewById(R.id.txt_pay_amount);
+                ImageButton btn_cash = view.findViewById(R.id.btn_pay_cash);
+                ImageButton btn_bank_card = view.findViewById(R.id.btn_pay_bank_card);
+                ImageButton btn_scan_code = view.findViewById(R.id.btn_pay_scan_code);
+                textView.setText(getString(R.string.dollar) + df_two.format(amount));
+                btn_cash.setOnClickListener(this);
+                btn_bank_card.setOnClickListener(this);
+                btn_scan_code.setOnClickListener(this);
+
+            return view;
     }
 
 

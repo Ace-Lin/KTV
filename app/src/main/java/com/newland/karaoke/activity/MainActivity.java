@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.newland.karaoke.KTVApplication;
 import com.newland.karaoke.R;
+import com.newland.karaoke.view.ProgressDialog;
 import com.newland.karaoke.view.SelectDialog;
 import com.newland.karaoke.adapter.LeftContentAdapter;
 import com.newland.karaoke.constant.Const;
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initUI();
         initEvent();
 
-      //  initOrder();
+       // initOrder();
     }
 
     private void initOrder()

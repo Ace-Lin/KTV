@@ -36,12 +36,7 @@ public class BaseFragment extends Fragment {
     {
         commonToolBar = (Toolbar)view.findViewById(R.id.setting_toolbar);
         commonToolBar.setNavigationIcon(R.drawable.icon_back_left);
-        commonToolBar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((BaseActivity)getActivity()).basefinish();
-            }
-        });
+        commonToolBar.setNavigationOnClickListener(v -> ((BaseActivity)getActivity()).basefinish());
 
         commonTitle=(TextView)view.findViewById(R.id.setting_title);
         commonTitle.setText(title);

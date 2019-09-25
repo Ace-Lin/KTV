@@ -19,9 +19,11 @@ import com.newland.mtype.module.common.scanner.BarcodeScanner;
  */
 public class ScannerModule extends BaseModule {
     public static BarcodeScanner scanner = null;
-    private static final int INDEX_STARTSCAN = 1;
-    private static final int INDEX_STOPSCAN = 2;
+    public ScanListener scanListener;
 
+    /**
+     * 用于接收扫码数据
+     */
     private static Handler scanEventHandler;
 
     public ScannerModule(Context context) {
@@ -45,6 +47,7 @@ public class ScannerModule extends BaseModule {
                         Bundle bundle = msg.getData();
                         String[] barcodes = bundle.getStringArray("barcodes");
                         LogUtil.debug(context.getString(R.string.msg_scan_result)+ barcodes[0] , getClass());
+                        scanListener.scanResponse(barcodes[0]);
                         break;
                     }
                     case AppConfig.ScanResult.SCAN_ERROR: {
@@ -52,16 +55,19 @@ public class ScannerModule extends BaseModule {
                         int errorCode = bundle.getInt("errorCode");
                         String errorMess = bundle.getString("errormessage");
                         LogUtil.debug(context.getString(R.string.msg_scanner_error) + errorCode + context.getString(R.string.msg_error_info) + errorMess, getClass());
+                        scanListener.scanError();
                         break;
                     }
                     case AppConfig.ScanResult.SCAN_TIMEOUT: {
                         Bundle bundle = msg.getData();
                         LogUtil.debug(context.getString(R.string.msg_scan_timeout),getClass());
+                        scanListener.scanTimeout();
                         break;
                     }
                     case AppConfig.ScanResult.SCAN_CANCEL: {
                         Bundle bundle = msg.getData();
                         LogUtil.debug(context.getString(R.string.msg_scan_cancel), getClass());
+                        scanListener.scanCancel();
                         break;
                     }
                     default:
@@ -72,8 +78,14 @@ public class ScannerModule extends BaseModule {
         };
     }
 
-    public void startScan(){
+    /**
+     * 开启后置相机扫码
+     * @param listener ScanListener
+     */
+    public void startScan(ScanListener listener){
         initData();
+        scanListener = listener;
+
         LogUtil.debug(context.getString(R.string.msg_choice_back_scanner_mode) , getClass());
         Intent intent = new Intent(context, ScanViewActivity.class);
         intent.putExtra("scanType", 0x00);
