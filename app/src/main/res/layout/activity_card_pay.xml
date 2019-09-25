@@ -1,37 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-   android:orientation="vertical">
+    >
 
     <TextView
         android:id="@+id/txt_pay_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/dp20"
         android:text="100"
         android:textSize="@dimen/dp30"
         android:textColor="@color/coloryellow"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/dp30"
+       />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_pay_amount"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:gravity="center"
         >
 
-    </TextView>
-    <ImageView
-        android:layout_width="@dimen/dp150"
-        android:layout_height="@dimen/dp150"
-        android:background="@drawable/swipe_card_mag"
-        />
-    <ImageView
-        android:layout_width="@dimen/dp150"
-        android:layout_height="@dimen/dp150"
-        android:background="@drawable/swipe_card_ic"
-        />
-    <ImageView
-        android:layout_width="@dimen/dp150"
-        android:layout_height="@dimen/dp150"
-        android:background="@drawable/swipe_card_rf"
-        />
+        <TextView
+            android:id="@+id/tip_read_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp20"
+            android:gravity="center"
+            android:textSize="@dimen/dp25"
+            android:visibility="gone"
+            >
 
-</LinearLayout>
+        </TextView>
+
+        <ImageView
+            android:layout_width="@dimen/dp150"
+            android:layout_height="@dimen/dp150"
+            android:background="@drawable/swipe_card_mag"
+            android:layout_marginTop="@dimen/dp20"
+            />
+        <ImageView
+            android:layout_width="@dimen/dp150"
+            android:layout_height="@dimen/dp150"
+            android:background="@drawable/swipe_card_ic"
+            android:layout_marginTop="@dimen/dp20"
+            />
+        <ImageView
+            android:layout_width="@dimen/dp150"
+            android:layout_height="@dimen/dp150"
+            android:background="@drawable/swipe_card_rf"
+            android:layout_marginTop="@dimen/dp20"
+            />
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

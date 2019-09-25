@@ -14,6 +14,8 @@ import androidx.fragment.app.DialogFragment;
 import com.newland.karaoke.R;
 import com.newland.karaoke.constant.KTVType;
 
+import static com.newland.karaoke.utils.DensityUtil.df_two;
+
 public class PayDialogFragment extends DialogFragment implements View.OnClickListener {
 
     private double amount;
@@ -48,7 +50,7 @@ public class PayDialogFragment extends DialogFragment implements View.OnClickLis
           ImageButton btn_cash = view.findViewById(R.id.btn_pay_cash);
           ImageButton btn_bank_card = view.findViewById(R.id.btn_pay_bank_card);
           ImageButton btn_scan_code = view.findViewById(R.id.btn_pay_scan_code);
-          textView.setText(getString(R.string.dollar) + amount);
+          textView.setText(getString(R.string.dollar) + df_two.format(amount));
           btn_cash.setOnClickListener(this);
           btn_bank_card.setOnClickListener(this);
           btn_scan_code.setOnClickListener(this);

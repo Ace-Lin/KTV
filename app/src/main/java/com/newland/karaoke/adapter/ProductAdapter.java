@@ -13,6 +13,8 @@ import com.newland.karaoke.model.ProductModel;
 
 import java.util.List;
 
+import static com.newland.karaoke.utils.DensityUtil.df_two;
+
 public class ProductAdapter extends ArrayAdapter<ProductModel> {
     private int resourceId;
     private View.OnClickListener onClickListener;
@@ -59,7 +61,7 @@ public class ProductAdapter extends ArrayAdapter<ProductModel> {
 
         //设置控件值
         viewHolder.tv_item_product_name.setText(product.getProduct_name());
-        viewHolder.tv_item_product_price.setText(String.valueOf(product.getProduct_price()));
+        viewHolder.tv_item_product_price.setText(df_two.format(product.getProduct_price()));
         viewHolder.tv_item_product_stock.setText("stock:"+product.getProduct_count());
         if(product.getProduct_count()<1){
             viewHolder.tv_item_product_num.setText("none");

@@ -3,16 +3,19 @@ package com.newland.karaoke.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.newland.karaoke.R;
 import com.newland.karaoke.mesdk.AppConfig;
 import com.newland.karaoke.mesdk.device.SDKDevice;
 import com.newland.karaoke.mesdk.pin.KeyBoardNumberActivity;
-import com.newland.karaoke.mesdk.pin.SimpleTransferListener;
+import com.newland.karaoke.mesdk.emv.SimpleTransferListener;
 import com.newland.karaoke.utils.LogUtil;
 import com.newland.me.SupportMSDAlgorithm;
 import com.newland.mtype.DeviceRTException;
@@ -48,6 +51,8 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
+import static com.newland.karaoke.utils.DensityUtil.df_two;
+
 public class CardPayActivity extends AppCompatActivity {
 
     private K21CardReader cardReader;
@@ -55,48 +60,59 @@ public class CardPayActivity extends AppCompatActivity {
     private EmvModule emvModule;
     private EmvTransController controller;
     private static final int GET_TRACKTEXT_FAILED = 1003;
+    private TextView tip_textview;
+    private double pay_amount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_pay);
-        TextView pay = findViewById(R.id.txt_pay_amount);
-        pay.setText(getString(R.string.dollar)+""+getIntent().getIntExtra("Amount",0));
         initData();
-        consume();
+        startReadCard();
     }
 
-private void consume(){
-        //没有AppConfig.EMV.amt = amt;这一步，后面监听onRequestAmountEntry会重新出现输入框
-    try {
-        DecimalFormat df = new DecimalFormat("#.00");
-        BigDecimal amt = new BigDecimal(getIntent().getIntExtra("Amount",0));
-        AppConfig.EMV.amt = amt;
-        LogUtil.debug(getString(R.string.msg_trans_money_is) + df.format(amt), getClass());
 
-    } catch (Exception e) {
-        LogUtil.debug(getString(R.string.msg_enter_money_exception) + e,getClass());
-    }
-    new Thread(new Runnable() {
-        @Override
-        public void run() {
-            startConsume();
-        }
-    }).start();
-}
-
-
+    /**
+     * 初始化获取模块，获取ui
+     */
     public void initData() {
         emvModule = SDKDevice.getInstance().getEmvModuleType();
         emvModule.initEmvModule(this);
         cardReader = SDKDevice.getInstance().getCardReaderModuleType();
         k21swiper = SDKDevice.getInstance().getK21Swiper();
+        tip_textview = findViewById(R.id.tip_read_card);
+        pay_amount = getIntent().getDoubleExtra("Amount",0);
+        TextView pay = findViewById(R.id.txt_pay_amount);
+        pay.setText(getString(R.string.dollar)+""+ df_two.format(pay_amount));
     }
 
 
+    /**
+     * 开启读卡操作
+     */
+    private void startReadCard(){
+        //设置AppConfig.EMV.amt = amt，保证startEmv参数不为空，不然监听 onRequestAmountEntry 会重新出现输入框
+        try {
+            DecimalFormat df = new DecimalFormat("#.00");
+            BigDecimal amt = new BigDecimal(pay_amount);
+            AppConfig.EMV.amt = amt;
+            LogUtil.debug(getString(R.string.msg_trans_money_is) + df.format(amt), getClass());
 
+        } catch (Exception e) {
+            LogUtil.debug(getString(R.string.msg_enter_money_exception) + e,getClass());
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                executReadCard();
+            }
+        }).start();
+    }
 
-    public void startConsume(){
+    /**
+     * 执行读卡流程
+     */
+    public void executReadCard(){
         try {
             LogUtil.debug(getString(R.string.msg_pl_swipe_or_insert1), getClass());
             EventHolder<K21CardReaderEvent> listener = new EventHolder<K21CardReaderEvent>();
@@ -160,6 +176,7 @@ private void consume(){
                     AppConfig.EMV.consumeType = 0;// 消费报文区分
                     break;
                 case ICCARD:
+                    tipHandler.sendMessage(new Message());
                     LogUtil.debug(getString(R.string.msg_current_card_is_iccard), getClass());
                     try {
                         int transType = InnerProcessingCode.USING_STANDARD_PROCESSINGCODE;
@@ -168,6 +185,7 @@ private void consume(){
                         controller = emvModule.getEmvTransController(simpleTransferListener);
                         if (controller != null) {
                             LogUtil.debug(getString(R.string.msg_iccard_start_emv), getClass());
+                            //第五个参数设置为true,不会出现是否是电子钱包的弹窗 方法ecSwitch是否调用
                             controller.startEmv(ProcessingCode.GOODS_AND_SERVICE, transType, AppConfig.EMV.amt, new BigDecimal("0"), true, true);
                             AppConfig.EMV.consumeType = 1; // 消费报文区分
                         }
@@ -177,6 +195,7 @@ private void consume(){
                     }
                     break;
                 case RFCARD:
+                    tipHandler.sendMessage(new Message());
                     AppConfig.EMV.isECSwitch = 1;
                     int transType = InnerProcessingCode.USING_STANDARD_PROCESSINGCODE;
                     SimpleTransferListener simpleTransferListener = new SimpleTransferListener(this, emvModule, transType);
@@ -245,6 +264,21 @@ private void consume(){
     }
 
 
+    //读取到rf卡和ic进行提示
+    public Handler tipHandler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            tip_textview.setText(getString(R.string.tip_read_card));
+            tip_textview.setVisibility(View.VISIBLE);
+        }
+    };
+
+
+    /**
+     * 开启pin键盘
+     * @param accNo 账户
+     */
     public void startOnlinePinInput(String accNo){
         Intent intent = new Intent(this, KeyBoardNumberActivity.class);
         intent.putExtra("accNo", accNo);
