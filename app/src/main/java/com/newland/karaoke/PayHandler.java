@@ -31,10 +31,12 @@ public class PayHandler implements PayDialog.NoticeDialogListener {
     private Context context;
     private  int currPayType;
     private KTVOrderInfo currOrderInfo;
+    private Runnable finshCallBack;
 
-    public PayHandler(Context context, KTVOrderInfo currOrderInfo) {
+    public PayHandler(Context context, KTVOrderInfo currOrderInfo,Runnable finshCallBack) {
         this.context = context;
         this.currOrderInfo = currOrderInfo;
+        this.finshCallBack = finshCallBack;
         OpenPayDialog();
     }
 
@@ -45,30 +47,6 @@ public class PayHandler implements PayDialog.NoticeDialogListener {
         new Thread(() -> LoadKey.getInstance(context)).start();
     }
 
-
-    //刷卡之后的提示窗口信息
-    private void openTipDialog(String title, String info, boolean isError){
-        TipDialog dialog = new TipDialog(title,info,isError);
-        new Handler().postDelayed(() -> dialog.show(((BaseActivity)context).getSupportFragmentManager(),"tip"), 500);
-        new Handler().postDelayed(() -> {if (!isError)   finshOrder();},600);
-    }
-
-
-    //完成订单
-    private void finshOrder(){
-        KTVRoomInfo roomInfo = currOrderInfo.getRoom_id();
-        roomInfo.setRoom_status(KTVType.RoomStatus.FREE);
-        roomInfo.save();
-
-        currOrderInfo.setOrder_pay_type(currPayType);
-        currOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
-        currOrderInfo.setOrder_number(getNoFormatDate(new Date()));
-        currOrderInfo.setOrder_end_time(new Date());
-        currOrderInfo.save();
-
-        PrintManager printManager = PrintManager.getInstance(context);
-        printManager.printBill(new PrintModel(LitePal.find(KTVOrderInfo.class,currOrderInfo.getId())));
-    }
 
     @Override
     public void onDialogBtnClick(int payType) {
@@ -100,8 +78,7 @@ public class PayHandler implements PayDialog.NoticeDialogListener {
                         break;
                     case AppConfig.InputResultType.SUCC:
                         //打印账号，加密密码信息
-                        LogUtil.debug("免密支付",getClass());
-                        openTipDialog(getString(R.string.tips_print),data.getStringExtra("account")+"/n"+ ISOUtils.hexString(data.getByteArrayExtra("password")),false);
+                        openTipDialog(getString(R.string.tips_print),"account:"+data.getStringExtra("account")+"\npassword:"+ISOUtils.hexString(data.getByteArrayExtra("password")),false);
                         break;
                     case AppConfig.InputResultType.CANCEL:
                     case AppConfig.InputResultType.INPUTFAIL:
@@ -109,11 +86,11 @@ public class PayHandler implements PayDialog.NoticeDialogListener {
                         break;
                 }
             }else if (resultCode == AppConfig.ResultCode.IC_RESULT){
-                openTipDialog(getString(R.string.tips_print),data.getStringExtra("account")+"/n"+ISOUtils.hexString(data.getByteArrayExtra("password")),false);
+                openTipDialog(getString(R.string.tips_print),"account:"+data.getStringExtra("account")+"\npassword:"+ISOUtils.hexString(data.getByteArrayExtra("password")),false);
             }else if (resultCode == AppConfig.ResultCode.RF_RESULT){
                 LogUtil.debug(data.getStringExtra("account"),getClass());
                 if (data.getStringExtra("account")!=null)
-                    openTipDialog(getString(R.string.tips_print),data.getStringExtra("account"),false);
+                    openTipDialog(getString(R.string.tips_print),"account:"+data.getStringExtra("account"),false);
                 else
                     openTipDialog(getString(R.string.tips_error),getString(R.string.tips_rebrush),true);
                 LogUtil.debug("免密支付",getClass());
@@ -121,6 +98,33 @@ public class PayHandler implements PayDialog.NoticeDialogListener {
                 openTipDialog(getString(R.string.tips_error),data.getStringExtra("exception"),true);
             }
         }
+    }
+
+
+    //刷卡之后的提示窗口信息
+    private void openTipDialog(String title, String info, boolean isError){
+        TipDialog dialog = new TipDialog(title,info,isError);
+        new Handler().postDelayed(() -> dialog.show(((BaseActivity)context).getSupportFragmentManager(),"tip"), 500);
+        new Handler().postDelayed(() -> {if (!isError)   finshOrder();},600);
+    }
+
+    //完成订单
+    private void finshOrder(){
+        KTVRoomInfo roomInfo = currOrderInfo.getRoom_id();
+        roomInfo.setRoom_status(KTVType.RoomStatus.FREE);
+        roomInfo.save();
+
+        currOrderInfo.setOrder_pay_type(currPayType);
+        currOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
+        currOrderInfo.setOrder_number(getNoFormatDate(new Date()));
+        currOrderInfo.setOrder_end_time(new Date());
+        currOrderInfo.save();
+
+        PrintManager printManager = PrintManager.getInstance(context);
+        printManager.printBill(new PrintModel(LitePal.find(KTVOrderInfo.class,currOrderInfo.getId())));
+
+        if (finshCallBack!=null)
+            finshCallBack.run();
     }
 
 
@@ -152,5 +156,7 @@ public class PayHandler implements PayDialog.NoticeDialogListener {
 
     //获取字符串
     private String getString(int id){   return context.getString(id);    }
+
+
 
 }

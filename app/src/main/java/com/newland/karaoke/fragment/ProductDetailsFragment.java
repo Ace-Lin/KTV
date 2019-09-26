@@ -96,32 +96,28 @@ public class ProductDetailsFragment extends BaseFragment implements SwipeMenuLis
      */
     private void creatSwipeMenu()
     {
-        creator = new SwipeMenuCreator() {
+        creator = menu -> {
+            // create "edit" item
+            SwipeMenuItem editItem = new SwipeMenuItem(context);
+            // set item background
+            editItem.setBackground(new ColorDrawable(Color.rgb(50,185, 193)));
+            // set item width
+            editItem.setWidth(dp2px(context,40));
+            // set item title
+            editItem.setIcon(R.drawable.icon_set_edit);
+            // add to menu
+            menu.addMenuItem(editItem);
 
-            @Override
-            public void create(SwipeMenu menu) {
-                // create "edit" item
-                SwipeMenuItem editItem = new SwipeMenuItem(context);
-                // set item background
-                editItem.setBackground(new ColorDrawable(Color.rgb(50,185, 193)));
-                // set item width
-                editItem.setWidth(dp2px(context,40));
-                // set item title
-                editItem.setIcon(R.drawable.icon_set_edit);
-                // add to menu
-                menu.addMenuItem(editItem);
-
-                // create "delete" item
-                SwipeMenuItem deleteItem = new SwipeMenuItem(context);
-                // set item background
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(50,185, 193)));
-                // set item width
-                deleteItem.setWidth(dp2px(context,40));
-                // set a icon
-                deleteItem.setIcon(R.drawable.icon_set_delete);
-                // add to menu
-                menu.addMenuItem(deleteItem);
-            }
+            // create "delete" item
+            SwipeMenuItem deleteItem = new SwipeMenuItem(context);
+            // set item background
+            deleteItem.setBackground(new ColorDrawable(Color.rgb(50,185, 193)));
+            // set item width
+            deleteItem.setWidth(dp2px(context,40));
+            // set a icon
+            deleteItem.setIcon(R.drawable.icon_set_delete);
+            // add to menu
+            menu.addMenuItem(deleteItem);
         };
     }
 

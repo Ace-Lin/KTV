@@ -1,8 +1,5 @@
 package com.newland.karaoke.activity;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+
+import com.newland.karaoke.PayHandler;
 import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.OrderDetailProductAdapter;
 import com.newland.karaoke.adapter.RoomAdapter;
@@ -20,7 +21,6 @@ import com.newland.karaoke.database.KTVOrderInfo;
 import com.newland.karaoke.database.KTVOrderProduct;
 import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
-import com.newland.karaoke.view.PayDialogFragment;
 import com.newland.karaoke.view.ScollViewListView;
 
 import org.litepal.LitePal;
@@ -50,6 +50,8 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
     private KTVRoomInfo currentRoom;
     private List<KTVOrderProduct> currentOrderProducts;
     private List<KTVRoomInfo> roomInfos;
+    private PayHandler payHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,7 +189,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
                 ShowConfirmRoomDialog();
                 break;
             case R.id.btn_order_detail_pay:     //结算
-
+                payHandler = new PayHandler(this,currentOrder,null);
                 break;
             default:
                 break;
@@ -274,5 +276,12 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         intentBack.putExtras(bundleBack);
         startActivity(intentBack);
 
+    }
+
+    //刷卡数据的返回
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        payHandler.onCardPayResult(requestCode, resultCode, data);
     }
 }
