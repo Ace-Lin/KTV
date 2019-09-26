@@ -50,6 +50,7 @@ public class PayHandler implements PayDialog.NoticeDialogListener {
 
     @Override
     public void onDialogBtnClick(int payType) {
+        currPayType = payType;
         switch (payType){
             case KTVType.PayType.CASH:
                 finshOrder();
@@ -64,7 +65,6 @@ public class PayHandler implements PayDialog.NoticeDialogListener {
                 new ScannerModule(context).startScan(scanListener);
                 break;
         }
-        currPayType = payType;
         payDialog.dismiss();
     }
 
