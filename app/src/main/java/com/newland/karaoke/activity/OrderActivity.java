@@ -4,14 +4,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
+import com.newland.karaoke.PayHandler;
 import com.newland.karaoke.PrintManager;
 import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.OrderAdapter;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVOrderInfo;
+import com.newland.karaoke.database.KTVRoomInfo;
 import com.newland.karaoke.mesdk.LoadKey;
 import com.newland.karaoke.mesdk.device.SDKDevice;
 import com.newland.karaoke.mesdk.print.PrinterModule;
@@ -32,16 +35,19 @@ import java.util.List;
 import static com.newland.karaoke.mesdk.AppConfig.InputResultType;
 import static com.newland.karaoke.mesdk.AppConfig.ResultCode;
 import static com.newland.karaoke.utils.DateUtil.getCurrentDayBegin;
+import static com.newland.karaoke.utils.DateUtil.getNoFormatDate;
 import static com.newland.karaoke.utils.ToastUtil.showShortText;
 
-public class OrderActivity extends BaseActivity implements  OrderAdapter.Callback, PayDialog.NoticeDialogListener {
+public class OrderActivity extends BaseActivity implements  OrderAdapter.Callback {
 
     private  ListView list_order;
     private  OrderAdapter orderAdapter;
     private  List<KTVOrderInfo>   ktvOrderInfoList;
     private PayDialog payDialog;
     private  KTVOrderInfo currOrderInfo;//当前订单
+    private  int currPayType;
     private Context context;
+    private PayHandler payHandler;
 
 
     @Override
@@ -86,10 +92,13 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
             finish();
         }
          else if (view.getId()==R.id.order_btn_pay) {
-           payDialog= new PayDialog(ktvOrderInfoList.get(position).getPay_amount(),this);
-           payDialog.show(getSupportFragmentManager(),"payDialog");
+           payHandler = new PayHandler(this,currOrderInfo);
+          // payDialog= new PayDialog(ktvOrderInfoList.get(position).getPay_amount(),this);
+        //   payDialog.show(getSupportFragmentManager(),"payDialog");
             //开线程加载秘钥，不然会延迟出现，加载慢
-            new Thread(() -> LoadKey.getInstance(context)).start();
+         //   new Thread(() -> LoadKey.getInstance(context)).start();
+
+
         }
 
 
@@ -100,108 +109,116 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
         finish();
     }
 
-    @Override
-    public void onDialogBtnClick(int payType) {
-        switch (payType){
-            case KTVType.PayType.CASH:
-               new PrinterModule(this).printOrder();
-                break;
-            case KTVType.PayType.CARD:
-                Intent intent = new Intent(this, CardPayActivity.class);
-                intent.putExtra("Amount",currOrderInfo.getPay_amount());
-                startActivityForResult(intent,ResultCode.BANK_CARD);
-                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
-                break;
-            case KTVType.PayType.QRCODE:
-                new ScannerModule(context).startScan(scanListener);
-                break;
-        }
-
-        payDialog.dismiss();
-
-//        KTVRoomInfo roomInfo = currOrderInfo.getRoom_id();
-//        roomInfo.setRoom_status(KTVType.RoomStatus.FREE);
-//        roomInfo.save();
+//    @Override
+//    public void onDialogBtnClick(int payType) {
+//        switch (payType){
+//            case KTVType.PayType.CASH:
+//                finshOrder();
+//                break;
+//            case KTVType.PayType.CARD:
+//                Intent intent = new Intent(this, CardPayActivity.class);
+//                intent.putExtra("Amount",currOrderInfo.getPay_amount());
+//                startActivityForResult(intent,ResultCode.BANK_CARD);
+//                overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
+//                break;
+//            case KTVType.PayType.QRCODE:
+//                new ScannerModule(context).startScan(scanListener);
+//                break;
+//        }
+//        currPayType = payType;
+//        payDialog.dismiss();
 //
-//        currOrderInfo.setOrder_pay_type(payType);
-//        currOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
-//        currOrderInfo.setOrder_number(getNoFormatDate(new Date()));
-//        currOrderInfo.setOrder_end_time(new Date());
-//        currOrderInfo.save();
-    }
-
-
+//    }
+//
+//
     //刷卡数据的返回
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ResultCode.BANK_CARD) {
-            if (resultCode == ResultCode.SWIP_RESULT ) {
-                int type = data.getIntExtra("type",0);
-                switch (type){
-                    case InputResultType.FREE:
-                        LogUtil.debug("免密支付",getClass());
-                        break;
-                    case InputResultType.SUCC:
-                        //打印账号，加密密码信息
-                        openTipDialog(getString(R.string.tips_print),data.getStringExtra("account")+"/n"+ISOUtils.hexString(data.getByteArrayExtra("password")),false);
-                       break;
-                    case InputResultType.CANCEL:
-                    case InputResultType.INPUTFAIL:
-                        openTipDialog(getString(R.string.tips_error),getString(R.string.tips_rebrush),true);
-                        break;
-                }
-            }else if (resultCode == ResultCode.IC_RESULT){
-                     openTipDialog(getString(R.string.tips_print),data.getStringExtra("account")+"/n"+ISOUtils.hexString(data.getByteArrayExtra("password")),false);
-               }else if (resultCode == ResultCode.RF_RESULT){
-                if (data.getStringExtra("account")!=null)
-                    openTipDialog(getString(R.string.tips_print),data.getStringExtra("account"),false);
-                 else
-                    openTipDialog(getString(R.string.tips_error),getString(R.string.tips_rebrush),true);
-            }else if (resultCode == ResultCode.EXCEPTION){
-                    openTipDialog(getString(R.string.tips_error),data.getStringExtra("exception"),true);
-            }
-        }
+        payHandler.onCardPayResult(requestCode, resultCode, data);
+//        if (requestCode == ResultCode.BANK_CARD) {
+//            if (resultCode == ResultCode.SWIP_RESULT ) {
+//                int type = data.getIntExtra("type",0);
+//                switch (type){
+//                    case InputResultType.FREE:
+//                        LogUtil.debug("免密支付",getClass());
+//                        break;
+//                    case InputResultType.SUCC:
+//                        //打印账号，加密密码信息
+//                        LogUtil.debug("免密支付",getClass());
+//                        openTipDialog(getString(R.string.tips_print),data.getStringExtra("account")+"/n"+ISOUtils.hexString(data.getByteArrayExtra("password")),false);
+//                       break;
+//                    case InputResultType.CANCEL:
+//                    case InputResultType.INPUTFAIL:
+//                        openTipDialog(getString(R.string.tips_error),getString(R.string.tips_rebrush),true);
+//                        break;
+//                }
+//            }else if (resultCode == ResultCode.IC_RESULT){
+//                     openTipDialog(getString(R.string.tips_print),data.getStringExtra("account")+"/n"+ISOUtils.hexString(data.getByteArrayExtra("password")),false);
+//               }else if (resultCode == ResultCode.RF_RESULT){
+//                LogUtil.debug(data.getStringExtra("account"),getClass());
+//                if (data.getStringExtra("account")!=null)
+//                    openTipDialog(getString(R.string.tips_print),data.getStringExtra("account"),false);
+//                 else
+//                    openTipDialog(getString(R.string.tips_error),getString(R.string.tips_rebrush),true);
+//                LogUtil.debug("免密支付",getClass());
+//            }else if (resultCode == ResultCode.EXCEPTION){
+//                      openTipDialog(getString(R.string.tips_error),data.getStringExtra("exception"),true);
+//            }
+//        }
 
     }
+//
+//    // 扫码回调监听
+//    public ScanListener scanListener = new ScanListener() {
+//
+//        @Override
+//        public void scanResponse(String var1) {
+//            openTipDialog(getString(R.string.tips_print),var1,false);
+//            LogUtil.error(var1, getClass());
+//        }
+//
+//        @Override
+//        public void scanError() {
+//
+//        }
+//
+//        @Override
+//        public void scanTimeout() {
+//
+//        }
+//
+//        @Override
+//        public void scanCancel() {
+//
+//        }
+//    };
+//
+//   //刷卡之后的提示窗口信息
+//    private void openTipDialog(String title, String info, boolean isError){
+//        TipDialog dialog = new TipDialog(title,info,isError);
+//        new Handler().postDelayed(() -> dialog.show(getSupportFragmentManager(),"tip"), 500);
+//        new Handler().postDelayed(() -> {if (!isError)   finshOrder();},600);
+//    }
+//
+//
+//    //完成订单
+//    private void finshOrder(){
+//        KTVRoomInfo roomInfo = currOrderInfo.getRoom_id();
+//        roomInfo.setRoom_status(KTVType.RoomStatus.FREE);
+//        roomInfo.save();
+//
+//        currOrderInfo.setOrder_pay_type(currPayType);
+//        currOrderInfo.setOrder_status(KTVType.OrderStatus.PAID);
+//        currOrderInfo.setOrder_number(getNoFormatDate(new Date()));
+//        currOrderInfo.setOrder_end_time(new Date());
+//        currOrderInfo.save();
+//
+//        PrintManager printManager = PrintManager.getInstance(context);
+//        printManager.printBill(new  PrintModel(LitePal.find(KTVOrderInfo.class,currOrderInfo.getId())));
+//    }
 
-    // 扫码回调监听
-    public ScanListener scanListener = new ScanListener() {
 
-        @Override
-        public void scanResponse(String var1) {
-            openTipDialog(getString(R.string.tips_print),var1,false);
-            LogUtil.error(var1, getClass());
-        }
 
-        @Override
-        public void scanError() {
-
-        }
-
-        @Override
-        public void scanTimeout() {
-
-        }
-
-        @Override
-        public void scanCancel() {
-
-        }
-    };
-
-   //刷卡之后的提示窗口信息
-    private void openTipDialog(String title, String info, boolean isError){
-        if (!isError)
-            startPrint();
-
-        TipDialog dialog = new TipDialog(title,info,isError);
-        new Handler().postDelayed(() -> dialog.show(getSupportFragmentManager(),"tip"), 500);
-    }
-
-    //完成订单开始打印数据
-    private  void startPrint(){
-
-    }
 
 }
