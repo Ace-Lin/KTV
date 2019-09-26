@@ -38,11 +38,6 @@ public class TipDialog extends DialogFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         getDialog().getWindow().setWindowAnimations(R.style.PayDialog);
-           //实现点击外部不消失,
-//        getDialog().setCanceledOnTouchOutside(false);
-//        //禁用返回键
-//        getDialog().setOnKeyListener((dialogInterface, keyCode, keyEvent) -> {
-//            if (keyCode == KeyEvent.KEYCODE_BACK && keyEvent.getRepeatCount() == 0)  return true;   else   return false;  });
 
         View view = inflater.inflate(R.layout.dialog_tip, container);
 
