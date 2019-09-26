@@ -67,11 +67,16 @@ public class PrintManager {
                 scriptBuffer.append("*line" + "\n");// 打印虚线
                 scriptBuffer.append("!hz n\n !asc n\n !gray 5\n");// 设置内容字体为中号
                 scriptBuffer.append("!yspace 10\n");// 设置内容行间距
-                scriptBuffer.append("*text l Bill No:"+printModel.getOrderNum()+"\n");
-                scriptBuffer.append("*text l Date:"+printModel.getDateToString()+"\n");
-                scriptBuffer.append("*text l Amout:"+printModel.getAmount()+"\n");
-                scriptBuffer.append("*text l Pay Type:"+printModel.getPay_typeToString()+"\n");
-                scriptBuffer.append("*text l Room Name:"+printModel.getRoomToString()+"\n");
+                scriptBuffer.append("*TEXT l Bill No:\n");
+                scriptBuffer.append("*text r "+printModel.getOrderNum()+"\n");
+                scriptBuffer.append("*TEXT l Date:\n");
+                scriptBuffer.append("*text r "+printModel.getDateToString()+"\n");
+                scriptBuffer.append("*TEXT l Amout:\n");
+                scriptBuffer.append("*text r "+printModel.getAmount()+"\n");
+                scriptBuffer.append("*TEXT l Pay Type:\n");
+                scriptBuffer.append("*text r "+printModel.getPay_typeToString()+"\n");
+                scriptBuffer.append("*TEXT l Room Name:"+printModel.getRoomToString()+"\n");
+                scriptBuffer.append("*text r "+printModel.getRoomToString()+"\n");
                 scriptBuffer.append("!hz l\n !asc l\n !gray 5\n");// 设置标题字体为大号
                 scriptBuffer.append("!yspace 5\n");// 设置行间距,取值【0,60】，默认6
                 scriptBuffer.append("*line" + "\n");// 打印虚线

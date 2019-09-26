@@ -104,7 +104,8 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
     public void onDialogBtnClick(int payType) {
         switch (payType){
             case KTVType.PayType.CASH:
-               new PrinterModule(this).printOrder();
+               //new PrinterModule(this).printOrder();
+                PrintManager.getInstance(this).printBill(new PrintModel(currOrderInfo));
                 break;
             case KTVType.PayType.CARD:
                 Intent intent = new Intent(this, CardPayActivity.class);

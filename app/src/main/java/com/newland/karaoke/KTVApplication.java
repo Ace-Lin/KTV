@@ -152,6 +152,7 @@ public class KTVApplication extends Application {
             //添加订单
             KTVOrderInfo ktvOrderInfo=new KTVOrderInfo();
             ktvOrderInfo.setOrder_start_time(new Date());
+            ktvOrderInfo.setOrder_end_time(new Date());
             ktvOrderInfo.setOrder_number("15472719");
             ktvOrderInfo.setRoom_id(ktvRoomInfo3);
             ktvOrderInfo.setPay_amount(85);
