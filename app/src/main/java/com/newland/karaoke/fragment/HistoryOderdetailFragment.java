@@ -22,6 +22,7 @@ import java.util.List;
 import static com.newland.karaoke.utils.DateUtil.getSimpleDate;
 import static com.newland.karaoke.utils.Utility.getPayType;
 import static com.newland.karaoke.utils.Utility.getRoomType;
+import static com.newland.karaoke.utils.Utility.getRoomPic;
 
 /**
  *详细历史订单的fragment
@@ -95,7 +96,7 @@ public class HistoryOderdetailFragment extends BaseFragment {
      * 用来显示获取的UI数据
      */
     private void showUIData() {
-        roomPicture.setBackgroundResource(R.drawable.small_ktv);
+        roomPicture.setBackgroundResource(getRoomPic(ktvRoomInfo.getRoom_type()));
         //roomPicture.setImageDrawable(getActivity().getDrawable(R.drawable.small_ktv));//暂时代替
         roomInfo.setText(ktvRoomInfo.getRoom_name());
         roomType.setText(getRoomType(ktvRoomInfo.getRoom_type()));

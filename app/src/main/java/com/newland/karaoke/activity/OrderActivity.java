@@ -68,7 +68,6 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
             Intent intentOrderDetail=new Intent(OrderActivity.this,OrderDetailActivity.class);
             intentOrderDetail.putExtras(bundle);
             startActivity(intentOrderDetail);
-            finish();
         }
          else if (view.getId()==R.id.order_btn_pay) {
            payHandler = new PayHandler(this,currOrderInfo,()->{ktvOrderInfoList.remove(position);orderAdapter.notifyDataSetChanged();});

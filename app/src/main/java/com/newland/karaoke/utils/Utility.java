@@ -14,10 +14,15 @@ import com.newland.karaoke.constant.KTVType;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 public class Utility {
+
+    public static int[] imageUrl = {R.drawable.product_1,R.drawable.product_2,R.drawable.product_3,R.drawable.product_4,R.drawable.product_5,R.drawable.product_6 ,R.drawable.product_7};
 
     /**
      *   照片路径转化为图片返回
@@ -33,8 +38,10 @@ public class Utility {
             return BitmapFactory.decodeFile(path);
 
         //如果没有图片返回默认图片
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.product_image);
+        return null;
     }
+
+
 
     /**
      * 输入字符串提取汉字
@@ -97,4 +104,25 @@ public class Utility {
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
     }
+
+    /**
+     * 得到房间图片
+     * @param type
+     * @return
+     */
+    public static int getRoomPic(int type){
+        switch (type){
+            case KTVType.RoomType.BIG:
+                return R.drawable.room_big;
+            case KTVType.RoomType.MIDDLE:
+                return R.drawable.room_mid;
+            case KTVType.RoomType.SMAlL:
+                return R.drawable.room_small;
+            default:
+                return R.drawable.room_big;
+        }
+    }
+
+
+
 }

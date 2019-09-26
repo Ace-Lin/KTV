@@ -15,9 +15,15 @@ import com.newland.karaoke.mesdk.device.SDKDevice;
 import com.newland.karaoke.model.PrintModel;
 import com.newland.karaoke.model.UserModel;
 import com.newland.karaoke.utils.FileUtils;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import org.litepal.LitePal;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,11 +49,26 @@ public class KTVApplication extends Application {
         context=getApplicationContext();
         LitePal.initialize(this);
         FileUtils.createDir(getExternalFilesDir("/Picture").getPath());
+       // initImageLoader(getApplicationContext());
         //CreateDatabase();
     }
     public static Context getContext(){
          return context;
     }
+
+
+    private void initImageLoader(Context context){
+        /**ImageLoader的配置**/
+        ImageLoaderConfiguration config=new ImageLoaderConfiguration.Builder(context)
+                .threadPriority(Thread.NORM_PRIORITY-2) //设置同时运行的线程
+                .denyCacheImageMultipleSizesInMemory()  //缓存显示不同大小的同一张图片
+                .diskCacheSize(50*1024*1024)  //50MB SD卡本地缓存的最大值
+                .memoryCache(new WeakMemoryCache()) //内存缓存
+                .tasksProcessingOrder(QueueProcessingType.LIFO).build();
+        //全局初始化配置
+        ImageLoader.getInstance().init(config);
+    }
+
 
     //调试：初始化数据库
     public static void CreateDatabase(){
@@ -94,6 +115,7 @@ public class KTVApplication extends Application {
             ktvProduct1.setProduct_name("牛奶");
             ktvProduct1.setProduct_count(10);
             ktvProduct1.setProduct_price(6);
+            ktvProduct1.setProduct_picture(String.valueOf(R.drawable.product_1));
             ktvProduct1.setProduct(new ArrayList<KTVOrderProduct>());
             ktvProduct1.save();
 
@@ -101,6 +123,7 @@ public class KTVApplication extends Application {
             ktvProduct2.setProduct_name("可比克薯片");
             ktvProduct2.setProduct_count(20);
             ktvProduct2.setProduct_price(4);
+            ktvProduct2.setProduct_picture(String.valueOf(R.drawable.product_2));
             ktvProduct2.setProduct(new ArrayList<KTVOrderProduct>());
             ktvProduct2.save();
 
@@ -108,6 +131,7 @@ public class KTVApplication extends Application {
             ktvProduct3.setProduct_name("德芙牛奶巧克力");
             ktvProduct3.setProduct_count(5);
             ktvProduct3.setProduct_price(9);
+            ktvProduct3.setProduct_picture(String.valueOf(R.drawable.product_3));
             ktvProduct3.setProduct(new ArrayList<KTVOrderProduct>());
             ktvProduct3.save();
 
@@ -115,12 +139,13 @@ public class KTVApplication extends Application {
             ktvProduct4.setProduct_name("雪碧");
             ktvProduct4.setProduct_count(15);
             ktvProduct4.setProduct_price(3);
+            ktvProduct4.setProduct_picture(String.valueOf(R.drawable.product_4));
             ktvProduct4.setProduct(new ArrayList<KTVOrderProduct>());
             ktvProduct4.save();
 
             KTVProduct ktvProduct5=new KTVProduct();
             ktvProduct5.setProduct_name("水");
-            ktvProduct5.setProduct_count(0);
+            ktvProduct5.setProduct_count(1);
             ktvProduct5.setProduct_price(3);
             ktvProduct5.setProduct(new ArrayList<KTVOrderProduct>());
             ktvProduct5.save();

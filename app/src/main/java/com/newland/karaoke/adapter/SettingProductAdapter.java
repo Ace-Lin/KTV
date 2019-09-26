@@ -1,6 +1,7 @@
 package com.newland.karaoke.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,14 @@ import android.widget.TextView;
 import com.newland.karaoke.R;
 import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
+import com.newland.karaoke.utils.LoadLocalImageUtil;
 
 import java.util.List;
+import java.util.Random;
 
 import static com.newland.karaoke.utils.DensityUtil.df_two;
 import static com.newland.karaoke.utils.Utility.getPirBitMap;
+import static com.newland.karaoke.utils.Utility.imageUrl;
 
 public class SettingProductAdapter extends BaseAdapter {
 
@@ -60,7 +64,15 @@ public class SettingProductAdapter extends BaseAdapter {
         }
 
         viewHolder.txt_product_name.setText(ktvProduct.getProduct_name());
-        viewHolder.txt_product_picture.setImageBitmap(getPirBitMap(mContext,ktvProduct.getProduct_picture()));
+
+        //设置图片
+        Bitmap bitmap = getPirBitMap(mContext,ktvProduct.getProduct_picture());
+        if (bitmap==null)
+            viewHolder.txt_product_picture.setImageResource(Integer.valueOf(ktvProduct.getProduct_picture()));
+         else
+           viewHolder.txt_product_picture.setImageBitmap(bitmap);
+       // LoadLocalImageUtil.getInstance().displayFromDrawable(imageUrl[new Random().nextInt(imageUrl.length)],viewHolder.txt_product_picture);
+
         viewHolder.txt_product_count.setText(String.valueOf(ktvProduct.getProduct_count()));
         viewHolder.txt_product_price.setText(df_two.format(ktvProduct.getProduct_price()));
         return view;

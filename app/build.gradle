@@ -52,4 +52,7 @@ dependencies {
     implementation 'com.github.sd6352051.niftydialogeffects:niftydialogeffects:1.0.0@aar'
     implementation files('libs/core-2.3.0.jar')
     implementation files('libs/meSdk-3.7.71-RELEASE.jar')
+
+    //image-loader 加载图片
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
