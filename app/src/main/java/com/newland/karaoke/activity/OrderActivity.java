@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ListView;
 
+import com.newland.karaoke.PrintManager;
 import com.newland.karaoke.R;
 import com.newland.karaoke.adapter.OrderAdapter;
 import com.newland.karaoke.constant.KTVType;
@@ -16,6 +17,7 @@ import com.newland.karaoke.mesdk.device.SDKDevice;
 import com.newland.karaoke.mesdk.print.PrinterModule;
 import com.newland.karaoke.mesdk.scan.ScanListener;
 import com.newland.karaoke.mesdk.scan.ScannerModule;
+import com.newland.karaoke.model.PrintModel;
 import com.newland.karaoke.utils.LogUtil;
 import com.newland.karaoke.view.PayDialog;
 import com.newland.karaoke.view.TipDialog;
@@ -102,7 +104,8 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
     public void onDialogBtnClick(int payType) {
         switch (payType){
             case KTVType.PayType.CASH:
-               new PrinterModule(this).printOrder();
+               //new PrinterModule(this).printOrder();
+                PrintManager.getInstance(this).printBill(new PrintModel(currOrderInfo));
                 break;
             case KTVType.PayType.CARD:
                 Intent intent = new Intent(this, CardPayActivity.class);
