@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.newland.karaoke.R;
 import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
@@ -72,7 +73,6 @@ public class SettingProductAdapter extends BaseAdapter {
          else
            viewHolder.txt_product_picture.setImageBitmap(bitmap);
        // LoadLocalImageUtil.getInstance().displayFromDrawable(imageUrl[new Random().nextInt(imageUrl.length)],viewHolder.txt_product_picture);
-
         viewHolder.txt_product_count.setText(String.valueOf(ktvProduct.getProduct_count()));
         viewHolder.txt_product_price.setText(df_two.format(ktvProduct.getProduct_price()));
         return view;
