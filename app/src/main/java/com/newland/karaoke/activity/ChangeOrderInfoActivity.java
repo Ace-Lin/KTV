@@ -93,7 +93,7 @@ public class ChangeOrderInfoActivity extends BaseActivity implements View.OnClic
         commonToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                basefinish();
             }
         });
         //加载标题
@@ -122,12 +122,8 @@ public class ChangeOrderInfoActivity extends BaseActivity implements View.OnClic
     private void initEvent(){
 
     }
-    @Override
-    public void onBackPressed() {
-        //super.onBackPressed();
-       JumpToDetail();
-        finish();
-    }
+
+
 
     @Override
     public void onClick(View view) {
@@ -135,7 +131,7 @@ public class ChangeOrderInfoActivity extends BaseActivity implements View.OnClic
         switch(view.getId()){
             case R.id.iv_order_detail_change_submit:
                 OrderInfoSubmit();
-                JumpToDetail();
+                basefinish();
                 break;
             case  R.id.iv_item_detail_add:
                 if (tag != null && tag instanceof Integer) {
@@ -304,6 +300,7 @@ public class ChangeOrderInfoActivity extends BaseActivity implements View.OnClic
 
     @Override
     public void basefinish() {
+        JumpToDetail();
         finish();
     }
 }

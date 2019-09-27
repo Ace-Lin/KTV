@@ -62,7 +62,6 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
         currOrderInfo = ktvOrderInfoList.get(position);
         int orderId=currOrderInfo.getId();
         if (view.getId()==R.id.order_btn_details) {
-            showShortText(this,position + "order_btn_details");
             Bundle bundle=new Bundle();
             bundle.putInt("id",orderId);
             Intent intentOrderDetail=new Intent(OrderActivity.this,OrderDetailActivity.class);

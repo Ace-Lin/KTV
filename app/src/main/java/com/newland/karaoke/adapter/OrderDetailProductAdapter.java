@@ -1,6 +1,7 @@
 package com.newland.karaoke.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,14 @@ import android.widget.TextView;
 import com.newland.karaoke.R;
 import com.newland.karaoke.database.KTVOrderProduct;
 import com.newland.karaoke.database.KTVProduct;
+import com.newland.karaoke.utils.LoadLocalImageUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
+import java.util.Random;
 
 import static com.newland.karaoke.utils.Utility.getPirBitMap;
+import static com.newland.karaoke.utils.Utility.imageUrl;
 
 public class OrderDetailProductAdapter extends BaseAdapter {
 
@@ -58,8 +63,14 @@ public class OrderDetailProductAdapter extends BaseAdapter {
         }else{
             viewHolder = (ViewHolder) view.getTag();
         }
-
-        viewHolder.order_item_picture.setImageBitmap(getPirBitMap(mContext,product.getProduct_picture()));
+        //设置图片
+        Bitmap bitmap = getPirBitMap(mContext,product.getProduct_picture());
+        if (bitmap==null)
+            viewHolder.order_item_picture.setImageResource(Integer.valueOf(product.getProduct_picture()));
+        else
+            viewHolder.order_item_picture.setImageBitmap(bitmap);
+        //viewHolder.order_item_picture.setImageBitmap(getPirBitMap(mContext,product.getProduct_picture()));
+       // LoadLocalImageUtil.getInstance().displayFromDrawable(imageUrl[new Random().nextInt(imageUrl.length)],viewHolder.order_item_picture);
         viewHolder.order_item_name.setText(product.getProduct_name());
         viewHolder.order_item_price.setText(mContext.getString(R.string.dollar)+" "+product.getProduct_price());
         viewHolder.order_item_count.setText(String.valueOf(orderProduct.getProduct_quantity()));

@@ -8,11 +8,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.newland.karaoke.R;
 import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVRoomInfo;
 
 import java.util.List;
+
+import static com.newland.karaoke.utils.Utility.getRoomPic;
 
 public class RoomAdapter extends ArrayAdapter<KTVRoomInfo> {
     private int resourceId;
@@ -30,7 +33,7 @@ public class RoomAdapter extends ArrayAdapter<KTVRoomInfo> {
         TextView tv_item_room_name=(TextView)view.findViewById(R.id.tv_item_room_name);
         TextView tv_item_room_state=(TextView)view.findViewById(R.id.tv_item_room_state);
         TextView tv_item_room_type=(TextView)view.findViewById(R.id.tv_item_room_type);
-        iv_item_room_pic.setImageResource(R.mipmap.ic_launcher);
+        iv_item_room_pic.setImageResource(getRoomPic(room.getRoom_type()));
         tv_item_room_name.setText(room.getRoom_name());
         tv_item_room_state.setText(RoomStateAndType(0,room.getRoom_status()));
         tv_item_room_type.setText(RoomStateAndType(1,room.getRoom_type()));

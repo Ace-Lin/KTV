@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/order_item_picture"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="@dimen/dp72"
+        android:layout_height="@dimen/dp72"
         android:background="@drawable/product_image"/>
 
     <TextView
