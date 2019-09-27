@@ -37,9 +37,15 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
 
         hideStatusBar();
         showToolBar(R.string.order_today);
-        showListView();
+
         //初始化,链接设备
         SDKDevice.getInstance().connectDevice(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showListView();
     }
 
 

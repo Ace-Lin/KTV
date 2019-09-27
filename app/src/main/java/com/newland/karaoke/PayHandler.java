@@ -120,8 +120,9 @@ public class PayHandler implements PayDialog.NoticeDialogListener {
         currOrderInfo.setOrder_end_time(new Date());
         currOrderInfo.save();
 
-//        PrintManager printManager = PrintManager.getInstance(context);
-//        printManager.printBill(new PrintModel(LitePal.find(KTVOrderInfo.class,currOrderInfo.getId())));
+        //暂时关闭打印功能
+         PrintManager printManager = PrintManager.getInstance(context);
+         printManager.printBill(new PrintModel(LitePal.find(KTVOrderInfo.class,currOrderInfo.getId())));
 
         if (finshCallBack!=null)
             finshCallBack.run();

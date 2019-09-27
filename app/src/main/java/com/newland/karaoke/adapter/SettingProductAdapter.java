@@ -53,7 +53,7 @@ public class SettingProductAdapter extends BaseAdapter {
         ViewHolder viewHolder;
 
         if(view == null){
-            view = LayoutInflater.from(mContext).inflate(R.layout.product_item,viewGroup,false);
+            view = LayoutInflater.from(mContext).inflate(R.layout.product_list_item,viewGroup,false);
             viewHolder = new ViewHolder();
             viewHolder.txt_product_name = (TextView) view.findViewById(R.id.set_product_name);
             viewHolder.txt_product_picture = (ImageView) view.findViewById(R.id.set_product_picture);
