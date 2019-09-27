@@ -119,7 +119,7 @@ public class RoomDetailsFragment extends BaseFragment implements SwipeMenuListVi
                 // create "edit" item
                 SwipeMenuItem editItem = new SwipeMenuItem(context);
                 // set item background
-                editItem.setBackground(new ColorDrawable(Color.rgb(50,185, 193)));
+                editItem.setBackground(new ColorDrawable(getResources().getColor(R.color.colorPrimaryDark)));
                 // set item width
                 editItem.setWidth(dp2px(context,40));
                 // set item title
@@ -130,7 +130,7 @@ public class RoomDetailsFragment extends BaseFragment implements SwipeMenuListVi
                 // create "delete" item
                 SwipeMenuItem deleteItem = new SwipeMenuItem(context);
                 // set item background
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(50,185, 193)));
+                deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.colorPrimaryDark)));
                 // set item width
                 deleteItem.setWidth(dp2px(context,40));
                 // set a icon

@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/order_detail_room_picture"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="@dimen/dp90"
+        android:layout_height="@dimen/dp60"
         android:layout_marginRight="20dp"
         android:background="@drawable/small_ktv"/>
 
