@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/common_bg"
     android:id="@+id/dl_main"
     tools:context=".activity.MainActivity">
     <LinearLayout
@@ -109,12 +110,7 @@
                     android:gravity="center"/>
             </LinearLayout>
         </GridLayout>
-        <Button
-            android:id="@+id/btn_load_database"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Load DB"
-            android:visibility="gone"/>
+
     </LinearLayout>
 
     <LinearLayout

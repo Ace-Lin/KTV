@@ -29,7 +29,7 @@ public class SoundPoolImpl {
 	
 	public void initLoad(Context context){
 		soundPool= new SoundPool(3, AudioManager.STREAM_SYSTEM,5);
-		soundPool.load(context.getApplicationContext(), 
+		soundPool.load(context.getApplicationContext(),
 				R.raw.click1, 1);
 	}
 	

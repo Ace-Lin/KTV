@@ -7,6 +7,7 @@
     <string name="transactions">Transactions</string>
     <string name="order_today">Order today</string>
     <string name="read_card">Read Card</string>>
+    <string name="slogan">where payment happens，where NEWLAND discovered</string>
 
     <!-- TODO: 商品信息 text -->
     <string name="product_stock">Stock:0</string>

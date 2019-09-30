@@ -113,7 +113,7 @@ public class ProductDetailsFragment extends BaseFragment implements SwipeMenuLis
             // set item background
             deleteItem.setBackground(new ColorDrawable(getResources().getColor(R.color.colorPrimaryDark)));
             // set item width
-            deleteItem.setWidth(dp2px(context,40));
+            deleteItem.setWidth(dp2px(context,60));
             // set a icon
             deleteItem.setIcon(R.drawable.icon_set_delete);
             // add to menu
