@@ -1,13 +1,5 @@
 package com.newland.karaoke.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.core.content.PermissionChecker;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,28 +21,32 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import androidx.core.content.PermissionChecker;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.newland.karaoke.KTVApplication;
 import com.newland.karaoke.R;
-import com.newland.karaoke.database.KTVUserInfo;
-import com.newland.karaoke.database.KTVUserLogin;
-import com.newland.karaoke.view.PayDialog;
-import com.newland.karaoke.view.ProgressDialog;
-import com.newland.karaoke.view.SelectDialog;
 import com.newland.karaoke.adapter.LeftContentAdapter;
 import com.newland.karaoke.constant.Const;
 import com.newland.karaoke.constant.KTVType;
-import com.newland.karaoke.database.KTVOrderInfo;
 import com.newland.karaoke.database.KTVOrderProduct;
 import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
+import com.newland.karaoke.database.KTVUserInfo;
+import com.newland.karaoke.database.KTVUserLogin;
 import com.newland.karaoke.model.LeftContentModel;
 import com.newland.karaoke.utils.FileUtils;
+import com.newland.karaoke.view.SelectDialog;
 import com.squareup.picasso.Picasso;
 
 import org.litepal.LitePal;
@@ -57,13 +54,10 @@ import org.litepal.LitePal;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static com.newland.karaoke.utils.DateUtil.getNoFormatDate;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -104,10 +98,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,WindowManager.LayoutParams. FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-        initData();
-        initUI();
-        initEvent();
-        initDB();
+
+        //优化了10%进入速度
+        new Handler().postDelayed(()->{
+            initData();
+            initUI();
+            initEvent();
+            initDB();
+        },200);
     }
 
     //region 模拟数据创建

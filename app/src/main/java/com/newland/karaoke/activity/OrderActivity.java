@@ -2,8 +2,13 @@ package com.newland.karaoke.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+
+import androidx.annotation.NonNull;
 
 import com.newland.karaoke.PayHandler;
 import com.newland.karaoke.R;
@@ -19,7 +24,6 @@ import java.util.Date;
 import java.util.List;
 
 import static com.newland.karaoke.utils.DateUtil.getCurrentDayBegin;
-import static com.newland.karaoke.utils.ToastUtil.showShortText;
 
 public class OrderActivity extends BaseActivity implements  OrderAdapter.Callback {
 
@@ -37,25 +41,34 @@ public class OrderActivity extends BaseActivity implements  OrderAdapter.Callbac
 
         hideStatusBar();
         showToolBar(R.string.order_today);
-
+        showListView();
+        // initData();
         //初始化,链接设备
         SDKDevice.getInstance().connectDevice(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        showListView();
-    }
-
+//    private void initData(){
+//        new Thread(()->{
+//            ktvOrderInfoList = LitePal.where("order_status= ? and (order_start_time>? and order_start_time<?) ",
+//                    String.valueOf(KTVType.OrderStatus.UNPAID),  getCurrentDayBegin(Calendar.getInstance()),String.valueOf(new Date().getTime())).find(KTVOrderInfo.class,true);
+//            handler.sendMessage(new Message());
+//        }).start();
+//
+//    }
+//
+//    private Handler handler = new Handler(){
+//        @Override
+//        public void handleMessage(@NonNull Message msg) {
+//            super.handleMessage(msg);
+//            showListView();
+//        }
+//    };
 
     //初始化数据
     private  void showListView(){
-        list_order = (ListView)findViewById(R.id.order_listview);
         ktvOrderInfoList = LitePal.where("order_status= ? and (order_start_time>? and order_start_time<?) ",
                 String.valueOf(KTVType.OrderStatus.UNPAID),  getCurrentDayBegin(Calendar.getInstance()),String.valueOf(new Date().getTime())).find(KTVOrderInfo.class,true);
-
-
+        list_order = (ListView)findViewById(R.id.order_listview);
         orderAdapter = new OrderAdapter(ktvOrderInfoList, this,this);
         list_order.setAdapter(orderAdapter);
     }
