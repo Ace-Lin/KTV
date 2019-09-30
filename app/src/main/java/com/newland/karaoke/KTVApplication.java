@@ -47,9 +47,9 @@ public class KTVApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-       // context=getApplicationContext();
+        context=getApplicationContext();
         LitePal.initialize(this);
-       // FileUtils.createDir(getExternalFilesDir("/Picture").getPath());
+        FileUtils.createDir(getExternalFilesDir("/Picture").getPath());
        // initImageLoader(getApplicationContext());
 
     }
