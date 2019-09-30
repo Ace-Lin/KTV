@@ -10,6 +10,7 @@
         android:layout_marginLeft="2dp"
         android:layout_width="32dp"
         android:layout_height="32dp"
+        android:visibility="invisible"
         android:background="@drawable/product_image"
         />
     <TextView

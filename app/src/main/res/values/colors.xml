@@ -12,4 +12,5 @@
     <color name="bg_gray">#fafafa</color>
     <color name="common_bg">#f0f0f0</color>
     <color name="black">#333333</color>
+    <color name="text">#8A8A8A</color>
 </resources>

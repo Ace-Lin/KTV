@@ -68,7 +68,7 @@
                 android:textSize="20sp"
                 android:text="Add Food:"/>
 
-            <include layout="@layout/order_detail_title_change_product_item"/>
+            <include layout="@layout/order_detail_title_product_item"/>
             <com.newland.karaoke.view.ScollViewListView
                 android:id="@+id/sv_order_detail_change_product"
                 android:layout_width="match_parent"

@@ -6,21 +6,28 @@
     <ImageView
         android:id="@+id/iv_item_room_pic"
         android:layout_width="60dp"
+        android:layout_gravity="center_vertical"
         android:layout_height="60dp" />
     <TextView
         android:id="@+id/tv_item_room_name"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/text"
         android:textSize="20sp"/>
     <TextView
         android:id="@+id/tv_item_room_state"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/text"
         android:textSize="20sp"/>
     <TextView
         android:id="@+id/tv_item_room_type"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/text"
         android:textSize="20sp"/>
 
 

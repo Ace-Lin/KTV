@@ -113,7 +113,8 @@
             android:id="@+id/btn_load_database"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Load DB"/>
+            android:text="Load DB"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <LinearLayout

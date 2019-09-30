@@ -210,15 +210,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
         String url=KTVApplication.getCurrentUser().getUser_photo();
-        if(url==null||url.length()<1)
+        if(url==null||url.length()<1){
+            Picasso.get().load(R.drawable.default_avatar)
+                    .error(R.drawable.default_avatar)
+                    .into(mHeadImage);
             return;
-//        try {
-//            FileInputStream fileInputStream=new FileInputStream(url);
-//            Bitmap bitmap=BitmapFactory.decodeStream(fileInputStream);
-//            mHeadImage.setImageBitmap(bitmap);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
+        }
 
         Picasso.get().load("file://"+url)
                 .placeholder(R.drawable.default_avatar)
