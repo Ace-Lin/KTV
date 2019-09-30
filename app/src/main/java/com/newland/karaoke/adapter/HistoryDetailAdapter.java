@@ -1,6 +1,7 @@
 package com.newland.karaoke.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,13 @@ public class HistoryDetailAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        viewHolder.order_item_picture.setImageBitmap(getPirBitMap(mContext,product.getProduct_picture()));
+        //设置图片
+        Bitmap bitmap = getPirBitMap(mContext,product.getProduct_picture());
+        if (bitmap==null)
+            viewHolder.order_item_picture.setImageResource(Integer.valueOf(product.getProduct_picture()));
+        else
+            viewHolder.order_item_picture.setImageBitmap(bitmap);
+      //  viewHolder.order_item_picture.setImageBitmap(getPirBitMap(mContext,product.getProduct_picture()));
         viewHolder.order_item_name.setText(product.getProduct_name());
         viewHolder.order_item_price.setText(mContext.getString(R.string.dollar)+" "+product.getProduct_price());
         viewHolder.order_item_count.setText(mContext.getString(R.string.detail_count)+" "+orderProduct.getProduct_quantity());

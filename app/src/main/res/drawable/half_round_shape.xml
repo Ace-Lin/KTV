@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <!--定义纯色/填充颜色-->
-    <solid android:color="@color/colorPrimary"></solid>
+    <solid android:color="@color/colorPrimaryDark"></solid>
     <!--定义某个方向的圆角度数-->
     <corners   android:radius="20dp"  />
     <!--设置内边距,bottom向上距离不够会覆盖内容-->

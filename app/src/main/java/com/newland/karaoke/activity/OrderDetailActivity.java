@@ -27,11 +27,14 @@ import org.litepal.LitePal;
 
 import java.util.List;
 
+import static com.newland.karaoke.utils.Utility.getRoomPic;
+
 public class OrderDetailActivity extends BaseActivity implements View.OnClickListener{
     private int id=-1;
     private TextView txt_title;
     private Toolbar commonToolBar;
     private TextView tv_order_detail_room_name;
+    private ImageView tv_order_detail_room_picture;
     private TextView tv_order_detail_room_type;
     private TextView tv_order_detail_room_price;
     private TextView tv_order_detail_number;
@@ -69,9 +72,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         commonToolBar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentOrder=new Intent(OrderDetailActivity.this,OrderActivity.class);
-                startActivity(intentOrder);
-                finish();
+                basefinish();
             }
         });
         //加载标题
@@ -100,6 +101,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         //加载房间信息
         tv_order_detail_room_name=(TextView)findViewById(R.id.order_detail_room_name);
         tv_order_detail_room_price=(TextView)findViewById(R.id.order_detail_room_price);
+        tv_order_detail_room_picture=(ImageView)findViewById(R.id.order_detail_room_picture);
         tv_order_detail_room_type=(TextView)findViewById(R.id.order_detail_room_type);
 //        if(currentRoom!=null){
 //            tv_order_detail_room_name.setText(currentRoom.getRoom_name());
@@ -135,6 +137,7 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         if(currentRoom!=null){
             tv_order_detail_room_name.setText(currentRoom.getRoom_name());
             roomAmount=currentRoom.getRoom_price();
+            tv_order_detail_room_picture.setImageResource(getRoomPic(currentRoom.getRoom_type()));
             tv_order_detail_room_price.setText("$"+roomAmount);
             tv_order_detail_room_type.setText(GetRoomType(currentRoom.getRoom_type()));
         }
@@ -168,8 +171,11 @@ public class OrderDetailActivity extends BaseActivity implements View.OnClickLis
         }
         return "info missing!";
     }
+
     @Override
     public void basefinish() {
+        Intent intentOrder=new Intent(OrderDetailActivity.this,OrderActivity.class);
+        startActivity(intentOrder);
         finish();
     }
 

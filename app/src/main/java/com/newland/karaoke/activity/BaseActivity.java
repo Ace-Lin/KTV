@@ -68,38 +68,38 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        LogUtil.error("onStart",getClass());
+        LogUtil.error("onStart",this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        LogUtil.error("onResume",getClass());
+        LogUtil.error("onResume",this);
     }
 
 
     @Override
     protected void onPause() {
         super.onPause();
-        LogUtil.error("onPause",getClass());
+        LogUtil.error("onPause",this);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        LogUtil.error("onStop",getClass());
+        LogUtil.error("onStop",this);
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        LogUtil.error("onRestart",getClass());
+        LogUtil.error("onRestart",this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtil.error("onDestroy",getClass());
+        LogUtil.error("onDestroy",this);
     }
 
 }

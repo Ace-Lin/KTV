@@ -1,8 +1,6 @@
 package com.newland.karaoke.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +10,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.newland.karaoke.R;
-import com.newland.karaoke.constant.KTVType;
 import com.newland.karaoke.database.KTVOrderInfo;
-import com.newland.karaoke.database.KTVOrderProduct;
-import com.newland.karaoke.database.KTVProduct;
 import com.newland.karaoke.database.KTVRoomInfo;
+import com.newland.karaoke.utils.LoadLocalImageUtil;
 
 import java.util.List;
+import java.util.Random;
 
 import static com.newland.karaoke.utils.DensityUtil.df_two;
-import static com.newland.karaoke.utils.ToastUtil.showShortText;
-import static com.newland.karaoke.utils.Utility.getPirBitMap;
+import static com.newland.karaoke.utils.Utility.getRoomPic;
+import static com.newland.karaoke.utils.Utility.imageUrl;
 
 public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
 
@@ -74,6 +71,7 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
         }
 
         viewHolder.order_item_picture.setBackgroundResource(getRoomPic(roomInfo.getRoom_type()));
+      //  LoadLocalImageUtil.getInstance().displayFromDrawable(getRoomPic(roomInfo.getRoom_type()),viewHolder.order_item_picture);
         viewHolder.order_item_name.setText(roomInfo.getRoom_name());
         viewHolder.order_item_amount.setText(mContext.getString(R.string.order_amount)+" "+ df_two.format(orderInfo.getPay_amount()));
         viewHolder.btn_detail.setOnClickListener(this);
@@ -97,20 +95,5 @@ public class OrderAdapter extends BaseAdapter implements View.OnClickListener {
     }
 
 
-
-    //暂时代替返回房间图片
-    private int getRoomPic(int type)
-    {
-        switch (type) {
-            case KTVType.RoomType.BIG:
-                return   R.drawable.small_ktv;
-            case KTVType.RoomType.MIDDLE:
-                return   R.drawable.small_ktv;
-            case KTVType.RoomType.SMAlL:
-                return  R.drawable.small_ktv;
-            default:
-                return   R.drawable.small_ktv;
-        }
-    }
 
 }
